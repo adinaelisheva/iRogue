@@ -1,10 +1,3 @@
-//
-//  GameViewController.swift
-//  iRogue
-//
-//  Created by Adina Rubinoff on 11/15/14.
-//  Copyright (c) 2014 Adinex Inc. All rights reserved.
-//
 
 import UIKit
 import SpriteKit
