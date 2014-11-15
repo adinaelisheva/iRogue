@@ -12,6 +12,7 @@ import UIKit
 class MainViewController: UIViewController {
     
     weak var gameVC: GameViewController!
+    weak var game: Game!
     
     @IBOutlet weak var activityLog: UITextView!
     
@@ -34,30 +35,30 @@ class MainViewController: UIViewController {
     func log(str:String) {
         //adding text to a non-selectable text field resets the font. THANKS COCOA
         activityLog.selectable = true
-        activityLog.text = str + "\n" + activityLog.text
+        activityLog.text = str
         activityLog.selectable = false
     }
     
     @IBAction func upClicked(sender: UIButton) {
-        log("@ \(gameVC.scene.charPos)")
+        game.Log("@ \(gameVC.scene.charPos)")
         if gameVC.scene.charPos.y < gameVC.scene.gridSize.h-1 {
             gameVC.scene.charPos.y++
         }
     }
     @IBAction func rightClicked(sender: AnyObject) {
-        log("@ \(gameVC.scene.charPos)")
+        game.Log("@ \(gameVC.scene.charPos)")
         if gameVC.scene.charPos.x < gameVC.scene.gridSize.w-1 {
             gameVC.scene.charPos.x++
         }
     }
     @IBAction func downClicked(sender: AnyObject) {
-        log("@ \(gameVC.scene.charPos)")
+        game.Log("@ \(gameVC.scene.charPos)")
         if gameVC.scene.charPos.y > 0 {
             gameVC.scene.charPos.y--
         }
     }
     @IBAction func leftClicked(sender: AnyObject) {
-        log("@ \(gameVC.scene.charPos)")
+        game.Log("@ \(gameVC.scene.charPos)")
         if gameVC.scene.charPos.x > 0 {
             gameVC.scene.charPos.x--
         }
@@ -83,6 +84,19 @@ class MainViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        if let ad = UIApplication.sharedApplication().delegate as? AppDelegate {
+            
+            // Hold onto this locally.
+            game = ad.game
+            
+            // Set up the logging system
+            game.logCallback = log
+            game.Log(activityLog.text)
+            
+            
+        } else {
+            NSLog("Why no appdelegate?")
+        }
         
     }
     
