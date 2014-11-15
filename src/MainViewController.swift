@@ -43,24 +43,39 @@ class MainViewController: UIViewController {
         if gameVC.scene.charPos.y < gameVC.scene.gridSize.h-1 {
             gameVC.scene.charPos.y++
         }
+        clickArrowButton(sender)
     }
-    @IBAction func rightClicked(sender: AnyObject) {
+    @IBAction func rightClicked(sender: UIButton) {
         log("@ \(gameVC.scene.charPos)")
         if gameVC.scene.charPos.x < gameVC.scene.gridSize.w-1 {
             gameVC.scene.charPos.x++
         }
+        clickArrowButton(sender)
     }
-    @IBAction func downClicked(sender: AnyObject) {
+    @IBAction func downClicked(sender: UIButton) {
         log("@ \(gameVC.scene.charPos)")
         if gameVC.scene.charPos.y > 0 {
             gameVC.scene.charPos.y--
         }
+        clickArrowButton(sender)
     }
-    @IBAction func leftClicked(sender: AnyObject) {
+    @IBAction func leftClicked(sender: UIButton) {
         log("@ \(gameVC.scene.charPos)")
         if gameVC.scene.charPos.x > 0 {
             gameVC.scene.charPos.x--
         }
+        clickArrowButton(sender)
+    }
+    
+    func clickArrowButton(button: UIButton){
+        UIView.animateWithDuration(0.1,
+            animations: {
+                button.alpha = 0.2
+            })
+        UIView.animateWithDuration(0.1,
+            animations: {
+                button.alpha = 0.1
+        })
     }
     
     @IBAction func itemsClicked(sender: AnyObject) {
