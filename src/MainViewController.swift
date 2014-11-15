@@ -31,13 +31,32 @@ class MainViewController: UIViewController {
     @IBOutlet weak var hpLabel: UILabel!
     @IBOutlet weak var mpLabel: UILabel!
     
+    func log(str:String) {
+        //adding text to a non-selectable text field resets the font. THANKS COCOA
+        activityLog.selectable = true
+        activityLog.text = activityLog.text + str
+        activityLog.selectable = false
+    }
+    
     @IBAction func upClicked(sender: UIButton) {
+        if gameVC.scene.charPos.y < gameVC.scene.gridSize.h-1 {
+            gameVC.scene.charPos.y++
+        }
     }
     @IBAction func rightClicked(sender: AnyObject) {
+        if gameVC.scene.charPos.x < gameVC.scene.gridSize.w-1 {
+            gameVC.scene.charPos.x++
+        }
     }
     @IBAction func downClicked(sender: AnyObject) {
+        if gameVC.scene.charPos.y > 0 {
+            gameVC.scene.charPos.y--
+        }
     }
     @IBAction func leftClicked(sender: AnyObject) {
+        if gameVC.scene.charPos.x > 0 {
+            gameVC.scene.charPos.x--
+        }
     }
     
     @IBAction func itemsClicked(sender: AnyObject) {

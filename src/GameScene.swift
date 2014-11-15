@@ -9,37 +9,52 @@
 import SpriteKit
 
 class GameScene: SKScene {
+    var charPos:(x:Int,y:Int) = (15,12)
+    var cellSize:(w:Int,h:Int) = (0,0)
+    var gridSize:(w:Int,h:Int) = (0,0)
+    let char = SKLabelNode(fontNamed:"Menlo")
+    
+    
+    //kind of like a constructor - set up is in here
     override func didMoveToView(view: SKView) {
-        /* Setup your scene here */
-        let myLabel = SKLabelNode(fontNamed:"Chalkduster")
-        myLabel.text = "Hello, World!";
-        myLabel.fontSize = 65;
-        myLabel.position = CGPoint(x:CGRectGetMidX(self.frame), y:CGRectGetMidY(self.frame));
         
-        self.addChild(myLabel)
+        //create the main character
+        char.text = "@"
+        char.fontSize = 14
+        //use @ to find the grid size
+        var size = char.calculateAccumulatedFrame().size
+        cellSize = (w:Int(size.width*1.1),h:Int(size.height*1.1))
+        
+        self.addChild(char)
+        
+        self.backgroundColor = UIColor.blackColor()
+        
+    }
+    
+    override func didChangeSize(oldSize: CGSize) {
+        var frame = self.frame
+        if cellSize.w != 0 && cellSize.h != 0 {
+            gridSize = (w:Int(frame.width)/cellSize.w,h:Int(frame.height)/cellSize.h)
+        }
     }
     
     override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
-        /* Called when a touch begins */
-        
-        for touch: AnyObject in touches {
-            let location = touch.locationInNode(self)
-            
-            let sprite = SKSpriteNode(imageNamed:"Spaceship")
-            
-            sprite.xScale = 0.5
-            sprite.yScale = 0.5
-            sprite.position = location
-            
-            let action = SKAction.rotateByAngle(CGFloat(M_PI), duration:1)
-            
-            sprite.runAction(SKAction.repeatActionForever(action))
-            
-            self.addChild(sprite)
-        }
     }
-   
+    
     override func update(currentTime: CFTimeInterval) {
         /* Called before each frame is rendered */
+        var oldpos = char.position
+        
+        var x = (charPos.x*cellSize.w) + (cellSize.w/2)
+        var y = (charPos.y*cellSize.h) + (cellSize.h/2)
+        
+        char.position = CGPoint(x:Int(x),y:Int(y))
+    
+    }
+    
+    func activityLog(str:String){
+        if let mainvc = self.view?.window?.rootViewController as? MainViewController {
+            mainvc.log(str)
+        }
     }
 }
