@@ -20,6 +20,7 @@ Navigation tree
           - prompt for target
         - "read" (scrolls)
           - may prompt for target in inventory
+        - "butcher" (corpses)
   - Magic
     - click on spell to perform
   - Religion
