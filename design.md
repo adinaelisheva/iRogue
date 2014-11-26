@@ -33,12 +33,22 @@ Navigation tree
       - "defect"
   - Variable button
     - "pickup" when standing on item
+      - pops up list of items to pick up
+      - list stays up while items are clicked to pick up
+      - button says "done"
+      - list hides when done is clicked
     - "go up" when standing on >
     - "go down" when standing on <
     - "pray" when standing on altar
     - "drink" when standing on water
     - "close" when standing on open door
-    
+    - "multiple" when standing on terrain with items and action
+      - pops up list of items and terrain action
+      - button says "done"
+      - list stays until:
+        - action taken if it leaves tile
+          - eg: stairs
+        - "done" clicked    
     
     
     
