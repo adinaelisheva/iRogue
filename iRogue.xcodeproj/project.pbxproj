@@ -16,6 +16,9 @@
 		C6A6BE3C1A17CD81004ED2E9 /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6A6BE341A17CD81004ED2E9 /* GameViewController.swift */; };
 		C6A6BE3D1A17CD81004ED2E9 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C6A6BE351A17CD81004ED2E9 /* Images.xcassets */; };
 		C6A6BE3E1A17CD81004ED2E9 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C6A6BE361A17CD81004ED2E9 /* Info.plist */; };
+		C6E378AB1A26888400DBCDC5 /* Game.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6E378AA1A26888400DBCDC5 /* Game.swift */; };
+		C6E378AD1A268B5F00DBCDC5 /* Mob.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6E378AC1A268B5F00DBCDC5 /* Mob.swift */; };
+		C6E378AF1A268DBE00DBCDC5 /* Entity.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6E378AE1A268DBE00DBCDC5 /* Entity.swift */; };
 		C6F17A1F1A17CCF1002E7972 /* iRogueTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6F17A1E1A17CCF1002E7972 /* iRogueTests.swift */; };
 /* End PBXBuildFile section */
 
@@ -39,7 +42,9 @@
 		C6A6BE341A17CD81004ED2E9 /* GameViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = GameViewController.swift; path = src/GameViewController.swift; sourceTree = SOURCE_ROOT; };
 		C6A6BE351A17CD81004ED2E9 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = src/Images.xcassets; sourceTree = SOURCE_ROOT; };
 		C6A6BE361A17CD81004ED2E9 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = src/Info.plist; sourceTree = SOURCE_ROOT; };
-		C6E378631A26877100DBCDC5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Base; path = src/Base.lproj/Entity.swift; sourceTree = SOURCE_ROOT; };
+		C6E378AA1A26888400DBCDC5 /* Game.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Game.swift; path = src/Game.swift; sourceTree = SOURCE_ROOT; };
+		C6E378AC1A268B5F00DBCDC5 /* Mob.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Mob.swift; sourceTree = SOURCE_ROOT; };
+		C6E378AE1A268DBE00DBCDC5 /* Entity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Entity.swift; path = src/Entity.swift; sourceTree = SOURCE_ROOT; };
 		C6F179FF1A17CCF1002E7972 /* iRogue.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iRogue.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C6F17A031A17CCF1002E7972 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C6F17A181A17CCF1002E7972 /* iRogueTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = iRogueTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -96,7 +101,9 @@
 		C6F17A011A17CCF1002E7972 /* src */ = {
 			isa = PBXGroup;
 			children = (
-				C6E378621A26877100DBCDC5 /* Entity.swift */,
+				C6E378AE1A268DBE00DBCDC5 /* Entity.swift */,
+				C6E378AC1A268B5F00DBCDC5 /* Mob.swift */,
+				C6E378AA1A26888400DBCDC5 /* Game.swift */,
 				C6A6BE2C1A17CD81004ED2E9 /* AppDelegate.swift */,
 				C6A6BE2D1A17CD81004ED2E9 /* Base.lproj */,
 				C6A6BE321A17CD81004ED2E9 /* GameScene.sks */,
@@ -238,7 +245,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C6E378AD1A268B5F00DBCDC5 /* Mob.swift in Sources */,
 				C6A6BE3B1A17CD81004ED2E9 /* GameScene.swift in Sources */,
+				C6E378AF1A268DBE00DBCDC5 /* Entity.swift in Sources */,
+				C6E378AB1A26888400DBCDC5 /* Game.swift in Sources */,
 				C6A6BE371A17CD81004ED2E9 /* AppDelegate.swift in Sources */,
 				C6A6BE3C1A17CD81004ED2E9 /* GameViewController.swift in Sources */,
 				1513D1B91A17DDF4009A778D /* MainViewController.swift in Sources */,
@@ -278,14 +288,6 @@
 				C6A6BE311A17CD81004ED2E9 /* Base */,
 			);
 			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
-		C6E378621A26877100DBCDC5 /* Entity.swift */ = {
-			isa = PBXVariantGroup;
-			children = (
-				C6E378631A26877100DBCDC5 /* Base */,
-			);
-			name = Entity.swift;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */

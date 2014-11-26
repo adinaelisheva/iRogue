@@ -11,9 +11,18 @@ import UIKit
 
 class Entity {
 
-    var name : String
-    var description : String
-    var char : char
-    var color : UIColor
+    var name : String = "???"
+    var description : String = "What is this mysterious object?"
+    var char : Character = "?"
+    var color : UIColor = UIColor.whiteColor()
+    var coord : (x:Int,y:Int) = (0,0)
+    
+    init(name:String?, description:String?, char:Character?, color:UIColor?) {
+        self.name = name? ?? self.name
+        self.description = description? ?? self.description
+        self.char = char? ?? self.char
+        self.color = color? ?? self.color
+        
+    }
     
 }
