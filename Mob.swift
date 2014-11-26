@@ -19,7 +19,7 @@ class Mob : Entity {
         
     }
     
-    private func performAction(action:Action){
+    private func doAction(action:Action){
         if let dir = action.direction? {
             switch dir {
             case .UP:
