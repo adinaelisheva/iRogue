@@ -19,19 +19,19 @@ class Mob : Entity {
         
     }
     
-    private func performAction(action:Int){ //should be Action
-        if true {//let dir = action.direction?
-            switch 5 {//action.direction {
-            case 1: //UP
+    private func performAction(action:Action){
+        if let dir = action.direction? {
+            switch dir {
+            case .UP:
                 coord.y++
                 break
-            case 2: //DOWN
+            case .DOWN:
                 coord.y--
                 break
-            case 3: //LEFT
+            case .LEFT:
                 coord.x--
                 break
-            case 4: //RIGHT
+            case .RIGHT:
                 coord.x++
                 break
             default:
