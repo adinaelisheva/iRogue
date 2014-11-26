@@ -19,7 +19,7 @@ class Mob : Entity {
         
     }
     
-    private func doAction(action:Action){
+    func doAction(action:Action){
         if let dir = action.direction? {
             switch dir {
             case .UP:
@@ -38,6 +38,15 @@ class Mob : Entity {
                 break
             }
         }
+    }
+    
+    func AIAction() -> Action{
+        
+        //random walk
+        dir = DIRECTION(rawValue:arc4random_uniform(4))
+        
+        return new Action(dir)
+        
     }
     
 }
