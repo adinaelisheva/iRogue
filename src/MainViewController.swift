@@ -25,53 +25,37 @@ class MainViewController: UIViewController {
     @IBOutlet weak var hpLabel: UILabel!
     @IBOutlet weak var mpLabel: UILabel!
     
-    func log(str:String) {
-        //adding text to a non-selectable text field resets the font. THANKS COCOA
-        activityLog.selectable = true
-        activityLog.text = str
-        activityLog.selectable = false
-    }
     
     @IBAction func upClicked(sender: UIButton) {
         game.Log("@ \(gameVC.scene.charPos)")
-        if gameVC.scene.charPos.y < gameVC.scene.gridSize.h-1 {
-            gameVC.scene.charPos.y++
-        }
+        
+        takeTurnWithAction(Action(direction: DIRECTION.UP))
+        
         clickArrowButton(sender)
     }
 
     @IBAction func rightClicked(sender: UIButton) {
         game.Log("@ \(gameVC.scene.charPos)")
-        if gameVC.scene.charPos.x < gameVC.scene.gridSize.w-1 {
-            gameVC.scene.charPos.x++
-        }
+        
+        takeTurnWithAction(Action(direction: DIRECTION.RIGHT))
+        
         clickArrowButton(sender)
     }
     @IBAction func downClicked(sender: UIButton) {
         game.Log("@ \(gameVC.scene.charPos)")
-        if gameVC.scene.charPos.y > 0 {
-            gameVC.scene.charPos.y--
-        }
+
+        takeTurnWithAction(Action(direction: DIRECTION.DOWN))
+        
         clickArrowButton(sender)
     }
     @IBAction func leftClicked(sender: UIButton) {
         game.Log("@ \(gameVC.scene.charPos)")
-        if gameVC.scene.charPos.x > 0 {
-            gameVC.scene.charPos.x--
-        }
+        
+        takeTurnWithAction(Action(direction: DIRECTION.LEFT))
+        
         clickArrowButton(sender)
     }
     
-    func clickArrowButton(button: UIButton){
-        UIView.animateWithDuration(0.1,
-            animations: {
-                button.alpha = 0.2
-            })
-        UIView.animateWithDuration(0.1,
-            animations: {
-                button.alpha = 0.1
-        })
-    }
     
     @IBAction func itemsClicked(sender: AnyObject) {
     }
@@ -80,14 +64,6 @@ class MainViewController: UIViewController {
     @IBAction func religionClicked(sender: AnyObject) {
     }
     @IBAction func miscClicked(sender: AnyObject) {
-    }
-    
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject!)
-    {
-        var name = segue.identifier
-        if name == "gameview" {
-            gameVC = segue.destinationViewController as GameViewController;
-        }
     }
     
     override func viewDidLoad() {
@@ -103,11 +79,52 @@ class MainViewController: UIViewController {
             game.Log(activityLog.text)
             
             
+            nameLabel.text = game.playerMob.name
+            xpLabel.text = String(game.xp)
+            
         } else {
             NSLog("Why no appdelegate?")
         }
         
     }
+    
+    func takeTurnWithAction(action : Action) {
+        
+        game.takeTurnWithAction(action)
+     
+        // Now update the scene... this will eventually be more generic
+        gameVC.scene.charPos = game.playerMob.coord
+    }
+    
+    
+    
+    
+    func clickArrowButton(button: UIButton){
+        UIView.animateWithDuration(0.1,
+            animations: {
+                button.alpha = 0.2
+        })
+        UIView.animateWithDuration(0.1,
+            animations: {
+                button.alpha = 0.1
+        })
+    }
+    
+    func log(str:String) {
+        //adding text to a non-selectable text field resets the font. THANKS COCOA
+        activityLog.selectable = true
+        activityLog.text = str
+        activityLog.selectable = false
+    }
+    
+    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject!)
+    {
+        var name = segue.identifier
+        if name == "gameview" {
+            gameVC = segue.destinationViewController as GameViewController;
+        }
+    }
+    
     
     override func shouldAutorotate() -> Bool {
         return false

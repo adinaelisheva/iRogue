@@ -27,10 +27,17 @@ class Action {
 
 class Scheduler {
     
-    func doTurn(level: Level, action: Action) {
-     
+    func doTurn(level: Level, action: Action, playerMob: Mob) {
         // For every mob in the level, perform an action. The player mob performs 'action'
-
+        
+        for entity in level.entities {
+            if entity === playerMob {
+                entity.doAction(action)
+            } else {
+                entity.doAction(entity.AIAction())
+            }
+        }
+        
     }
     
 }
