@@ -2,23 +2,26 @@
 import SpriteKit
 
 class GameScene: SKScene {
-    var charPos:(x:Int,y:Int) = (15,12)
-    var cellSize:(w:Int,h:Int) = (0,0)
+    //hardcoded font size
+    var cellSize:(w:Int,h:Int) = (12,16)
     var gridSize:(w:Int,h:Int) = (0,0)
     let char = SKLabelNode(fontNamed:"Menlo")
     
+    func addEntity(e:Entity) -> SKLabelNode{
+        //create the main character]
+        let c = SKLabelNode(fontNamed:"Menlo")
+        c.text = String(e.char)
+        c.fontSize = 14
+        c.fontColor = e.color
+        
+        self.addChild(c)
+        
+        return c
+
+    }
     
     //kind of like a constructor - set up is in here
     override func didMoveToView(view: SKView) {
-        
-        //create the main character
-        char.text = "@"
-        char.fontSize = 14
-        //use @ to find the grid size
-        var size = char.calculateAccumulatedFrame().size
-        cellSize = (w:Int(size.width*1.1),h:Int(size.height*1.1))
-        
-        self.addChild(char)
         
         self.backgroundColor = UIColor.blackColor()
         
@@ -36,12 +39,7 @@ class GameScene: SKScene {
     
     override func update(currentTime: CFTimeInterval) {
         /* Called before each frame is rendered */
-        var oldpos = char.position
         
-        var x = (charPos.x*cellSize.w) + (cellSize.w/2)
-        var y = (charPos.y*cellSize.h) + (cellSize.h/2)
-        
-        char.position = CGPoint(x:Int(x),y:Int(y))
     
     }
     

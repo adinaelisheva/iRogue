@@ -23,16 +23,16 @@ class Mob : Entity {
         if let dir = action.direction? {
             switch dir {
             case .UP:
-                coord.y++
+                coords.y++
                 break
             case .DOWN:
-                coord.y--
+                coords.y--
                 break
             case .LEFT:
-                coord.x--
+                coords.x--
                 break
             case .RIGHT:
-                coord.x++
+                coords.x++
                 break
             default:
                 break
@@ -43,9 +43,9 @@ class Mob : Entity {
     func AIAction() -> Action{
         
         //random walk
-        dir = DIRECTION(rawValue:arc4random_uniform(4))
+        var dir = Direction(rawValue:arc4random_uniform(4))
         
-        return new Action(dir)
+        return Action(direction:dir!)
         
     }
     

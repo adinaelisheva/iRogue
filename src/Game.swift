@@ -36,6 +36,8 @@ class Game {
         
         testLevel.entities.append(playerMob)
         testLevel.entities.append(aiMob)
+        aiMob.coords = (10,10)
+        playerMob.coords = (12,15)
         
     }
     

@@ -9,17 +9,14 @@
 import Foundation
 
 
-enum DIRECTION {
-    case UP
-    case DOWN
-    case LEFT
-    case RIGHT
+enum Direction : UInt32 {
+    case UP = 0, DOWN, LEFT, RIGHT
 }
 
 class Action {
-    let direction : DIRECTION?
+    let direction : Direction?
     
-    init(direction:DIRECTION) {
+    init(direction:Direction) {
         self.direction = direction
     }
     
@@ -30,7 +27,7 @@ class Scheduler {
     func doTurn(level: Level, action: Action, playerMob: Mob) {
         // For every mob in the level, perform an action. The player mob performs 'action'
         
-        for entity in level.entities {
+        for entity in level.entities as [Mob] {
             if entity === playerMob {
                 entity.doAction(action)
             } else {

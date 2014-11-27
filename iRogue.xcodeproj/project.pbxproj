@@ -108,6 +108,8 @@
 				C6E378AE1A268DBE00DBCDC5 /* Entity.swift */,
 				C6E378AC1A268B5F00DBCDC5 /* Mob.swift */,
 				C6E378AA1A26888400DBCDC5 /* Game.swift */,
+				156AE8441A26893700D775C7 /* Scheduler.swift */,
+				156AE8461A268E6E00D775C7 /* Level.swift */,
 				C6A6BE2C1A17CD81004ED2E9 /* AppDelegate.swift */,
 				C6A6BE2D1A17CD81004ED2E9 /* Base.lproj */,
 				C6A6BE321A17CD81004ED2E9 /* GameScene.sks */,
@@ -117,8 +119,6 @@
 				C6A6BE351A17CD81004ED2E9 /* Images.xcassets */,
 				C6A6BE361A17CD81004ED2E9 /* Info.plist */,
 				C6F17A021A17CCF1002E7972 /* Supporting Files */,
-				156AE8441A26893700D775C7 /* Scheduler.swift */,
-				156AE8461A268E6E00D775C7 /* Level.swift */,
 			);
 			name = src;
 			path = iRogue;

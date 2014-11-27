@@ -27,31 +27,27 @@ class MainViewController: UIViewController {
     
     
     @IBAction func upClicked(sender: UIButton) {
-        game.Log("@ \(gameVC.scene.charPos)")
         
-        takeTurnWithAction(Action(direction: DIRECTION.UP))
+        takeTurnWithAction(Action(direction: Direction.UP))
         
         clickArrowButton(sender)
     }
 
     @IBAction func rightClicked(sender: UIButton) {
-        game.Log("@ \(gameVC.scene.charPos)")
         
-        takeTurnWithAction(Action(direction: DIRECTION.RIGHT))
+        takeTurnWithAction(Action(direction: Direction.RIGHT))
         
         clickArrowButton(sender)
     }
     @IBAction func downClicked(sender: UIButton) {
-        game.Log("@ \(gameVC.scene.charPos)")
 
-        takeTurnWithAction(Action(direction: DIRECTION.DOWN))
+        takeTurnWithAction(Action(direction: Direction.DOWN))
         
         clickArrowButton(sender)
     }
     @IBAction func leftClicked(sender: UIButton) {
-        game.Log("@ \(gameVC.scene.charPos)")
         
-        takeTurnWithAction(Action(direction: DIRECTION.LEFT))
+        takeTurnWithAction(Action(direction: Direction.LEFT))
         
         clickArrowButton(sender)
     }
@@ -82,6 +78,10 @@ class MainViewController: UIViewController {
             nameLabel.text = game.playerMob.name
             xpLabel.text = String(game.xp)
             
+            game.playerMob.skScene = gameVC.scene.addEntity(game.playerMob)
+            game.aiMob.skScene = gameVC.scene.addEntity(game.aiMob)
+            
+            
         } else {
             NSLog("Why no appdelegate?")
         }
@@ -91,9 +91,18 @@ class MainViewController: UIViewController {
     func takeTurnWithAction(action : Action) {
         
         game.takeTurnWithAction(action)
-     
-        // Now update the scene... this will eventually be more generic
-        gameVC.scene.charPos = game.playerMob.coord
+        
+        game.playerMob.skScene?.position = getCellPosFromCoords(game.playerMob.coords)
+        game.aiMob.skScene?.position = getCellPosFromCoords(game.aiMob.coords)
+        
+        
+    }
+    
+    func getCellPosFromCoords(coords : (x:Int,y:Int)) -> CGPoint {
+        let cs = gameVC.scene.cellSize
+        var x = (coords.x*cs.w) + (cs.w/2)
+        var y = (coords.y*cs.h) + (cs.h/2)
+        return CGPoint(x:x,y:y)
     }
     
     

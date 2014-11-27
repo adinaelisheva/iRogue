@@ -8,6 +8,7 @@
 
 import Foundation
 import UIKit
+import SpriteKit
 
 class Entity {
 
@@ -15,7 +16,8 @@ class Entity {
     var description : String = "What is this mysterious object?"
     var char : Character = "?"
     var color : UIColor = UIColor.whiteColor()
-    var coord : (x:Int,y:Int) = (0,0)
+    var coords : (x:Int,y:Int) = (0,0)
+    var skScene : SKNode?
     
     init(name:String?, description:String?, char:Character?, color:UIColor?) {
         self.name = name? ?? self.name
