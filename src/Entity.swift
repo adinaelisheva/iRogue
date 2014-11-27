@@ -17,7 +17,7 @@ class Entity {
     var char : Character = "?"
     var color : UIColor = UIColor.whiteColor()
     var coords : (x:Int,y:Int) = (0,0)
-    var skScene : SKNode?
+    var sprite : EntitySKNode?
     
     init(name:String?, description:String?, char:Character?, color:UIColor?) {
         self.name = name? ?? self.name

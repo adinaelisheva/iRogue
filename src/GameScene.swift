@@ -1,15 +1,21 @@
 
 import SpriteKit
 
+private let _cellSize:(w:Int,h:Int) = (12,16)
+
 class GameScene: SKScene {
     //hardcoded font size
-    var cellSize:(w:Int,h:Int) = (12,16)
+    class var cellSize:(w:Int,h:Int) {
+        return _cellSize
+    }
+    
     var gridSize:(w:Int,h:Int) = (0,0)
     let char = SKLabelNode(fontNamed:"Menlo")
     
-    func addEntity(e:Entity) -> SKLabelNode{
+    func addEntity(e:Entity) -> EntitySKNode {
         //create the main character]
         let c = EntitySKNode(character: e.char, color: e.color, entity: e)
+        c.size = CGSize(width: _cellSize.w, height: _cellSize.h)
         self.addChild(c)
         
         return c
@@ -17,15 +23,13 @@ class GameScene: SKScene {
     
     //kind of like a constructor - set up is in here
     override func didMoveToView(view: SKView) {
-        
         self.backgroundColor = UIColor.blackColor()
-        
     }
     
     override func didChangeSize(oldSize: CGSize) {
         var frame = self.frame
-        if cellSize.w != 0 && cellSize.h != 0 {
-            gridSize = (w:Int(frame.width)/cellSize.w,h:Int(frame.height)/cellSize.h)
+        if _cellSize.w != 0 && _cellSize.h != 0 {
+            gridSize = (w:Int(frame.width)/_cellSize.w,h:Int(frame.height)/_cellSize.h)
         }
     }
     
@@ -44,8 +48,8 @@ class GameScene: SKScene {
     }
     
     func getCellPosFromCoords(coords : (x:Int,y:Int)) -> CGPoint {
-        var x = (coords.x*cellSize.w) + (cellSize.w/2)
-        var y = (coords.y*cellSize.h) + (cellSize.h/2)
+        var x = (coords.x*_cellSize.w) + (_cellSize.w/2)
+        var y = (coords.y*_cellSize.h) + (_cellSize.h/2)
         return CGPoint(x:x,y:y)
     }
     
