@@ -20,23 +20,27 @@ class Mob : Entity {
     }
     
     func doAction(action:Action){
+        var temp = (x:coords.x,y:coords.y)
         if let dir = action.direction? {
             switch dir {
             case .UP:
-                coords.y++
+                temp.y++
                 break
             case .DOWN:
-                coords.y--
+                temp.y--
                 break
             case .LEFT:
-                coords.x--
+                temp.x--
                 break
             case .RIGHT:
-                coords.x++
+                temp.x++
                 break
             default:
                 break
             }
+        }
+        if Game.sharedInstance.level.isPassable(temp){
+            coords = temp
         }
     }
     

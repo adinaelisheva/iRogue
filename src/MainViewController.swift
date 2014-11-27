@@ -74,6 +74,7 @@ class MainViewController: UIViewController {
         
         nameLabel.text = game.playerMob.name
         xpLabel.text = "XP:\(game.xp)"
+        lvlLabel.text = "LVL:\(game.xpLevel)"
         
     }
     
