@@ -2,7 +2,14 @@
 import Foundation
 import UIKit
 
+private let _SharedInstance = Game()
+
 class Game {
+    
+    // Singleton Stuff
+    class var sharedInstance: Game {
+        return _SharedInstance
+    }
     
     // Public global object things
 

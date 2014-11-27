@@ -9,15 +9,10 @@ class GameScene: SKScene {
     
     func addEntity(e:Entity) -> SKLabelNode{
         //create the main character]
-        let c = SKLabelNode(fontNamed:"Menlo")
-        c.text = String(e.char)
-        c.fontSize = 14
-        c.fontColor = e.color
-        
+        let c = EntitySKNode(character: e.char, color: e.color, entity: e)
         self.addChild(c)
         
         return c
-
     }
     
     //kind of like a constructor - set up is in here
@@ -40,8 +35,22 @@ class GameScene: SKScene {
     override func update(currentTime: CFTimeInterval) {
         /* Called before each frame is rendered */
         
-    
+        for ent in self.children as [EntitySKNode] {
+            if let gameEntity = ent.entity? {
+                ent.position = getCellPosFromCoords(gameEntity.coords)
+            }
+        }
+        
     }
+    
+    func getCellPosFromCoords(coords : (x:Int,y:Int)) -> CGPoint {
+        var x = (coords.x*cellSize.w) + (cellSize.w/2)
+        var y = (coords.y*cellSize.h) + (cellSize.h/2)
+        return CGPoint(x:x,y:y)
+    }
+    
+    
+
     
     func activityLog(str:String){
         if let mainvc = self.view?.window?.rootViewController as? MainViewController {

@@ -26,5 +26,10 @@ class Entity {
         self.color = color? ?? self.color
         
     }
-    
+ 
+    func touched() {
+        
+        Game.sharedInstance.Log(description)
+        
+    }
 }

@@ -65,48 +65,25 @@ class MainViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        if let ad = UIApplication.sharedApplication().delegate as? AppDelegate {
-            
-            // Hold onto this locally.
-            game = ad.game
-            
-            // Set up the logging system
-            game.logCallback = log
-            game.Log(activityLog.text)
-            
-            
-            nameLabel.text = game.playerMob.name
-            xpLabel.text = String(game.xp)
-            
-            game.playerMob.skScene = gameVC.scene.addEntity(game.playerMob)
-            game.aiMob.skScene = gameVC.scene.addEntity(game.aiMob)
-            
-            
-        } else {
-            NSLog("Why no appdelegate?")
-        }
+        game = Game.sharedInstance
         
+        // Set up the logging system
+        game.logCallback = log
+        game.Log(activityLog.text)
+        
+        
+        nameLabel.text = game.playerMob.name
+        xpLabel.text = String(game.xp)
+        
+        game.playerMob.skScene = gameVC.scene.addEntity(game.playerMob)
+        game.aiMob.skScene = gameVC.scene.addEntity(game.aiMob)
     }
     
     func takeTurnWithAction(action : Action) {
         
         game.takeTurnWithAction(action)
         
-        game.playerMob.skScene?.position = getCellPosFromCoords(game.playerMob.coords)
-        game.aiMob.skScene?.position = getCellPosFromCoords(game.aiMob.coords)
-        
-        
-    }
-    
-    func getCellPosFromCoords(coords : (x:Int,y:Int)) -> CGPoint {
-        let cs = gameVC.scene.cellSize
-        var x = (coords.x*cs.w) + (cs.w/2)
-        var y = (coords.y*cs.h) + (cs.h/2)
-        return CGPoint(x:x,y:y)
-    }
-    
-    
-    
+    }    
     
     func clickArrowButton(button: UIButton){
         UIView.animateWithDuration(0.1,
