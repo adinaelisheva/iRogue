@@ -45,7 +45,7 @@ class EntitySKNode : SKSpriteNode {
     
     override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
 
-        self.color = UIColor.whiteColor()
+        self.color = UIColor(red:0.3,green:0.3,blue:0.3,alpha:1)
         runAction(SKAction.colorizeWithColor(UIColor.blackColor(), colorBlendFactor: 1, duration: 0.1))
         
         entity.touched()
