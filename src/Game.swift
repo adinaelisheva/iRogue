@@ -41,8 +41,8 @@ class Game {
     
     init() {
         
-        testLevel.entities.append(playerMob)
-        testLevel.entities.append(aiMob)
+        testLevel.things.append(playerMob)
+        testLevel.things.append(aiMob)
         aiMob.coords = (10,10)
         playerMob.coords = (12,15)
         
