@@ -75,8 +75,6 @@ class MainViewController: UIViewController {
         nameLabel.text = game.playerMob.name
         xpLabel.text = "XP:\(game.xp)"
         
-        game.playerMob.sprite = gameVC.scene.addEntity(game.playerMob)
-        game.aiMob.sprite = gameVC.scene.addEntity(game.aiMob)
     }
     
     func takeTurnWithAction(action : Action) {

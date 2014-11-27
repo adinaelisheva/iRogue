@@ -8,7 +8,6 @@
 
 import Foundation
 import UIKit
-import SpriteKit
 
 class Entity {
 
@@ -17,19 +16,15 @@ class Entity {
     var char : Character = "?"
     var color : UIColor = UIColor.whiteColor()
     var coords : (x:Int,y:Int) = (0,0)
-    var sprite : EntitySKNode?
     
     init(name:String?, description:String?, char:Character?, color:UIColor?) {
         self.name = name? ?? self.name
         self.description = description? ?? self.description
         self.char = char? ?? self.char
         self.color = color? ?? self.color
-        
     }
  
     func touched() {
-        
         Game.sharedInstance.Log(description)
-        
     }
 }
