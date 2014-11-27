@@ -86,25 +86,22 @@ Object Tree
 	- Name 
 	- Look (text)
 	- Draw info: character, fg color, bg color
+	- Properties (string:int)
 
-- TerrainTile
-	- TerrainType (isa Entity)
-		- Action (open/close, use, etc)
-		- Passable
-	- HasBeenSeen bool
-	-	IsVisible bool
-	- Properties (string:int, can be read by the TerrainType class)
-
+- TerrainTile (isa Entity)
+	- Action (open/close, use, etc)
+	- Passable bool
+	- seen bool
+	-	visible bool
+	
 - Mob (isa Entity)
 	- List of Items
-	- Properties (string:int)
 	- PerformAction(Action) (called by Scheduler)
 	- AIAction
 
 - Item (isa Entity)
 	- Autopickup (bool)
-	- Properties (string:int)
-		
+
 	- Walked Onto Action
 	- Pick up Action
 		- Can be hidden (traps)

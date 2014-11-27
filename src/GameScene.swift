@@ -1,7 +1,7 @@
 
 import SpriteKit
 
-private let _cellSize:(w:Int,h:Int) = (12,16)
+private let _cellSize:(w:Int,h:Int) = (8,16) // 12x16?
 
 class GameScene: SKScene {
     //hardcoded font size
@@ -10,7 +10,8 @@ class GameScene: SKScene {
     }
     
     var gridSize:(w:Int,h:Int) = (0,0)
-    let char = SKLabelNode(fontNamed:"Menlo")
+    
+    let ascii = SKTexture(imageNamed: "characters")
     
     func addEntity(e:Entity) -> EntitySKNode {
         //create the main character]
@@ -39,11 +40,6 @@ class GameScene: SKScene {
     override func update(currentTime: CFTimeInterval) {
         /* Called before each frame is rendered */
         
-        for ent in self.children as [EntitySKNode] {
-            if let gameEntity = ent.entity? {
-                ent.position = getCellPosFromCoords(gameEntity.coords)
-            }
-        }
         
     }
     

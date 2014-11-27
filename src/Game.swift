@@ -2,22 +2,22 @@
 import Foundation
 import UIKit
 
-private let _SharedInstance = Game()
+private var _SharedInstance : Game?
 
 class Game {
     
     // Singleton Stuff
-    class var sharedInstance: Game {
+    class var sharedInstance: Game! {
         return _SharedInstance
     }
     
     // Public global object things
 
-    var level : Level
+    var level : Level!
     var xpLevel = 1
     var xp = 0 
-    var playerMob = Mob(name: "Adinex", description: "A brave and noble adventurer", char: "@", color: UIColor.whiteColor())
-    var aiMob = Mob(name: "AI", description: "A scary monster", char: "M", color: UIColor.greenColor())
+    var playerMob : Mob!
+    var aiMob : Mob!
     
     
     
@@ -37,12 +37,21 @@ class Game {
     
     ///// Game Internal Stuff
     
+    let scene : GameScene!
     private let scheduler = Scheduler()
     
-    init() {
+    init(scene : GameScene) {
+        _SharedInstance = self
+        
+        self.scene = scene // Must be initialized before creating any entities!
+        self.level = Level(w:20,h:20)
+        
+        self.playerMob = Mob(name: "Adinex", description: "A brave and noble adventurer", char: "@", color: UIColor.whiteColor())
+        self.playerMob.sprite.zPosition = 3 // 3 = player mob
+        self.aiMob = Mob(name: "AI", description: "A scary monster", char: "M", color: UIColor.greenColor())
+        self.aiMob.sprite.zPosition = 2 // 2 = other mobs
         
         //create test level
-        level = Level(w:20,h:20)
         for i in 0..<20 {
             level.setTile(Wall(coords: (x:i,y:0)))
             level.setTile(Wall(coords: (x:i,y:19)))

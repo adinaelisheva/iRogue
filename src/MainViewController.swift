@@ -64,17 +64,18 @@ class MainViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        game = Game.sharedInstance
+
+        game = Game(scene: gameVC.scene)
         
         // Set up the logging system
         game.logCallback = log
         game.Log(activityLog.text)
         
-        
         nameLabel.text = game.playerMob.name
         xpLabel.text = "XP:\(game.xp)"
         lvlLabel.text = "LVL:\(game.xpLevel)"
+        
+        
         
     }
     

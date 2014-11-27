@@ -39,7 +39,7 @@ class Water : TerrainTile {
         name = "water"
         description = "Some water covers the floor here."
         char = "~"
-        color = UIColor.blueColor()
+        color = UIColor.cyanColor()
     }
 }
 
@@ -56,9 +56,7 @@ class Lava : TerrainTile {
 class Level {
     
     var things = [Entity]()
-    
     var map = [TerrainTile?]()
-    
     
     let mapSize : (w:Int,h:Int)
 
@@ -75,6 +73,7 @@ class Level {
     func setTile(tile: TerrainTile?) {
         if let coords = tile?.coords {
             if let index = getMapArrayIndex(coords) {
+                map[index]?.remove()
                 map[index] = tile
             }
         }

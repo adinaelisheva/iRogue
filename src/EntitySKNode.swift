@@ -9,25 +9,39 @@
 import Foundation
 import SpriteKit
 
+let asciiMap = " !\"#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_`abcdefghijklmnopqrstuvwxyz{|}~"
+
 class EntitySKNode : SKSpriteNode {
     
     let entity : Entity!
-    let label : SKLabelNode!
+    
+    var character : Character = "?" {
+        didSet {
+            self.texture = textureForCharacter(character)?
+        }
+    }
+    
+    func textureForCharacter(char : Character) -> SKTexture? {
+        var index = asciiMap.rangeOfString(String(char))
+        if let index = index? {
+            var intIdx = distance(asciiMap.startIndex, index.startIndex)
+            var x = intIdx % 10
+            var y = 9 - intIdx / 10
+            var rect = CGRectMake(CGFloat(x)/10.0, CGFloat(y)/10.0, 0.1, 0.1)
+            return SKTexture(rect: rect, inTexture: Game.sharedInstance.scene.ascii)
+        }
+        return nil
+    }
     
     init(character:Character, color:UIColor, entity:Entity) {
         super.init()
         
         self.entity = entity
-        
-        label = SKLabelNode(fontNamed: "Menlo")
-        label.fontSize = 14
-        label.fontColor = color
-        label.text = String(character)
-        label.position = CGPoint(x:0, y: -GameScene.cellSize.h / 2)
-        self.addChild(label)
-        
-        self.color = UIColor.blackColor()
-        
+        self.color = color
+        self.character = character
+        self.texture = textureForCharacter(character)?
+        //        self.blendMode = SKBlendMode.Add
+        self.colorBlendFactor = 1
         userInteractionEnabled = true
     }
 
@@ -45,9 +59,10 @@ class EntitySKNode : SKSpriteNode {
     
     override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
 
+        /* Fix this somehow...
         self.color = UIColor(red:0.3,green:0.3,blue:0.3,alpha:1)
         runAction(SKAction.colorizeWithColor(UIColor.blackColor(), colorBlendFactor: 1, duration: 0.1))
-        
+        */
         entity.touched()
     }
     
