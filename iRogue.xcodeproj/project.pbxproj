@@ -11,6 +11,7 @@
 		156AE8451A26893700D775C7 /* Scheduler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 156AE8441A26893700D775C7 /* Scheduler.swift */; };
 		156AE8471A268E6E00D775C7 /* Level.swift in Sources */ = {isa = PBXBuildFile; fileRef = 156AE8461A268E6E00D775C7 /* Level.swift */; };
 		156AE8491A26AC2300D775C7 /* EntitySKNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 156AE8481A26AC2300D775C7 /* EntitySKNode.swift */; };
+		15CFF80A1A27B1AE00A7938A /* Math.swift in Sources */ = {isa = PBXBuildFile; fileRef = 15CFF8091A27B1AE00A7938A /* Math.swift */; };
 		C6A6BE371A17CD81004ED2E9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6A6BE2C1A17CD81004ED2E9 /* AppDelegate.swift */; };
 		C6A6BE381A17CD81004ED2E9 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = C6A6BE2E1A17CD81004ED2E9 /* LaunchScreen.xib */; };
 		C6A6BE391A17CD81004ED2E9 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = C6A6BE301A17CD81004ED2E9 /* Main.storyboard */; };
@@ -43,6 +44,7 @@
 		156AE8441A26893700D775C7 /* Scheduler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Scheduler.swift; sourceTree = SOURCE_ROOT; };
 		156AE8461A268E6E00D775C7 /* Level.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Level.swift; sourceTree = SOURCE_ROOT; };
 		156AE8481A26AC2300D775C7 /* EntitySKNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EntitySKNode.swift; path = src/EntitySKNode.swift; sourceTree = SOURCE_ROOT; };
+		15CFF8091A27B1AE00A7938A /* Math.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Math.swift; path = src/Math.swift; sourceTree = SOURCE_ROOT; };
 		C6A6BE2C1A17CD81004ED2E9 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = AppDelegate.swift; path = src/AppDelegate.swift; sourceTree = SOURCE_ROOT; };
 		C6A6BE2F1A17CD81004ED2E9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = LaunchScreen.xib; sourceTree = "<group>"; };
 		C6A6BE311A17CD81004ED2E9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Main.storyboard; sourceTree = "<group>"; };
@@ -131,6 +133,7 @@
 				C6A6BE351A17CD81004ED2E9 /* Images.xcassets */,
 				C6A6BE361A17CD81004ED2E9 /* Info.plist */,
 				C6F17A021A17CCF1002E7972 /* Supporting Files */,
+				15CFF8091A27B1AE00A7938A /* Math.swift */,
 			);
 			name = src;
 			path = iRogue;
@@ -265,6 +268,7 @@
 			files = (
 				156AE8491A26AC2300D775C7 /* EntitySKNode.swift in Sources */,
 				C6E378AD1A268B5F00DBCDC5 /* Mob.swift in Sources */,
+				15CFF80A1A27B1AE00A7938A /* Math.swift in Sources */,
 				C6A6BE3B1A17CD81004ED2E9 /* GameScene.swift in Sources */,
 				C6E378AF1A268DBE00DBCDC5 /* Entity.swift in Sources */,
 				C6E378AB1A26888400DBCDC5 /* Game.swift in Sources */,
