@@ -13,6 +13,11 @@ class Level {
     var things = [Entity]()
     var map = [TerrainTile?]()
     
+    
+    var rooms : [Room]
+    //the dimensions in number of rooms
+    var numRooms : (w:Int,h:Int)
+    
     let mapSize : (w:Int,h:Int)
 
     private func getMapArrayIndex(coord: (x:Int, y:Int)) -> Int? {
@@ -56,6 +61,9 @@ class Level {
 
         mapSize = (w,h)
         map = [TerrainTile?](count:mapSize.w * mapSize.h, repeatedValue:nil)
+        
+        rooms = []
+        numRooms = (0,0)
         
         //fill in all spaces with plain ground
         //for i in 0..<w {

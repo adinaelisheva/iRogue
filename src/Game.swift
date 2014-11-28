@@ -19,6 +19,15 @@ class Game {
     var playerMob : Mob!
     var aiMob : Mob!
     
+    enum ZOrder : UInt32 {
+        case TERRAIN = 0, ITEM, MOB, PLAYER
+    }
+    enum DoorMask : Int {
+        case UP = 1
+        case DOWN = 2
+        case LEFT = 4
+        case RIGHT = 8
+    }
     
     
     ///// LOGGING 
@@ -44,12 +53,12 @@ class Game {
         _SharedInstance = self
         
         self.scene = scene // Must be initialized before creating any entities!
-        self.level = BasicLevel(w:24,h:24)
+        self.level = BasicLevel(w:24,h:16)
         
         self.playerMob = Mob(name: "Adinex", description: "A brave and noble adventurer", char: "@", color: UIColor.whiteColor())
-        self.playerMob.sprite.zPosition = 3 // 3 = player mob TODO:enum!!!!
+        self.playerMob.sprite.zPosition = CGFloat(ZOrder.PLAYER.rawValue)
         self.aiMob = Mob(name: "AI", description: "A scary monster", char: "M", color: UIColor.greenColor())
-        self.aiMob.sprite.zPosition = 2 // 2 = other mobs
+        self.aiMob.sprite.zPosition = CGFloat(ZOrder.MOB.rawValue)
         
         //add test items
         level.things.append(playerMob)

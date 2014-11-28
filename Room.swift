@@ -9,7 +9,9 @@
 import Foundation
 
 class Room {
-    init(x:Int,y:Int,setFunc:(TerrainTile?)->(),roomSize:Int) {
+    var doors : [Game.DoorMask : Math.Point] = [:]
+    
+    init(x:Int,y:Int,setFunc:(TerrainTile?)->(),roomSize:Int,doorsMask:Int) {
         var roomW = roomSize
         var roomH = roomSize
         //minimum size for a room is 3 floors, 2 walls, and 1 hallway = 6
@@ -27,6 +29,38 @@ class Room {
                 }
             }
         }
+        
+        //add doors
+        if(doorsMask & Game.DoorMask.UP.rawValue > 0){
+            let coord = Int(arc4random_uniform(UInt32(roomW-3))) + 1
+            let tx = x+coord
+            let ty = y+roomH-2
+            setFunc(Door(coords:(x:tx,y:ty)))
+            doors[Game.DoorMask.UP] = (x:tx,y:ty)
+        }
+        if(doorsMask & Game.DoorMask.DOWN.rawValue > 0){
+            let coord = Int(arc4random_uniform(UInt32(roomW-3))) + 1
+            let tx = x+coord
+            let ty = y
+            setFunc(Door(coords:(x:tx,y:ty)))
+            doors[Game.DoorMask.DOWN] = (x:tx,y:ty)
+        }
+        if(doorsMask & Game.DoorMask.LEFT.rawValue > 0){
+            let coord = Int(arc4random_uniform(UInt32(roomH-3))) + 1
+            let tx = x
+            let ty = y+coord
+            setFunc(Door(coords:(x:x,y:y+coord)))
+            doors[Game.DoorMask.LEFT] = (x:tx,y:ty)
+        }
+        if(doorsMask & Game.DoorMask.RIGHT.rawValue > 0){
+            let coord = Int(arc4random_uniform(UInt32(roomH-3))) + 1
+            let tx = x+roomW-2
+            let ty = y+coord
+            setFunc(Door(coords:(x:x+roomW-2,y:y+coord)))
+            doors[Game.DoorMask.RIGHT] = (x:tx,y:ty)
+        }
     }
+    
+    
     
 }

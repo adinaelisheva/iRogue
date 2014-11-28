@@ -59,3 +59,15 @@ class Lava : TerrainTile {
         color = UIColor.redColor()
     }
 }
+
+class Door : TerrainTile {
+    override init(coords:(x:Int,y:Int)){
+        super.init(coords:coords)
+        name = "door"
+        description = "An old wooden door"
+        char = "+"
+    }
+}
+
+
+

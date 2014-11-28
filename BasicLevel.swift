@@ -19,18 +19,39 @@ class BasicLevel : Level {
         let x = (w/roomSize) //number of rooms across
         let y = (h/roomSize) //number of rooms vertically
         
-        let nw = x*roomSize
-        let nh = y*roomSize
-        
-        super.init(w:nw,h:nh)
-        
+        super.init(w:x*roomSize,h:y*roomSize)
+        numRooms = (w:x,h:y)
         //iterate through and make rooms!
         for i in 0..<x {
             for j in 0..<y {
-                Room(x:i*roomSize,y:j*roomSize,setFunc:setTile,roomSize:roomSize)
+                var mask = Game.DoorMask.UP.rawValue | Game.DoorMask.LEFT.rawValue | Game.DoorMask.DOWN.rawValue | Game.DoorMask.RIGHT.rawValue
+                if i == 0 { mask = mask - Game.DoorMask.LEFT.rawValue }
+                if j == 0 { mask = mask - Game.DoorMask.DOWN.rawValue }
+                if i == x-1 { mask = mask - Game.DoorMask.RIGHT.rawValue }
+                if j == y-1 { mask = mask - Game.DoorMask.UP.rawValue }
+                
+                rooms.append(Room(x:i*roomSize,y:j*roomSize,setFunc:setTile,roomSize:roomSize, doorsMask:mask))
             }
         }
         
+        //TODO: step through the rooms, get their doors, connect them
+        
     }
     
+    func getRoomAt(x:Int,y:Int) -> (Room?) {
+        let index = y*numRooms.w + x
+        if index >= rooms.count {
+            return nil
+        }
+        return rooms[index]
+    }
+    
+    func setRoomAt(x:Int,y:Int,room:Room) {
+        let index = y*numRooms.w + x
+        if index < rooms.count{
+            rooms[index] = room
+        }
+    }
 }
+
+
