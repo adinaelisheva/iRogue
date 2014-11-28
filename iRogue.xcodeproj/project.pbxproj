@@ -60,7 +60,6 @@
 		C6E378B21A29039300DBCDC5 /* BasicLevel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BasicLevel.swift; sourceTree = SOURCE_ROOT; };
 		C6E378B41A29080C00DBCDC5 /* Room.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Room.swift; sourceTree = SOURCE_ROOT; };
 		C6F179FF1A17CCF1002E7972 /* iRogue.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iRogue.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		C6F17A031A17CCF1002E7972 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C6F17A181A17CCF1002E7972 /* iRogueTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = iRogueTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		C6F17A1D1A17CCF1002E7972 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		C6F17A1E1A17CCF1002E7972 /* iRogueTests.swift */ = {isa = PBXFileReference; lastKnownFileType = text; path = iRogueTests.swift; sourceTree = "<group>"; };
@@ -94,6 +93,57 @@
 			path = src/Base.lproj;
 			sourceTree = SOURCE_ROOT;
 		};
+		C6E378B61A2910E600DBCDC5 /* Game */ = {
+			isa = PBXGroup;
+			children = (
+				C6E378AA1A26888400DBCDC5 /* Game.swift */,
+				156AE8441A26893700D775C7 /* Scheduler.swift */,
+				C6A6BE2C1A17CD81004ED2E9 /* AppDelegate.swift */,
+			);
+			name = Game;
+			sourceTree = "<group>";
+		};
+		C6E378B71A29111400DBCDC5 /* Entities */ = {
+			isa = PBXGroup;
+			children = (
+				C6E378AE1A268DBE00DBCDC5 /* Entity.swift */,
+				C6E378AC1A268B5F00DBCDC5 /* Mob.swift */,
+				156AE8481A26AC2300D775C7 /* EntitySKNode.swift */,
+				C6E378B01A29035300DBCDC5 /* Terrain.swift */,
+			);
+			name = Entities;
+			sourceTree = "<group>";
+		};
+		C6E378B81A29111B00DBCDC5 /* Levels */ = {
+			isa = PBXGroup;
+			children = (
+				156AE8461A268E6E00D775C7 /* Level.swift */,
+				C6E378B21A29039300DBCDC5 /* BasicLevel.swift */,
+				C6E378B41A29080C00DBCDC5 /* Room.swift */,
+			);
+			name = Levels;
+			sourceTree = "<group>";
+		};
+		C6E378B91A29113200DBCDC5 /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				C6A6BE321A17CD81004ED2E9 /* GameScene.sks */,
+				C6A6BE331A17CD81004ED2E9 /* GameScene.swift */,
+				C6A6BE341A17CD81004ED2E9 /* GameViewController.swift */,
+				1513D1B81A17DDF4009A778D /* MainViewController.swift */,
+				C6A6BE351A17CD81004ED2E9 /* Images.xcassets */,
+			);
+			name = UI;
+			sourceTree = "<group>";
+		};
+		C6E378BA1A29115A00DBCDC5 /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				15CFF8091A27B1AE00A7938A /* Math.swift */,
+			);
+			name = Utilities;
+			sourceTree = "<group>";
+		};
 		C6F179F61A17CCF1002E7972 = {
 			isa = PBXGroup;
 			children = (
@@ -115,25 +165,13 @@
 		C6F17A011A17CCF1002E7972 /* src */ = {
 			isa = PBXGroup;
 			children = (
-				C6E378AE1A268DBE00DBCDC5 /* Entity.swift */,
-				C6E378AC1A268B5F00DBCDC5 /* Mob.swift */,
-				C6E378AA1A26888400DBCDC5 /* Game.swift */,
-				156AE8441A26893700D775C7 /* Scheduler.swift */,
-				C6E378B01A29035300DBCDC5 /* Terrain.swift */,
-				156AE8461A268E6E00D775C7 /* Level.swift */,
-				C6E378B21A29039300DBCDC5 /* BasicLevel.swift */,
-				C6E378B41A29080C00DBCDC5 /* Room.swift */,
-				156AE8481A26AC2300D775C7 /* EntitySKNode.swift */,
-				C6A6BE2C1A17CD81004ED2E9 /* AppDelegate.swift */,
+				C6E378B61A2910E600DBCDC5 /* Game */,
+				C6E378BA1A29115A00DBCDC5 /* Utilities */,
+				C6E378B71A29111400DBCDC5 /* Entities */,
+				C6E378B81A29111B00DBCDC5 /* Levels */,
+				C6E378B91A29113200DBCDC5 /* UI */,
 				C6A6BE2D1A17CD81004ED2E9 /* Base.lproj */,
-				C6A6BE321A17CD81004ED2E9 /* GameScene.sks */,
-				C6A6BE331A17CD81004ED2E9 /* GameScene.swift */,
-				C6A6BE341A17CD81004ED2E9 /* GameViewController.swift */,
-				1513D1B81A17DDF4009A778D /* MainViewController.swift */,
-				C6A6BE351A17CD81004ED2E9 /* Images.xcassets */,
-				C6A6BE361A17CD81004ED2E9 /* Info.plist */,
 				C6F17A021A17CCF1002E7972 /* Supporting Files */,
-				15CFF8091A27B1AE00A7938A /* Math.swift */,
 			);
 			name = src;
 			path = iRogue;
@@ -142,7 +180,7 @@
 		C6F17A021A17CCF1002E7972 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
-				C6F17A031A17CCF1002E7972 /* Info.plist */,
+				C6A6BE361A17CD81004ED2E9 /* Info.plist */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
