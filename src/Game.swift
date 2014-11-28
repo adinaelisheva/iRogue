@@ -57,10 +57,14 @@ class Game {
         aiMob.coords = (2,2)
         playerMob.coords = (3,3)
         
+        level.computeVisibilityFrom(playerMob.coords)
+        
     }
     
     func takeTurnWithAction(action : Action) {
         scheduler.doTurn(level, action: action, playerMob: playerMob)
+        
+        level.computeVisibilityFrom(playerMob.coords)
     }
     
     
