@@ -20,17 +20,9 @@ class Entity {
         }
     }
     
-    var color : UIColor = UIColor.whiteColor() {
-        didSet {
-            self.sprite.color = color
-        }
-    }
+    var color : UIColor = UIColor.whiteColor()
     
-    var coords : (x:Int,y:Int) = (0,0) {
-        didSet {
-            self.sprite.position = Game.sharedInstance.scene.getCellPosFromCoords(coords)
-        }
-    }
+    var coords : (x:Int,y:Int) = (0,0)
     
     let sprite : EntitySKNode!
     

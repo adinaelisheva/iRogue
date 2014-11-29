@@ -37,12 +37,12 @@ class EntitySKNode : SKSpriteNode {
         super.init()
         
         self.entity = entity
-        self.color = color
         self.character = character
         self.texture = textureForCharacter(character)?
         //        self.blendMode = SKBlendMode.Add
         self.colorBlendFactor = 1
         userInteractionEnabled = true
+        
     }
 
     override init() {
@@ -55,6 +55,19 @@ class EntitySKNode : SKSpriteNode {
     
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
+    }
+    
+    func updateFromEntity() {
+        self.position = Game.sharedInstance.scene.getCellPosFromCoords(entity.coords)
+
+        
+        if let tile = Game.sharedInstance?.level?.getTileAt(entity.coords) {
+            if !tile.visible {
+                self.color = UIColor.darkGrayColor()
+            } else {
+                self.color = entity.color
+            }
+        }
     }
     
     override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
