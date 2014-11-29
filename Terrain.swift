@@ -13,7 +13,12 @@ class TerrainTile : Entity {
     
     var passable = true
     var seen = false
-    var visible : Bool = false
+    var visible = false
+    
+    // For temp pathfinding use
+    var distance = INT32_MAX
+    var backtrace : TerrainTile?
+    var visited = false
     
     init(coords:(x:Int,y:Int)){
         super.init(name: "floor", description: "Plain stone floor", char: ".", color: UIColor.whiteColor())

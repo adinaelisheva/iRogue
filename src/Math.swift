@@ -11,7 +11,9 @@ import Foundation
 class Math {
     
     typealias Point = (x: Int, y: Int)
-   
+    
+    
+    // returns a Bresenham line between two points.
     class func lineFrom(from:Point, to:Point) -> [Point] {
         let d = Point((to.x - from.x), (to.y - from.y))
         
