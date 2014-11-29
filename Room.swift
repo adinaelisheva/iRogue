@@ -49,14 +49,14 @@ class Room {
             let coord = Int(arc4random_uniform(UInt32(roomH-3))) + 1
             let tx = x
             let ty = y+coord
-            setFunc(Door(coords:(x:x,y:y+coord)))
+            setFunc(Door(coords:(x:tx,y:ty)))
             doors[Game.DoorMask.LEFT] = (x:tx,y:ty)
         }
         if(doorsMask & Game.DoorMask.RIGHT.rawValue > 0){
             let coord = Int(arc4random_uniform(UInt32(roomH-3))) + 1
             let tx = x+roomW-2
             let ty = y+coord
-            setFunc(Door(coords:(x:x+roomW-2,y:y+coord)))
+            setFunc(Door(coords:(x:tx,y:ty)))
             doors[Game.DoorMask.RIGHT] = (x:tx,y:ty)
         }
     }

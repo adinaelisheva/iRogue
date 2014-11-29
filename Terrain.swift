@@ -43,7 +43,7 @@ class Wall : TerrainTile {
         name = "wall"
         description = "An immovable wall."
         char = "#"
-        color = UIColor.whiteColor()
+        color = UIColor(red:0.67,green:0.65,blue:0.294,alpha:1)
         passable = false
     }
 }

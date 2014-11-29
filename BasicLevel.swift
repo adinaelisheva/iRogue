@@ -22,8 +22,8 @@ class BasicLevel : Level {
         super.init(w:x*roomSize,h:y*roomSize)
         numRooms = (w:x,h:y)
         //iterate through and make rooms!
-        for i in 0..<x {
-            for j in 0..<y {
+        for j in 0..<y {
+            for i in 0..<x {
                 var mask = Game.DoorMask.UP.rawValue | Game.DoorMask.LEFT.rawValue | Game.DoorMask.DOWN.rawValue | Game.DoorMask.RIGHT.rawValue
                 if i == 0 { mask = mask - Game.DoorMask.LEFT.rawValue }
                 if j == 0 { mask = mask - Game.DoorMask.DOWN.rawValue }
@@ -34,7 +34,107 @@ class BasicLevel : Level {
             }
         }
         
-        //TODO: step through the rooms, get their doors, connect them
+        for i in 0..<x{
+            for j in 0..<y{
+                if j != y-1 {
+                    //vertical connection
+                    let d1 = getRoomAt(i,y:j)?.doors[Game.DoorMask.UP]
+                    let d2 = getRoomAt(i,y:j+1)?.doors[Game.DoorMask.DOWN]
+                    connectByHallway(d1,d2:d2,vertical:true)
+                }
+                if i != x-1 {
+                    //horizontal connection
+                    let d1 = getRoomAt(i,y:j)?.doors[Game.DoorMask.RIGHT]
+                    let d2 = getRoomAt(i+1,y:j)?.doors[Game.DoorMask.LEFT]
+                    connectByHallway(d1,d2:d2,vertical:false)
+                }
+            }
+        }
+        
+    }
+    
+    func connectByHallway(d1:Math.Point?,d2:Math.Point?,vertical:Bool){
+        if d1 == nil || d2 == nil {
+            return
+        }
+        //get rid of !s
+        let p1 = d1!
+        let p2 = d2!
+        
+        //find min and max points
+        let maxY = max(p1.y,p2.y)
+        let minY = min(p1.y,p2.y)
+        let maxX = max(p1.x,p2.x)
+        let minX = min(p1.x,p2.x)
+        
+        //array for saving the path
+        var path : [Math.Point] = []
+        
+        //draw the path itself as floor
+        if vertical{
+            let bend = (maxY+minY)/2
+            for j in minY+1..<bend{
+                let p = Math.Point(x:p1.x,y:j)
+                setTile(Floor(coords:p))
+                path.append(p)
+            }
+            for i in minX...maxX {
+                let p = Math.Point(x:i,y:bend)
+                setTile(Floor(coords:p))
+                path.append(p)
+            }
+            for j in bend..<maxY{
+                let p = Math.Point(x:p2.x,y:j)
+                setTile(Floor(coords:p))
+                path.append(p)
+            }
+        } else {
+            let bend = (maxX+minX)/2
+            for i in minX+1..<bend{
+                let p = Math.Point(x:i,y:p1.y)
+                setTile(Floor(coords:p))
+                path.append(p)
+            }
+            for j in minY...maxY {
+                let p = Math.Point(x:bend,y:j)
+                setTile(Floor(coords:p))
+                path.append(p)
+            }
+            for i in bend..<maxX{
+                let p = Math.Point(x:i,y:p2.y)
+                setTile(Floor(coords:p))
+                path.append(p)
+            }
+        }
+        
+        //add walls all around on all non-null tiles!
+        for p in path {
+            if getTileAt((p.x-1,p.y)) == nil{
+                setTile(Wall(coords:(p.x-1,p.y)))
+            }
+            if getTileAt((p.x+1,p.y)) == nil{
+                setTile(Wall(coords:(p.x+1,p.y)))
+            }
+            if getTileAt((p.x,p.y-1)) == nil{
+                setTile(Wall(coords:(p.x,p.y-1)))
+            }
+            if getTileAt((p.x,p.y+1)) == nil{
+                setTile(Wall(coords:(p.x,p.y+1)))
+            }
+            if getTileAt((p.x-1,p.y-1)) == nil{
+                setTile(Wall(coords:(p.x-1,p.y-1)))
+            }
+            if getTileAt((p.x+1,p.y+1)) == nil{
+                setTile(Wall(coords:(p.x+1,p.y+1)))
+            }
+            if getTileAt((p.x-1,p.y+1)) == nil{
+                setTile(Wall(coords:(p.x-1,p.y+1)))
+            }
+            if getTileAt((p.x+1,p.y-1)) == nil{
+                setTile(Wall(coords:(p.x+1,p.y-1)))
+            }
+        }
+        
         
     }
     

@@ -126,13 +126,6 @@ class Level {
         rooms = []
         numRooms = (0,0)
         
-        //fill in all spaces with plain ground
-        //for i in 0..<w {
-        //    for j in 0..<h {
-        //        setTile(TerrainTile(coords:(i,j)))
-        //    }
-        //}
-        
     }
     
     
