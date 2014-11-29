@@ -126,6 +126,12 @@ class Level {
             tile.visible = true
         }
         
+        for tile in map {
+            if let tile = tile? {
+                tile.seen |= tile.visible
+            }
+        }
+        
     }
     
     
