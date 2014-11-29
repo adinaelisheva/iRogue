@@ -55,7 +55,7 @@ class Level {
         return false
     }
     
-    
+    // Sets terrain visible flags from the given viewpoint
     func computeVisibilityFrom(coord: Math.Point) {
         
         // Set all things invisible
@@ -84,14 +84,18 @@ class Level {
                     visible &= (tile.passable)
                     tile.visible |= visible
                     // Mark obstructions as invisible, for now...
+                } else {
+                    // nil tiles block vision
+                    visible = false
                 }
             }
         }
         
         // Now iterate over every tile, if it's 8adjacent to a visible tile
         // then set it visible. This lets us see walls, into corners, etc.
-        
-        // There has to be a more efficient algorith for this.
+        // We delay setting visible in the first pass so we don't propogate it
+        var setVis : [TerrainTile] = []
+
         for x in 0..<mapSize.w {
             for y in 0..<mapSize.h {
                 if let tile = getTileAt((x,y))? {
@@ -111,28 +115,35 @@ class Level {
                     if let tvis = getTileAt((x  ,y+1))?.visible { nVis |= tvis }
                     if let tvis = getTileAt((x+1,y+1))?.visible { nVis |= tvis }
                     
-                    tile.visible |= nVis
+                    if nVis {
+                        setVis.append(tile)
+                    }
                 }
             }
         }
         
+        for tile in setVis {
+            tile.visible = true
+        }
+        
+    }
+    
+    // Updates all sprites on the level to match their entities (position, color, etc)
+    func updateSprites() {
+        for ent in map {
+            ent?.sprite.updateFromEntity()
+        }
+        for ent in things {
+            ent.sprite.updateFromEntity()
+        }
     }
     
     init(w:Int,h:Int) {
-
         mapSize = (w,h)
         map = [TerrainTile?](count:mapSize.w * mapSize.h, repeatedValue:nil)
         
         rooms = []
         numRooms = (0,0)
-        
-        //fill in all spaces with plain ground
-        //for i in 0..<w {
-        //    for j in 0..<h {
-        //        setTile(TerrainTile(coords:(i,j)))
-        //    }
-        //}
-        
     }
     
     
