@@ -73,6 +73,7 @@ class MainViewController: UIViewController {
 
         game = Game(scene: gameVC.scene)
         
+        
         // Set up the logging system
         game.logCallback = log
         game.Log(activityLog.text)
@@ -81,7 +82,28 @@ class MainViewController: UIViewController {
         xpLabel.text = "XP:\(game.xp)"
         lvlLabel.text = "LVL:\(game.xpLevel)"
         
+    }
+    
+    override func viewDidLayoutSubviews() {
+        // Our size is finalized. Do anything that depends on the size of the screen.
+
+        centerThePlayer()
+    }
+    
+    func centerThePlayer() {
         
+        // Get the center point of the screen, in pixels
+        let half : (w:Int, h:Int) = (Int(gameVC.view.frame.width / 2), Int(gameVC.view.frame.height / 2))
+        
+        // Get the player's offset into the world, in pixels
+        let offset : (w:Int, h:Int) = (
+            w: game.playerMob.coords.x * GameScene.cellSize.w,
+            h: game.playerMob.coords.y * GameScene.cellSize.h)
+        
+        // Move the root object (camera) to put the player in the center.
+        gameVC.scene.camera.position = CGPoint(
+            x: -offset.w + half.w  - GameScene.cellSize.w/2,
+            y: -offset.h + half.h  - GameScene.cellSize.h/2)
         
     }
     
@@ -89,23 +111,7 @@ class MainViewController: UIViewController {
         
         game.takeTurnWithAction(action)
         
-        let scenesize : (w:Int, h:Int) = (
-            game.level.mapSize.w * Int(GameScene.cellSize.w),
-            game.level.mapSize.h * Int(GameScene.cellSize.h))
-        
-        let half : (w:Int, h:Int) = (Int(gameVC.view.frame.width / 2), Int(gameVC.view.frame.height / 2))
-        
-        let offset : (w:Int, h:Int) = (
-            w: min(scenesize.w - half.w, max(half.w, game.playerMob.coords.x * GameScene.cellSize.w)),
-            h: min(scenesize.h - half.h, max(half.h, game.playerMob.coords.y * GameScene.cellSize.h)))
-        
-        
-        gameVC.scene.camera.position = CGPoint(
-            x: -offset.w + half.w,
-            y: -offset.h + half.h)
-        
-        
-        
+        centerThePlayer()
     }    
     
     func clickArrowButton(button: UIButton){
