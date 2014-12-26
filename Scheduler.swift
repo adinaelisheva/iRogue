@@ -10,7 +10,7 @@ import Foundation
 
 
 enum Direction : UInt32 {
-    case UP = 0, DOWN, LEFT, RIGHT
+    case NONE=0, NORTH, SOUTH, WEST, EAST, NE, NW, SE, SW
 }
 
 class Action {
