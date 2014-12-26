@@ -53,7 +53,7 @@ class Game {
         _SharedInstance = self
         
         self.scene = scene // Must be initialized before creating any entities!
-        self.level = BasicLevel(w:32,h:24)
+        self.level = BasicLevel(w:64,h:24)
         
         self.playerMob = Mob(name: "Adinex", description: "A brave and noble adventurer", char: "@", color: UIColor.whiteColor())
         self.playerMob.sprite.zPosition = CGFloat(ZOrder.PLAYER.rawValue)

@@ -13,11 +13,13 @@ class GameScene: SKScene {
     
     let ascii = SKTexture(imageNamed: "characters")
     
+    let camera = SKNode()
+    
     func addEntity(e:Entity) -> EntitySKNode {
         //create the main character]
         let c = EntitySKNode(character: e.char, color: e.color, entity: e)
         c.size = CGSize(width: _cellSize.w, height: _cellSize.h)
-        self.addChild(c)
+        camera.addChild(c)
         
         return c
     }
@@ -25,6 +27,7 @@ class GameScene: SKScene {
     //kind of like a constructor - set up is in here
     override func didMoveToView(view: SKView) {
         self.backgroundColor = UIColor.blackColor()
+        self.addChild(camera)
     }
     
     override func didChangeSize(oldSize: CGSize) {
@@ -40,7 +43,6 @@ class GameScene: SKScene {
     override func update(currentTime: CFTimeInterval) {
         /* Called before each frame is rendered */
         
-        
     }
     
     func getCellPosFromCoords(coords : (x:Int,y:Int)) -> CGPoint {
@@ -48,9 +50,6 @@ class GameScene: SKScene {
         var y = (coords.y*_cellSize.h) + (_cellSize.h/2)
         return CGPoint(x:x,y:y)
     }
-    
-    
-
     
     func activityLog(str:String){
         if let mainvc = self.view?.window?.rootViewController as? MainViewController {

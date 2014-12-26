@@ -83,6 +83,23 @@ class MainViewController: UIViewController {
         
         game.takeTurnWithAction(action)
         
+        let scenesize : (w:Int, h:Int) = (
+            game.level.mapSize.w * Int(GameScene.cellSize.w),
+            game.level.mapSize.h * Int(GameScene.cellSize.h))
+        
+        let half : (w:Int, h:Int) = (Int(gameVC.view.frame.width / 2), Int(gameVC.view.frame.height / 2))
+        
+        let offset : (w:Int, h:Int) = (
+            w: min(scenesize.w - half.w, max(half.w, game.playerMob.coords.x * GameScene.cellSize.w)),
+            h: min(scenesize.h - half.h, max(half.h, game.playerMob.coords.y * GameScene.cellSize.h)))
+        
+        
+        gameVC.scene.camera.position = CGPoint(
+            x: -offset.w + half.w,
+            y: -offset.h + half.h)
+        
+        
+        
     }    
     
     func clickArrowButton(button: UIButton){

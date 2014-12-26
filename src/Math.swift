@@ -76,10 +76,12 @@ class Math {
 
         var y = 0
         
-        var line : [Point] = []
+        var line = [Point](count: delta.x+1, repeatedValue:(0,0))
         
         for x in 0...delta.x {
-            line.append( Point(x,y) )
+            line[x].x = x
+            line[x].y = y
+            
             error += deltaerr
             if error >= 0.5 {
                 y = y + 1
