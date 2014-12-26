@@ -13,6 +13,10 @@ class MainViewController: UIViewController {
     @IBOutlet weak var downButton: UIButton!
     @IBOutlet weak var rightButton: UIButton!
     @IBOutlet weak var leftButton: UIButton!
+    @IBOutlet weak var nwButton: UIButton!
+    @IBOutlet weak var neButton: UIButton!
+    @IBOutlet weak var swButton: UIButton!
+    @IBOutlet weak var seButton: UIButton!
     
     @IBOutlet weak var itemsButton: UIButton!
     @IBOutlet weak var magicButton: UIButton!
@@ -26,32 +30,34 @@ class MainViewController: UIViewController {
     @IBOutlet weak var mpLabel: UILabel!
     
     
-    @IBAction func upClicked(sender: UIButton) {
+    @IBAction func dirClicked(sender: UIButton) {
         
-        takeTurnWithAction(Action(direction: Direction.UP))
+        var dir: Direction;
+        switch(sender){
+            case upButton:
+                dir = Direction.NORTH
+            case downButton:
+                dir = Direction.SOUTH
+            case leftButton:
+                dir = Direction.WEST
+            case rightButton:
+                dir = Direction.EAST
+            case seButton:
+                dir = Direction.SE
+            case swButton:
+                dir = Direction.SW
+            case neButton:
+                dir = Direction.NE
+            case nwButton:
+                dir = Direction.NW
+            default:
+                dir = Direction.NONE
+        }
+        
+        takeTurnWithAction(Action(direction: dir))
         
         clickArrowButton(sender)
     }
-
-    @IBAction func rightClicked(sender: UIButton) {
-        
-        takeTurnWithAction(Action(direction: Direction.RIGHT))
-        
-        clickArrowButton(sender)
-    }
-    @IBAction func downClicked(sender: UIButton) {
-
-        takeTurnWithAction(Action(direction: Direction.DOWN))
-        
-        clickArrowButton(sender)
-    }
-    @IBAction func leftClicked(sender: UIButton) {
-        
-        takeTurnWithAction(Action(direction: Direction.LEFT))
-        
-        clickArrowButton(sender)
-    }
-    
     
     @IBAction func itemsClicked(sender: AnyObject) {
     }

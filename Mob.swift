@@ -23,17 +23,33 @@ class Mob : Entity {
         var temp = (x:coords.x,y:coords.y)
         if let dir = action.direction? {
             switch dir {
-            case .UP:
+            case .NORTH:
                 temp.y++
                 break
-            case .DOWN:
+            case .SOUTH:
                 temp.y--
                 break
-            case .LEFT:
+            case .WEST:
                 temp.x--
                 break
-            case .RIGHT:
+            case .EAST:
                 temp.x++
+                break
+            case .NE:
+                temp.x++
+                temp.y++
+                break
+            case .NW:
+                temp.x--
+                temp.y++
+                break
+            case .SE:
+                temp.x++
+                temp.y--
+                break
+            case .SW:
+                temp.x--
+                temp.y--
                 break
             default:
                 break
