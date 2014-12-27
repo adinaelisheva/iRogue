@@ -11,6 +11,8 @@ import UIKit
 
 class Mob : Entity {
     
+    var inventory = [Item]()
+    
     func doAction(action:Action){
         var temp = (x:coords.x,y:coords.y)
         if let dir = action.direction? {

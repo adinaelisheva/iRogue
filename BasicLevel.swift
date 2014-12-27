@@ -171,6 +171,18 @@ class BasicLevel : Level {
             rooms[index] = room
         }
     }
+    
+    func newRandomItem() -> Item{
+        if let type = ItemTypes(rawValue:(arc4random_uniform(ItemTypes.LAST.rawValue))){
+            if let list = itemsMap[type]{
+                return list[Int(arc4random_uniform(UInt32(list.count)))]()
+            }
+            
+        }
+        return Money()
+    }
+    
+    
 }
 
 

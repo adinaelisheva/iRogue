@@ -14,7 +14,7 @@ class Entity {
     var name : String = "???"
     var description : String = "What is this mysterious object?"
     
-    var char : Character = "?" {
+    var char : Character = " " {
         didSet {
             self.sprite.character = char
         }
