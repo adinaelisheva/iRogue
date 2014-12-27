@@ -10,7 +10,7 @@ import Foundation
 import UIKit
 
 class Mob : Entity {
-        
+        var inventory = [Item]()
     func AIAction() -> Action{
         
         //random walk

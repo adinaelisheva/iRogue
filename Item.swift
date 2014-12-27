@@ -9,6 +9,23 @@
 import Foundation
 import UIKit
 
+//ADD ANY NEW ITEMS YOU MAKE TO THESE LISTS
+//yes this is crude but deal with it
+enum ItemTypes : UInt32 {
+    case Food=0, Potion, Weapon, Scroll, Clothing, Ring, Amulet, Money, LAST
+}
+
+let itemsMap : [ItemTypes : [()->Item]] = [
+    ItemTypes.Food : [{Bread()}],
+    .Potion : [{potInvisibility()}],
+    .Weapon : [{Spear()}],
+    .Scroll : [{scrFear()}],
+    .Clothing : [{Shirt()}],
+    .Ring : [{ringHunger()}],
+    .Amulet : [{amSpeed()}],
+    .Money : [{Money()}]
+]
+
 class Item : Entity {
     
 }
@@ -78,8 +95,8 @@ class Amulet : Jewelry {
 //////
 
 class Money : Item {
-    init(name:String,description:String,color:UIColor){
-        super.init(name:name,description:description,char:"$",color:UIColor.yellowColor())
+    init(){
+        super.init(name:"money",description:"A pile of shiny gold coins!",char:"$",color:UIColor.yellowColor())
     }
 }
 
@@ -121,6 +138,11 @@ class ringHunger : Ring {
     }
 }
 
+class amSpeed : Amulet {
+    init(){
+        super.init(description:"A battered copper amulet",color:UIColor.brownColor())
+    }
+}
 
 
 
