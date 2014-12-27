@@ -79,4 +79,59 @@ class Game {
     }
     
     
+    // ACTION HANDLING
+    
+    func doAction(action: Action, mob: Mob){
+        
+        if let action = action as? MoveAction {
+            
+            var temp = (x:mob.coords.x,y:mob.coords.y)
+            if let dir = action.direction? {
+                switch dir {
+                case .NORTH:
+                    temp.y++
+                    break
+                case .SOUTH:
+                    temp.y--
+                    break
+                case .WEST:
+                    temp.x--
+                    break
+                case .EAST:
+                    temp.x++
+                    break
+                case .NE:
+                    temp.x++
+                    temp.y++
+                    break
+                case .NW:
+                    temp.x--
+                    temp.y++
+                    break
+                case .SE:
+                    temp.x++
+                    temp.y--
+                    break
+                case .SW:
+                    temp.x--
+                    temp.y--
+                    break
+                default:
+                    break
+                }
+            }
+            if level.isPassable(temp){
+                mob.coords = temp
+            } else {
+                // We ran into something. WalkInto it?
+                // TODO
+            }
+        } else if let action = action as? InteractAction {
+            action.interactWith.interact(mob)
+        }
+        
+        
+    }
+
+    
 }

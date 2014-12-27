@@ -83,8 +83,8 @@ class Stair : TerrainTile {
         interactable = "Climb"
     }
     
-    override func interact() {
-        Game.sharedInstance.Log("climbing stair")
+    override func interact(mob: Mob) {
+        Game.sharedInstance.Log("\(mob.name) climbs a stair")
     }
 }
 

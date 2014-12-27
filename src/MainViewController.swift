@@ -36,8 +36,9 @@ class MainViewController: UIViewController {
     
     @IBAction func dirClicked(sender: UIButton) {
         
-        var dir: Direction;
-        switch(sender){
+        var dir: Direction?
+        
+        switch(sender)  {
             case upButton:
                 dir = Direction.NORTH
             case downButton:
@@ -55,10 +56,10 @@ class MainViewController: UIViewController {
             case nwButton:
                 dir = Direction.NW
             default:
-                dir = Direction.NONE
+                dir = nil
         }
         
-        takeTurnWithAction(Action(direction: dir))
+        takeTurnWithAction(MoveAction(direction: dir))
         
         clickArrowButton(sender)
     }
@@ -72,7 +73,9 @@ class MainViewController: UIViewController {
     @IBAction func interactClicked(sender: AnyObject) {
 
         if interactables.count == 1 {
-            interactables.first!.interact()
+            
+            takeTurnWithAction(InteractAction(interactWith: interactables.first!))
+            
         } else if interactables.count > 1 {
             // TODO: Display a menu to interact with multiple things
             game.Log("Menu not implemented yet")
@@ -146,7 +149,6 @@ class MainViewController: UIViewController {
             interactButton.enabled = true
             interactButton.setTitle("x\(interactables.count)", forState: .Normal)
         }
-        
     }
     
     func takeTurnWithAction(action : Action) {

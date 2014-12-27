@@ -10,16 +10,28 @@ import Foundation
 
 
 enum Direction : UInt32 {
-    case NONE=0, NORTH, SOUTH, WEST, EAST, NE, NW, SE, SW
+    case NORTH, SOUTH, WEST, EAST, NE, NW, SE, SW
 }
 
-class Action {
+protocol Action {
+    
+}
+
+class MoveAction : Action {
     let direction : Direction?
     
-    init(direction:Direction) {
+    init(direction: Direction?) {
         self.direction = direction
     }
     
+}
+
+class InteractAction : Action {
+    let interactWith : Entity
+    
+    init(interactWith:Entity) {
+        self.interactWith = interactWith
+    }
 }
 
 class Scheduler {
@@ -29,9 +41,9 @@ class Scheduler {
         
         for entity in level.things as [Mob] {
             if entity === playerMob {
-                entity.doAction(action)
+                Game.sharedInstance.doAction(action, mob:entity)
             } else {
-                entity.doAction(entity.AIAction())
+                Game.sharedInstance.doAction(entity.AIAction(), mob:entity)
             }
         }
         
