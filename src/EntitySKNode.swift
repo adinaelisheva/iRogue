@@ -42,7 +42,6 @@ class EntitySKNode : SKSpriteNode {
         //        self.blendMode = SKBlendMode.Add
         self.colorBlendFactor = 1
         userInteractionEnabled = true
-        
     }
 
     override init() {

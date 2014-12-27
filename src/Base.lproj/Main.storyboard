@@ -46,7 +46,6 @@
                                 <state key="disabled" title=" "/>
                                 <connections>
                                     <action selector="interactClicked:" destination="Cmb-zM-rww" eventType="touchUpInside" id="t64-PA-zkS"/>
-                                    <segue destination="h7H-oz-Y2D" kind="custom" identifier="PileMenu" id="Pvb-Pb-KmS"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="590-tA-7Ie">
@@ -82,7 +81,7 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="w4n-gp-Z5z">
                                 <rect key="frame" x="0.0" y="395" width="600" height="160"/>
                                 <subviews>
-                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" bounces="NO" editable="NO" text="Welcome to iRogue v1.0.0 May the gods be with you, brave explorer! " selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZHk-Gq-AAx">
+                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" bounces="NO" editable="NO" text="May the gods be with you, brave explorer! Welcome to iRogue v1.0.0" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ZHk-Gq-AAx">
                                         <rect key="frame" x="8" y="8" width="584" height="144"/>
                                         <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
                                         <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
@@ -383,6 +382,7 @@
                         <outlet property="swButton" destination="ksd-zT-xr9" id="hTh-Wx-RwK"/>
                         <outlet property="upButton" destination="ah6-af-yEp" id="idE-nW-0Md"/>
                         <outlet property="xpLabel" destination="3qY-xd-bEZ" id="vmF-UE-vvO"/>
+                        <segue destination="h7H-oz-Y2D" kind="custom" identifier="PileMenu" id="mm0-Cv-n7u"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Npa-kh-6Q1" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -405,7 +405,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="SZV-WD-TEh" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="312" y="387"/>
+            <point key="canvasLocation" x="312" y="24.5"/>
         </scene>
         <!--Pile-->
         <scene sceneID="UQd-P3-Ygu">
@@ -450,7 +450,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vn5-su-RJ8" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="312" y="951"/>
+            <point key="canvasLocation" x="312" y="593"/>
         </scene>
     </scenes>
     <resources>

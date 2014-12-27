@@ -85,8 +85,10 @@ class BasicLevel : Level {
                 x = 2
             } else if rand < 97 {
                 x = 3
-            } else {
+            } else if rand < 100 {
                 x = 4
+            } else {
+                x = 100
             }
             for i in 0...x{
                 let it = getDistRandomItem()

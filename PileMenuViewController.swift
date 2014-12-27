@@ -33,7 +33,7 @@ class PileMenuViewController : UITableViewController {
         if (indexPath.row < self.items!.count) {
             // Display information about the item
             let item = items![indexPath.row]
-            cell.textLabel?.text = item.name
+            cell.textLabel?.text = item.interactable! + " " + item.name
             cell.detailTextLabel?.text = item.description
         } else {
             cell.textLabel?.text = ""

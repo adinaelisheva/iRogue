@@ -9,7 +9,6 @@ class MainViewController: UIViewController {
 
     // Items we're standing on that we can interact with
     var interactables = [Entity]()
-
     
     @IBOutlet weak var activityLog: UITextView!
     
@@ -87,8 +86,6 @@ class MainViewController: UIViewController {
 
         game = Game(scene: gameVC.scene)
         
-        updateInteractMenu()
-
         // Set up the logging system
         game.logCallback = log
         game.Log(activityLog.text)
@@ -97,6 +94,7 @@ class MainViewController: UIViewController {
         xpLabel.text = "XP:\(game.xp)"
         lvlLabel.text = "LVL:\(game.xpLevel)"
         
+        updateInteractMenu()
     }
     
     override func viewDidLayoutSubviews() {
@@ -124,6 +122,8 @@ class MainViewController: UIViewController {
     
     func updateInteractMenu() {
      
+        let lasttime = interactables
+        
         interactables = []
         
         let coord = game.playerMob.coords
@@ -139,15 +139,41 @@ class MainViewController: UIViewController {
             interactables.append(ent)
         }
         
-        // Depending on how many there are, set up the button.
-        if (interactables.count == 0) {
-            interactButton.enabled = false
-        } else if (interactables.count == 1) {
-            interactButton.enabled = true
-            interactButton.setTitle(interactables[0].interactable!, forState: .Normal)
+        if (interactables.count > 0) {
+            
+            // Are we seeing a different set of items?
+            // if they have different numbers of items, they're different
+            var different = interactables.count != lasttime.count
+            // Same items? See if each one is identical.
+            if !different {
+                for idx in 0..<interactables.count {
+                    if interactables[idx] !== lasttime[idx] { different = true }
+                }
+            }
+            
+            if different {
+                
+                // Print info about the pile if it is not what we saw last time.
+                var infotext = "Here is: "
+                for (i,item) in enumerate(interactables) {
+                    infotext += item.name
+                    if i < interactables.count - 1 {
+                        infotext += ", "
+                    }
+                }
+                game.Log(infotext)
+            }
+            
+            // Depending on how many there are, set up the button.
+            if (interactables.count == 1) {
+                interactButton.enabled = true
+                interactButton.setTitle(interactables[0].interactable!, forState: .Normal)
+            } else {
+                interactButton.enabled = true
+                interactButton.setTitle("x\(interactables.count)", forState: .Normal)
+            }
         } else {
-            interactButton.enabled = true
-            interactButton.setTitle("x\(interactables.count)", forState: .Normal)
+            interactButton.enabled = false
         }
     }
     
