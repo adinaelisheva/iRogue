@@ -28,11 +28,7 @@ class TerrainTile : Entity {
 }
 
 //alias for basic terrain tile
-class Floor : TerrainTile {
-    override init(coords:(x:Int,y:Int)){
-        super.init(coords:coords)
-    }
-}
+class Floor : TerrainTile {}
 
 class Wall : TerrainTile {
     override init(coords:(x:Int,y:Int)){

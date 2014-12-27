@@ -22,6 +22,7 @@ class Entity {
     
     // If non-nil, show up in the Interact menu.
     var interactable : String?
+    var properties = [String:Int]()
     
     var color : UIColor = UIColor.whiteColor()
     
@@ -46,7 +47,7 @@ class Entity {
     func touched() {
         Game.sharedInstance.Log(description)
     }
-    
+ 
     // This happens when we touch the item in the Interact menu.
     func interact() {
         Game.sharedInstance.Log("Don't know how to interact with \(name)")
