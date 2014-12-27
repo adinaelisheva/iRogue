@@ -36,6 +36,7 @@ class BasicLevel : Level {
                 if j == y-1 { mask = mask - Game.DoorMask.UP.rawValue }
                 
                 rooms.append(Room(x:i*roomSize,y:j*roomSize,setFunc:setTile,roomSize:roomSize, doorsMask:mask))
+                
             }
         }
         
@@ -69,6 +70,31 @@ class BasicLevel : Level {
         
         setTile(upStair)
         setTile(downStair)
+        
+        //add some random items per room - between 0 and 3
+        for r in rooms{
+            let rand = arc4random_uniform(100)
+            var x = 0
+            //calculate my own distribution:
+            //50% chance of 0 items, 30% 1, 10% 2, 7% 3, 3% 4
+            if rand < 50 {
+                x = 0
+            } else if rand < 80 {
+                x = 1
+            } else if rand < 90 {
+                x = 2
+            } else if rand < 97 {
+                x = 3
+            } else {
+                x = 4
+            }
+            for i in 0...x{
+                let it = getDistRandomItem()
+                it.coords = r.randomPoint()
+                things.append(it)
+            }
+        }
+        
         
     }
     
@@ -170,16 +196,6 @@ class BasicLevel : Level {
         if index < rooms.count{
             rooms[index] = room
         }
-    }
-    
-    func newRandomItem() -> Item{
-        if let type = ItemTypes(rawValue:(arc4random_uniform(ItemTypes.LAST.rawValue))){
-            if let list = itemsMap[type]{
-                return list[Int(arc4random_uniform(UInt32(list.count)))]()
-            }
-            
-        }
-        return Money()
     }
     
     

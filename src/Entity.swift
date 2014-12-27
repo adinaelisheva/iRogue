@@ -50,7 +50,7 @@ class Entity {
  
     // This happens when we touch the item in the Interact menu.
     func interact(mob: Mob) {
-        Game.sharedInstance.Log("Don't know how to interact with \(name)")
+        Game.sharedInstance.Log("Can't interact with \(name)")
     }
     
 }
