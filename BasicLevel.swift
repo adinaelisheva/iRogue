@@ -10,7 +10,11 @@ import Foundation
 
 class BasicLevel : Level {
     
-    override init(w:Int,h:Int){
+    // Stairs to/from this level
+    var upStair : TerrainTile?
+    var downStair : TerrainTile?
+    
+    init(w:Int,h:Int,level:Int) {
         
         //rooms default to 5x5, 2 blocks for walls, one for hallway
         let roomSize = 8
@@ -21,6 +25,7 @@ class BasicLevel : Level {
         
         super.init(w:x*roomSize,h:y*roomSize)
         numRooms = (w:x,h:y)
+        
         //iterate through and make rooms!
         for j in 0..<y {
             for i in 0..<x {
@@ -50,6 +55,20 @@ class BasicLevel : Level {
                 }
             }
         }
+        
+        
+        // Find places for up/down stairs
+        let uproom = rooms[Int(arc4random_uniform(UInt32(rooms.count)))]
+        let dnroom = rooms[Int(arc4random_uniform(UInt32(rooms.count)))]
+        
+        let uppos = uproom.randomPoint()
+        let dnpos = dnroom.randomPoint()
+        
+        upStair = Stair(coords: uppos, fromLvl: level, toLvl: level - 1)
+        downStair = Stair(coords: dnpos, fromLvl: level, toLvl: level + 1)
+        
+        setTile(upStair)
+        setTile(downStair)
         
     }
     
