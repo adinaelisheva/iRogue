@@ -43,7 +43,7 @@ class Room {
         }
         
         
-        area = (x+1,y+1,x+roomW-1,y+roomH-1)
+        area = (x+1,y+1,x+roomW-3,y+roomH-3)
         
         //add doors
         if(doorsMask & Game.DoorMask.UP.rawValue > 0){
