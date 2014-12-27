@@ -72,13 +72,12 @@ class MainViewController: UIViewController {
     }
     @IBAction func interactClicked(sender: AnyObject) {
 
+        // If only one item is on our cell, do its action
         if interactables.count == 1 {
-            
             takeTurnWithAction(InteractAction(interactWith: interactables.first!))
-            
         } else if interactables.count > 1 {
-            // TODO: Display a menu to interact with multiple things
-            game.Log("Menu not implemented yet")
+            // Display the item pile UI for multiple items
+            self.performSegueWithIdentifier("PileMenu", sender: self)
         }
         
     }
@@ -130,16 +129,17 @@ class MainViewController: UIViewController {
         let coord = game.playerMob.coords
         let tile = game.level.getTileAt(coord)
         
-        
+        // Can we do something with the tile? Put it first in the list.
         if tile?.interactable != nil {
             interactables.append(tile!)
         }
         
+        // Now put all remaining items/mobs/etc on the list.
         for ent in game.level.things.filter({ $0.interactable != nil && $0.coords.x == coord.x && $0.coords.y == coord.y }) {
             interactables.append(ent)
         }
         
-        
+        // Depending on how many there are, set up the button.
         if (interactables.count == 0) {
             interactButton.enabled = false
         } else if (interactables.count == 1) {
@@ -194,7 +194,13 @@ class MainViewController: UIViewController {
     {
         var name = segue.identifier
         if name == "gameview" {
+            // We are embedding the game VC; set up references.
             gameVC = segue.destinationViewController as GameViewController;
+        } else if name == "PileMenu" {
+            // We're popping up the pile menu; set up its references.
+            let menu = segue.destinationViewController as PileMenuViewController
+            menu.items = interactables
+            menu.mvc = self
         }
     }
     

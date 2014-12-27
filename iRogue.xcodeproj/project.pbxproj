@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		1513D1B91A17DDF4009A778D /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1513D1B81A17DDF4009A778D /* MainViewController.swift */; };
+		1529415F1A4E607F00B1830F /* PileMenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1529415E1A4E607F00B1830F /* PileMenuViewController.swift */; };
 		156AE8451A26893700D775C7 /* Scheduler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 156AE8441A26893700D775C7 /* Scheduler.swift */; };
 		156AE8471A268E6E00D775C7 /* Level.swift in Sources */ = {isa = PBXBuildFile; fileRef = 156AE8461A268E6E00D775C7 /* Level.swift */; };
 		156AE8491A26AC2300D775C7 /* EntitySKNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 156AE8481A26AC2300D775C7 /* EntitySKNode.swift */; };
@@ -42,6 +43,7 @@
 
 /* Begin PBXFileReference section */
 		1513D1B81A17DDF4009A778D /* MainViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MainViewController.swift; path = src/MainViewController.swift; sourceTree = SOURCE_ROOT; };
+		1529415E1A4E607F00B1830F /* PileMenuViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PileMenuViewController.swift; sourceTree = SOURCE_ROOT; };
 		156AE8441A26893700D775C7 /* Scheduler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Scheduler.swift; sourceTree = SOURCE_ROOT; };
 		156AE8461A268E6E00D775C7 /* Level.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Level.swift; sourceTree = SOURCE_ROOT; };
 		156AE8481A26AC2300D775C7 /* EntitySKNode.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = EntitySKNode.swift; path = src/EntitySKNode.swift; sourceTree = SOURCE_ROOT; };
@@ -135,6 +137,7 @@
 				C6A6BE341A17CD81004ED2E9 /* GameViewController.swift */,
 				1513D1B81A17DDF4009A778D /* MainViewController.swift */,
 				C6A6BE351A17CD81004ED2E9 /* Images.xcassets */,
+				1529415E1A4E607F00B1830F /* PileMenuViewController.swift */,
 			);
 			name = UI;
 			sourceTree = "<group>";
@@ -312,6 +315,7 @@
 				15CFF80A1A27B1AE00A7938A /* Math.swift in Sources */,
 				C6A6BE3B1A17CD81004ED2E9 /* GameScene.swift in Sources */,
 				C6E378AF1A268DBE00DBCDC5 /* Entity.swift in Sources */,
+				1529415F1A4E607F00B1830F /* PileMenuViewController.swift in Sources */,
 				C6E378AB1A26888400DBCDC5 /* Game.swift in Sources */,
 				156AE8471A268E6E00D775C7 /* Level.swift in Sources */,
 				C6E378B51A29080C00DBCDC5 /* Room.swift in Sources */,
