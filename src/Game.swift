@@ -53,7 +53,7 @@ class Game {
         _SharedInstance = self
         
         self.scene = scene // Must be initialized before creating any entities!
-        self.level = BasicLevel(w:64,h:24)
+        self.level = BasicLevel(w:64,h:24,level: 1)
         
         self.playerMob = Mob(name: "Adinex", description: "A brave and noble adventurer", char: "@", color: UIColor.whiteColor())
         self.playerMob.sprite.zPosition = CGFloat(ZOrder.PLAYER.rawValue)
@@ -63,8 +63,8 @@ class Game {
         //add test items
         level.things.append(playerMob)
         level.things.append(aiMob)
-        aiMob.coords = (2,2)
-        playerMob.coords = (3,3)
+        aiMob.coords = (level as BasicLevel).downStair!.coords
+        playerMob.coords = (level as BasicLevel).upStair!.coords
         
         level.computeVisibilityFrom(playerMob.coords)
         level.updateSprites()

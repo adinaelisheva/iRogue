@@ -11,9 +11,21 @@ import Foundation
 class Room {
     var doors : [Game.DoorMask : Math.Point] = [:]
     
+    // This is the area of the floor. You can place things within these points inclusive
+    let area : (x1:Int, y1:Int, x2:Int, y2:Int)
+    
+    func randomPoint() -> (x:Int, y:Int) {
+        return (
+            Int(arc4random_uniform(UInt32(area.x2 - area.x1 + 1))) + area.x1,
+            Int(arc4random_uniform(UInt32(area.y2 - area.y1 + 1))) + area.y1)
+    }
+    
     init(x:Int,y:Int,setFunc:(TerrainTile?)->(),roomSize:Int,doorsMask:Int) {
+
         var roomW = roomSize
         var roomH = roomSize
+        
+        
         //minimum size for a room is 3 floors, 2 walls, and 1 hallway = 6
         if roomSize > 6{
             roomW = Int(arc4random_uniform(UInt32(roomSize - 5))) + 6
@@ -29,6 +41,9 @@ class Room {
                 }
             }
         }
+        
+        
+        area = (x+1,y+1,x+roomW-1,y+roomH-1)
         
         //add doors
         if(doorsMask & Game.DoorMask.UP.rawValue > 0){
