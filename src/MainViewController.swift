@@ -6,6 +6,10 @@ class MainViewController: UIViewController {
     
     weak var gameVC: GameViewController!
     weak var game: Game!
+
+    // Items we're standing on that we can interact with
+    var interactables = [Entity]()
+
     
     @IBOutlet weak var activityLog: UITextView!
     
@@ -21,7 +25,7 @@ class MainViewController: UIViewController {
     @IBOutlet weak var itemsButton: UIButton!
     @IBOutlet weak var magicButton: UIButton!
     @IBOutlet weak var religionButton: UIButton!
-    @IBOutlet weak var miscButton: UIButton!
+    @IBOutlet weak var interactButton: UIButton!
     
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var lvlLabel: UILabel!
@@ -65,7 +69,15 @@ class MainViewController: UIViewController {
     }
     @IBAction func religionClicked(sender: AnyObject) {
     }
-    @IBAction func miscClicked(sender: AnyObject) {
+    @IBAction func interactClicked(sender: AnyObject) {
+
+        if interactables.count == 1 {
+            interactables.first!.interact()
+        } else if interactables.count > 1 {
+            // TODO: Display a menu to interact with multiple things
+            game.Log("Menu not implemented yet")
+        }
+        
     }
     
     override func viewDidLoad() {
@@ -73,7 +85,8 @@ class MainViewController: UIViewController {
 
         game = Game(scene: gameVC.scene)
         
-        
+        updateInteractMenu()
+
         // Set up the logging system
         game.logCallback = log
         game.Log(activityLog.text)
@@ -107,10 +120,40 @@ class MainViewController: UIViewController {
         
     }
     
+    func updateInteractMenu() {
+     
+        interactables = []
+        
+        let coord = game.playerMob.coords
+        let tile = game.level.getTileAt(coord)
+        
+        
+        if tile?.interactable != nil {
+            interactables.append(tile!)
+        }
+        
+        for ent in game.level.things.filter({ $0.interactable != nil && $0.coords.x == coord.x && $0.coords.y == coord.y }) {
+            interactables.append(ent)
+        }
+        
+        
+        if (interactables.count == 0) {
+            interactButton.enabled = false
+        } else if (interactables.count == 1) {
+            interactButton.enabled = true
+            interactButton.setTitle(interactables[0].interactable!, forState: .Normal)
+        } else {
+            interactButton.enabled = true
+            interactButton.setTitle("x\(interactables.count)", forState: .Normal)
+        }
+        
+    }
+    
     func takeTurnWithAction(action : Action) {
         
         game.takeTurnWithAction(action)
         
+        updateInteractMenu()
         centerThePlayer()
     }    
     

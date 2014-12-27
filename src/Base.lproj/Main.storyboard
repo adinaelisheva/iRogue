@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6254" systemVersion="13F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="Cmb-zM-rww">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6254" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="Cmb-zM-rww">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
@@ -32,7 +32,7 @@
                                     <action selector="itemsClicked:" destination="Cmb-zM-rww" eventType="touchUpInside" id="Cnq-pV-gHZ"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nNk-Jk-CTN">
+                            <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="nNk-Jk-CTN">
                                 <rect key="frame" x="450" y="550" width="150" height="50"/>
                                 <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
@@ -43,8 +43,9 @@
                                     <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
                                 </state>
+                                <state key="disabled" title=" "/>
                                 <connections>
-                                    <action selector="miscClicked:" destination="Cmb-zM-rww" eventType="touchUpInside" id="lMk-er-wbY"/>
+                                    <action selector="interactClicked:" destination="Cmb-zM-rww" eventType="touchUpInside" id="t64-PA-zkS"/>
                                 </connections>
                             </button>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="590-tA-7Ie">
@@ -366,11 +367,11 @@
                         <outlet property="activityLog" destination="ZHk-Gq-AAx" id="n88-yO-jg9"/>
                         <outlet property="downButton" destination="Rbs-Zv-rqU" id="5Qr-0E-Rbv"/>
                         <outlet property="hpLabel" destination="KSq-sq-hzW" id="Ds8-lu-s8e"/>
+                        <outlet property="interactButton" destination="nNk-Jk-CTN" id="j8h-vM-ek4"/>
                         <outlet property="itemsButton" destination="wYK-Vw-Pcs" id="raH-Jc-gMz"/>
                         <outlet property="leftButton" destination="W0z-fW-3ci" id="PGF-Xm-6N8"/>
                         <outlet property="lvlLabel" destination="TTV-Wk-jeU" id="yui-EC-5Df"/>
                         <outlet property="magicButton" destination="SdH-Ib-EYY" id="pUE-zF-Jmd"/>
-                        <outlet property="miscButton" destination="nNk-Jk-CTN" id="Hzp-gq-oZy"/>
                         <outlet property="mpLabel" destination="La0-1J-cjI" id="4wZ-Nu-2G5"/>
                         <outlet property="nameLabel" destination="9jb-eN-hbc" id="qel-Vs-jW7"/>
                         <outlet property="neButton" destination="NoJ-u1-59Y" id="hhc-ns-IqZ"/>

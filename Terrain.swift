@@ -77,12 +77,18 @@ class Door : TerrainTile {
 class Stair : TerrainTile {
     var fromLvl : Int = 0
     var toLvl : Int = 0
-    
+
     init(coords:(x:Int,y:Int), fromLvl:Int, toLvl:Int){
         super.init(coords:coords)
         name = "stair"
         description = "A stair to level \(toLvl)"
         char = (toLvl > fromLvl) ? ">" : "<"
+        
+        interactable = "Climb"
+    }
+    
+    override func interact() {
+        Game.sharedInstance.Log("climbing stair")
     }
 }
 

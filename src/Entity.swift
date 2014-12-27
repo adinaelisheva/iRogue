@@ -20,6 +20,9 @@ class Entity {
         }
     }
     
+    // If non-nil, show up in the Interact menu.
+    var interactable : String?
+    
     var color : UIColor = UIColor.whiteColor()
     
     var coords : (x:Int,y:Int) = (0,0)
@@ -39,10 +42,14 @@ class Entity {
         sprite.removeFromParent()
     }
     
+    // This is called when the user taps us.
     func touched() {
         Game.sharedInstance.Log(description)
     }
- 
     
+    // This happens when we touch the item in the Interact menu.
+    func interact() {
+        Game.sharedInstance.Log("Don't know how to interact with \(name)")
+    }
     
 }
