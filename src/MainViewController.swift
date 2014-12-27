@@ -115,14 +115,27 @@ class MainViewController: UIViewController {
     }    
     
     func clickArrowButton(button: UIButton){
-        UIView.animateWithDuration(0.1,
+
+        // fancy way to animate the button fading in and out
+        // basically what you need to know is:
+        // duration of total in-and-out is 0.1s, so 0.05s each
+        // alpha fades to 0.2 and back to 0.1
+        // .AllowUserInteraction allows the button to be clicked while animating
+        // 'success in' turns the completion block into a boolean function, which it expects
+
+        UIView.animateWithDuration(0.05,
+            delay: 0.0,
+            options: .AllowUserInteraction,
             animations: {
                 button.alpha = 0.2
-        })
-        UIView.animateWithDuration(0.1,
-            animations: {
-                button.alpha = 0.1
-        })
+            }, completion: { success in UIView.animateWithDuration(0.05,
+                delay: 0.0,
+                options: .AllowUserInteraction,
+                animations: {
+                    button.alpha = 0.1
+                },
+                completion: nil
+            ); return })
     }
     
     func log(str:String) {

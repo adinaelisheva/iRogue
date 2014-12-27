@@ -20,6 +20,8 @@ class Entity {
         }
     }
     
+    var properties = [String:Int]()
+    
     var color : UIColor = UIColor.whiteColor()
     
     var coords : (x:Int,y:Int) = (0,0)

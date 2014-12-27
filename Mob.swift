@@ -11,14 +11,6 @@ import UIKit
 
 class Mob : Entity {
     
-    var properties = [String:Int]()
-    
-    override init(name:String?, description:String?, char:Character?, color:UIColor?) {
-        
-        super.init(name:name, description:description, char:char, color:color)
-        
-    }
-    
     func doAction(action:Action){
         var temp = (x:coords.x,y:coords.y)
         if let dir = action.direction? {
