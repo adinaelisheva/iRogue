@@ -10,13 +10,22 @@ import Foundation
 import UIKit
 
 class Mob : Entity {
-        var inventory = [Item]()
+    var inventory = [Item]()
+    
+    var gold = 0
+
     func AIAction() -> Action{
         
         //random walk
         var dir = Direction(rawValue:arc4random_uniform(4))
         
         return MoveAction(direction:dir!)
+        
+    }
+    
+    func pickup(item:Item){
+        inventory.append(item)
+        Game.sharedInstance.Log("\(name) picked up \(item.name)")
         
     }
     

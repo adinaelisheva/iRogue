@@ -39,11 +39,13 @@ class Scheduler {
     func doTurn(level: Level, action: Action, playerMob: Mob) {
         // For every mob in the level, perform an action. The player mob performs 'action'
         
-        for entity in level.things as [Mob] {
-            if entity === playerMob {
-                Game.sharedInstance.doAction(action, mob:entity)
-            } else {
-                Game.sharedInstance.doAction(entity.AIAction(), mob:entity)
+        for entity in level.things {
+            if let mob = entity as? Mob{
+                if mob === playerMob {
+                    Game.sharedInstance.doAction(action, mob:mob)
+                } else {
+                    Game.sharedInstance.doAction(mob.AIAction(), mob:mob)
+                }
             }
         }
         

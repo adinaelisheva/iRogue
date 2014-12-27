@@ -26,8 +26,64 @@ let itemsMap : [ItemTypes : [()->Item]] = [
     .Money : [{Money()}]
 ]
 
+func getPurelyRandomItem() -> Item{
+    if let type = ItemTypes(rawValue:(arc4random_uniform(ItemTypes.LAST.rawValue))){
+        if let list = itemsMap[type]{
+            return list[Int(arc4random_uniform(UInt32(list.count)))]()
+        }
+        
+    }
+    return Money()
+}
+
+//this follows a better distribution. Will need to be edited if more item types are added
+func getDistRandomItem() -> Item{
+    let x = arc4random_uniform(100)
+    var type : ItemTypes
+    //custom distribution: 20% clothes, 20% weapon, 15% scroll, 15% potion, 15% food, 10% money, 3% ring, 2% amulet
+    if x < 20 {
+        type = .Clothing
+    } else if x < 40 {
+        type = .Weapon
+    } else if x < 55 {
+        type = .Scroll
+    } else if x < 70 {
+        type = .Potion
+    } else if x < 85 {
+        type = .Food
+    } else if x < 95 {
+        type = .Money
+    } else if x < 98 {
+        type = .Ring
+    } else {
+        type = .Amulet
+    }
+    if let list = itemsMap[type]{
+        return list[Int(arc4random_uniform(UInt32(list.count)))]()
+    }
+    return Money()
+}
+
 class Item : Entity {
+    override init(name: String?, description: String?, char: Character?, color: UIColor?) {
+        super.init(name:name,description:description,char:char,color:color)
+        interactable = "Pickup"
+    }
     
+    override func interact(mob: Mob) {
+        //tell the mob to deal with picking me up
+        mob.pickup(self)
+        removeSelfFromLevel()
+    }
+    func removeSelfFromLevel(){
+        for i in 0..<Game.sharedInstance.level.things.count{
+            if Game.sharedInstance.level.things[i] === self{
+                Game.sharedInstance.level.things.removeAtIndex(i)
+                remove()
+                return
+            }
+        }
+    }
 }
 
 //////
@@ -95,8 +151,29 @@ class Amulet : Jewelry {
 //////
 
 class Money : Item {
+    var amt : Int
     init(){
+        //more custom distributions
+        let x = arc4random_uniform(100)
+        if x < 50 {
+            //small pile, 0-40
+            amt = Int(arc4random_uniform(40))
+        } else if x < 75 {
+            //medium pile, 40-60
+            amt = 40 + Int(arc4random_uniform(20))
+        } else if x < 95 {
+            //large pile, 60-80
+            amt = 60 + Int(arc4random_uniform(20))
+        } else {
+            //giant pile! 80-100
+            amt = 80 + Int(arc4random_uniform(20))
+        }
         super.init(name:"money",description:"A pile of shiny gold coins!",char:"$",color:UIColor.yellowColor())
+    }
+    override func interact(mob: Mob) {
+        removeSelfFromLevel()
+        mob.gold += amt
+        Game.sharedInstance.Log("\(mob.name) got \(amt) coins - total \(mob.gold)")
     }
 }
 
