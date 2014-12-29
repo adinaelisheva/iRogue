@@ -8,19 +8,14 @@
 
 import Foundation
 
-
-enum Direction : UInt32 {
-    case NORTH, SOUTH, WEST, EAST, NE, NW, SE, SW
-}
-
 protocol Action {
     
 }
 
 class MoveAction : Action {
-    let direction : Direction?
+    let direction : Direction
     
-    init(direction: Direction?) {
+    init(direction: Direction) {
         self.direction = direction
     }
     
@@ -34,6 +29,16 @@ class InteractAction : Action {
     }
 }
 
+class AttackAction : Action {
+    let weapon : Weapon? // Nil means no weapon used?
+    let direction : Direction
+
+    init(direction: Direction, weapon: Weapon?) {
+        self.weapon = weapon
+        self.direction = direction
+    }
+}
+
 class Scheduler {
     
     func doTurn(level: Level, action: Action, playerMob: Mob) {
@@ -44,7 +49,10 @@ class Scheduler {
                 if mob === playerMob {
                     Game.sharedInstance.doAction(action, mob:mob)
                 } else {
-                    Game.sharedInstance.doAction(mob.AIAction(), mob:mob)
+                    // If AIAction returns nil, then it's waiting
+                    if let ai = mob.AIAction()? {
+                        Game.sharedInstance.doAction(ai, mob:mob)
+                    }
                 }
             }
         }

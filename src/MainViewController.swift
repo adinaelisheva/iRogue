@@ -35,7 +35,7 @@ class MainViewController: UIViewController {
     
     @IBAction func dirClicked(sender: UIButton) {
         
-        var dir: Direction?
+        var dir: Direction
         
         switch(sender)  {
             case upButton:
@@ -55,7 +55,7 @@ class MainViewController: UIViewController {
             case nwButton:
                 dir = Direction.NW
             default:
-                dir = nil
+                return
         }
         
         takeTurnWithAction(MoveAction(direction: dir))

@@ -17,7 +17,7 @@ class Game {
     var xpLevel = 1
     var xp = 0 
     var playerMob : Mob!
-    var aiMob : Mob!
+    var aiMob : AIMob!
     
     enum ZOrder : UInt32 {
         case TERRAIN = 0, ITEM, MOB, PLAYER
@@ -28,7 +28,6 @@ class Game {
         case LEFT = 4
         case RIGHT = 8
     }
-    
     
     ///// LOGGING 
     
@@ -74,8 +73,11 @@ class Game {
         
         self.playerMob = Mob(name: "Adinex", description: "A brave and noble adventurer", char: "@", color: UIColor.whiteColor())
         self.playerMob.sprite.zPosition = CGFloat(ZOrder.PLAYER.rawValue)
-        self.aiMob = Mob(name: "AI", description: "A scary monster", char: "M", color: UIColor.greenColor())
+        
+        self.aiMob = AIMob(name: "AI", description: "A scary monster", char: "M", color: UIColor.greenColor())
         self.aiMob.sprite.zPosition = CGFloat(ZOrder.MOB.rawValue)
+        self.aiMob.state = .WaitForTarget
+        self.aiMob.target = self.playerMob
         
         //add test items
         level.things.append(playerMob)
@@ -102,41 +104,7 @@ class Game {
         
         if let action = action as? MoveAction {
             
-            var temp = (x:mob.coords.x,y:mob.coords.y)
-            if let dir = action.direction? {
-                switch dir {
-                case .NORTH:
-                    temp.y++
-                    break
-                case .SOUTH:
-                    temp.y--
-                    break
-                case .WEST:
-                    temp.x--
-                    break
-                case .EAST:
-                    temp.x++
-                    break
-                case .NE:
-                    temp.x++
-                    temp.y++
-                    break
-                case .NW:
-                    temp.x--
-                    temp.y++
-                    break
-                case .SE:
-                    temp.x++
-                    temp.y--
-                    break
-                case .SW:
-                    temp.x--
-                    temp.y--
-                    break
-                default:
-                    break
-                }
-            }
+            var temp = (x:mob.coords.x,y:mob.coords.y) + action.direction
             if level.isPassable(temp){
                 mob.coords = temp
             } else {

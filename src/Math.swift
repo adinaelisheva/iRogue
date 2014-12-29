@@ -8,14 +8,83 @@
 
 import Foundation
 
+typealias Coord = (x: Int, y: Int)
+
+enum Direction : UInt32 {
+    case NORTH, SOUTH, WEST, EAST, NE, NW, SE, SW
+}
+
+
+
+func + (coords: Coord, dir: Direction) -> Coord {
+    var temp = coords
+    switch dir {
+    case .NORTH:
+        temp.y++
+        break
+    case .SOUTH:
+        temp.y--
+        break
+    case .WEST:
+        temp.x--
+        break
+    case .EAST:
+        temp.x++
+        break
+    case .NE:
+        temp.x++
+        temp.y++
+        break
+    case .NW:
+        temp.x--
+        temp.y++
+        break
+    case .SE:
+        temp.x++
+        temp.y--
+        break
+    case .SW:
+        temp.x--
+        temp.y--
+        break
+        
+    }
+    return temp
+}
+
 class Math {
     
-    typealias Point = (x: Int, y: Int)
+    class func distance(a:Coord, b:Coord) -> Int {
+        // The chessboard distance between two points is the maximum
+        // of the distances along each axis/
+        return max( abs(a.x - b.x), abs(a.y - b.y) )
+    }
+    
+    class func changeDirection(dir: Direction, cw: Bool) -> Direction {
+        switch (dir) {
+        case .NORTH:
+            return cw ? .NE : .NW
+        case .SOUTH:
+            return cw ? .SW : .SE
+        case .WEST:
+            return cw ? .NW : .SW
+        case .EAST:
+            return cw ? .SE : .NE
+        case .NE:
+            return cw ? .EAST : .NORTH
+        case .NW:
+            return cw ? .NORTH : .WEST
+        case .SE:
+            return cw ? .SOUTH : .EAST
+        case .SW:
+            return cw ? .WEST : .SOUTH
+        }
+    }
     
     
-    // returns a Bresenham line between two points.
-    class func lineFrom(from:Point, to:Point) -> [Point] {
-        let d = Point((to.x - from.x), (to.y - from.y))
+    // returns a Bresenham line between two Coords.
+    class func lineFrom(from:Coord, to:Coord) -> [Coord] {
+        let d = Coord((to.x - from.x), (to.y - from.y))
         
         // Determine which octant direction our line goes to:
 //         \2|1/
@@ -68,7 +137,7 @@ class Math {
     }
     
     
-    private class func lineAlgorithm(delta:Point) -> [Point] {
+    private class func lineAlgorithm(delta:Coord) -> [Coord] {
         let deltax = Float(delta.x)
         let deltay = Float(delta.y)
         let deltaerr = fabs (deltay / deltax)
@@ -76,7 +145,7 @@ class Math {
 
         var y = 0
         
-        var line = [Point](count: delta.x+1, repeatedValue:(0,0))
+        var line = [Coord](count: delta.x+1, repeatedValue:(0,0))
         
         for x in 0...delta.x {
             line[x].x = x
@@ -94,32 +163,32 @@ class Math {
     }
     
     
-    private class func octantZero(p: Point, octant: Int) -> Point {
+    private class func octantZero(p: Coord, octant: Int) -> Coord {
         let x = p.x; let y = p.y
         switch(octant) {
-        case 0: return Point(x,y)
-        case 1: return Point(y,x)
-        case 2: return Point(y, -x)
-        case 3: return Point(-x, y)
-        case 4: return Point(-x, -y)
-        case 5: return Point(-y, -x)
-        case 6: return Point(-y, x)
-        case 7: return Point(x, -y)
-        default: return Point(0,0)
+        case 0: return Coord(x,y)
+        case 1: return Coord(y,x)
+        case 2: return Coord(y, -x)
+        case 3: return Coord(-x, y)
+        case 4: return Coord(-x, -y)
+        case 5: return Coord(-y, -x)
+        case 6: return Coord(-y, x)
+        case 7: return Coord(x, -y)
+        default: return Coord(0,0)
         }
     }
-    private class func octantUndo(p: Point, octant: Int) -> Point {
+    private class func octantUndo(p: Coord, octant: Int) -> Coord {
         let x = p.x; let y = p.y
         switch(octant) {
-        case 0: return Point(x,y)
-        case 1: return Point(y,x)
-        case 2: return Point(-y, x)
-        case 3: return Point(-x, y)
-        case 4: return Point(-x, -y)
-        case 5: return Point(-y, -x)
-        case 6: return Point(y, -x)
-        case 7: return Point(x, -y)
-        default: return Point(0,0)
+        case 0: return Coord(x,y)
+        case 1: return Coord(y,x)
+        case 2: return Coord(-y, x)
+        case 3: return Coord(-x, y)
+        case 4: return Coord(-x, -y)
+        case 5: return Coord(-y, -x)
+        case 6: return Coord(y, -x)
+        case 7: return Coord(x, -y)
+        default: return Coord(0,0)
         }
     }
     

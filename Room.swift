@@ -9,7 +9,7 @@
 import Foundation
 
 class Room {
-    var doors : [Game.DoorMask : Math.Point] = [:]
+    var doors : [Game.DoorMask : Coord] = [:]
     
     // This is the area of the floor. You can place things within these points inclusive
     let area : (x1:Int, y1:Int, x2:Int, y2:Int)

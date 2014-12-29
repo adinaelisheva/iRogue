@@ -56,7 +56,7 @@ class Level {
     }
     
     // Sets terrain visible flags from the given viewpoint
-    func computeVisibilityFrom(coord: Math.Point) {
+    func computeVisibilityFrom(coord: Coord) {
         
         // Set all things invisible
         for tile in map {
@@ -66,7 +66,7 @@ class Level {
         var minview = (x:coord.x - 5, y:coord.y - 5)
         var maxview = (x:coord.x + 5, y:coord.y + 5)
         
-        var perimiter : [Math.Point] = []
+        var perimiter : [Coord] = []
         // Build up a list of perimiter cells
         for x in (minview.x)...(maxview.x) {
             perimiter.append( (x:x, y:minview.y) )
@@ -139,7 +139,7 @@ class Level {
     
     
     // returns the shortest path between two points, or nil if no path.
-    func pathfindFrom(from:Math.Point, to:Math.Point) -> [Math.Point]? {
+    func pathfindFrom(from:Coord, to:Coord) -> [Coord]? {
 
         
         // all tiles' pathing fields are reset
@@ -204,7 +204,7 @@ class Level {
         // We've exited the scan
         if (success) {
             // build the return path
-            var list : [Math.Point] = []
+            var list : [Coord] = []
             while current.backtrace != nil {
                 list.append(current.coords)
                 current = current.backtrace

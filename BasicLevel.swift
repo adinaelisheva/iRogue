@@ -100,7 +100,7 @@ class BasicLevel : Level {
         
     }
     
-    func connectByHallway(d1:Math.Point?,d2:Math.Point?,vertical:Bool){
+    func connectByHallway(d1:Coord?,d2:Coord?,vertical:Bool){
         if d1 == nil || d2 == nil {
             return
         }
@@ -115,40 +115,40 @@ class BasicLevel : Level {
         let minX = min(p1.x,p2.x)
         
         //array for saving the path
-        var path : [Math.Point] = []
+        var path : [Coord] = []
         
         //draw the path itself as floor
         if vertical{
             let bend = (maxY+minY)/2
             for j in minY+1..<bend{
-                let p = Math.Point(x:p1.x,y:j)
+                let p = Coord(x:p1.x,y:j)
                 setTile(Floor(coords:p))
                 path.append(p)
             }
             for i in minX...maxX {
-                let p = Math.Point(x:i,y:bend)
+                let p = Coord(x:i,y:bend)
                 setTile(Floor(coords:p))
                 path.append(p)
             }
             for j in bend..<maxY{
-                let p = Math.Point(x:p2.x,y:j)
+                let p = Coord(x:p2.x,y:j)
                 setTile(Floor(coords:p))
                 path.append(p)
             }
         } else {
             let bend = (maxX+minX)/2
             for i in minX+1..<bend{
-                let p = Math.Point(x:i,y:p1.y)
+                let p = Coord(x:i,y:p1.y)
                 setTile(Floor(coords:p))
                 path.append(p)
             }
             for j in minY...maxY {
-                let p = Math.Point(x:bend,y:j)
+                let p = Coord(x:bend,y:j)
                 setTile(Floor(coords:p))
                 path.append(p)
             }
             for i in bend..<maxX{
-                let p = Math.Point(x:i,y:p2.y)
+                let p = Coord(x:i,y:p2.y)
                 setTile(Floor(coords:p))
                 path.append(p)
             }
