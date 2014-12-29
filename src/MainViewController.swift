@@ -209,10 +209,10 @@ class MainViewController: UIViewController {
             ); return })
     }
     
-    func log(str:String) {
+    func log(str:NSAttributedString) {
         //adding text to a non-selectable text field resets the font. THANKS COCOA
         activityLog.selectable = true
-        activityLog.text = str
+        activityLog.attributedText = str
         activityLog.selectable = false
     }
     

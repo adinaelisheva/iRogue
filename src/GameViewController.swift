@@ -35,6 +35,9 @@ class GameViewController: UIViewController {
             /* Sprite Kit applies additional optimizations to improve rendering performance */
             skView.ignoresSiblingOrder = true
             
+            // Allow touches on the scene itself
+            scene.userInteractionEnabled = true
+            
             /* Set the scale mode to scale to fit the window */
             scene.scaleMode = .ResizeFill
             

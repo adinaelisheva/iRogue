@@ -42,12 +42,7 @@ class Entity {
     func remove() {
         sprite.removeFromParent()
     }
-    
-    // This is called when the user taps us.
-    func touched() {
-        Game.sharedInstance.Log(description)
-    }
- 
+     
     // This happens when we touch the item in the Interact menu.
     func interact(mob: Mob) {
         Game.sharedInstance.Log("Can't interact with \(name)")

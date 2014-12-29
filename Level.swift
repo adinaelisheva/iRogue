@@ -63,15 +63,18 @@ class Level {
             tile?.visible = false
         }
         
+        var minview = (x:coord.x - 5, y:coord.y - 5)
+        var maxview = (x:coord.x + 5, y:coord.y + 5)
+        
         var perimiter : [Math.Point] = []
         // Build up a list of perimiter cells
-        for x in 0..<mapSize.w {
-            perimiter.append( (x:x, y:0) )
-            perimiter.append( (x:x, y:mapSize.h - 1) )
+        for x in (minview.x)...(maxview.x) {
+            perimiter.append( (x:x, y:minview.y) )
+            perimiter.append( (x:x, y:maxview.y) )
         }
-        for y in 0..<mapSize.h {
-            perimiter.append( (x:0, y:y) )
-            perimiter.append( (x:mapSize.w-1, y:y) )
+        for y in (minview.y)...(maxview.y) {
+            perimiter.append( (x:minview.x, y:y) )
+            perimiter.append( (x:maxview.x, y:y) )
         }
         
         for p in perimiter {

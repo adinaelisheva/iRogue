@@ -34,9 +34,26 @@ class Game {
     
     private var logMessages : [String] = []
     
-    var logCallback : ((String) -> Void)?;
-    var logString: String {
-        get { return "\n".join(logMessages.reverse()) }
+    var logCallback : ((NSAttributedString) -> Void)?;
+    var logString: NSAttributedString {
+        get {
+            let oldAttrs : [NSObject:AnyObject] = [
+                NSForegroundColorAttributeName: UIColor.grayColor(),
+                NSFontAttributeName: UIFont(name: "Menlo", size: CGFloat(12))!]
+            
+            let newAttrs : [NSObject:AnyObject] = [
+                NSForegroundColorAttributeName: UIColor.whiteColor(),
+                NSFontAttributeName: UIFont(name: "Menlo", size: CGFloat(12))!]
+            
+            var str = NSMutableAttributedString()
+            for (i, message) in enumerate(logMessages.reverse()) {
+                
+                var attrmessage = NSAttributedString(string: "\n"+message, attributes: (i == 0) ? newAttrs : oldAttrs)
+                
+                str.appendAttributedString(attrmessage)
+            }
+            return str
+        }
     }
     
     func Log(line : String) {

@@ -41,7 +41,7 @@ class EntitySKNode : SKSpriteNode {
         self.texture = textureForCharacter(character)?
         //        self.blendMode = SKBlendMode.Add
         self.colorBlendFactor = 1
-        userInteractionEnabled = true
+        userInteractionEnabled = false
     }
 
     override init() {
@@ -70,15 +70,6 @@ class EntitySKNode : SKSpriteNode {
                 self.color = entity.color
             }
         }
-    }
-    
-    override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
-
-        /* Fix this somehow...
-        self.color = UIColor(red:0.3,green:0.3,blue:0.3,alpha:1)
-        runAction(SKAction.colorizeWithColor(UIColor.blackColor(), colorBlendFactor: 1, duration: 0.1))
-        */
-        entity.touched()
     }
     
 }
