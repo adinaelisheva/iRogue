@@ -71,6 +71,7 @@ class Item : Entity {
     var type : ItemTypes
     
     var useString : String?
+    
     func useFn(ent : Entity) {
         if let mob = ent as? Mob{
             //this will have to be updated in the future with "put ons" etc
@@ -99,23 +100,34 @@ class Item : Entity {
     }
     
     func removeSelfFromLevel(){
-        var i = getOwnIndex(Game.sharedInstance.level.things)
-        if i != nil {
-            Game.sharedInstance.level.things.removeAtIndex(i!)
+        if let i = getOwnIndex(Game.sharedInstance.level.things)? {
+            Game.sharedInstance.level.things.removeAtIndex(i)
         }
         remove()
         return
     }
     
     func removeSelfFromInventory(mob : Mob){
-        if var arr = mob.inventory[type]?{
-            var i = getOwnIndex(arr)
-            if i != nil {
-               mob.inventory[type]!.removeAtIndex(i!)
+        if let arr = mob.inventory[type]?{
+            if let i = getOwnIndex(arr)? {
+               mob.inventory[type]!.removeAtIndex(i)
             }
         }
     }
     
+    func replaceSelfInInventory(mob:Mob,newIt:Item?){
+        if newIt == nil{
+            return removeSelfFromInventory(mob)
+        }
+        //abort if you're not the same type
+        if newIt!.type != type { return }
+        
+        if let arr = mob.inventory[type]?{
+            if let i = getOwnIndex(arr)?{
+                mob.inventory[type]![i] = newIt!
+            }
+        }
+    }
 
 }
 
@@ -166,6 +178,13 @@ class Weapon : Item {
     init(name:String,description:String,color:UIColor){
         super.init(name:name,description:description,char:")",color:color,type:.Weapon,use:"Equip")
     }
+    override func useFn(ent: Entity) {
+        super.useFn(ent)
+        if let mob = ent as? Mob {
+            replaceSelfInInventory(mob, newIt: mob.weapon)
+            mob.weapon = self
+        }
+    }
 }
 
 //consumables that have various effects
@@ -188,6 +207,13 @@ class Clothing : Item {
     init(name:String,description:String,color:UIColor){
         super.init(name:name,description:description,char:"[",color:color,type:.Clothing,use:"Equip")
     }
+    override func useFn(ent: Entity) {
+        super.useFn(ent)
+        if let mob = ent as? Mob {
+            replaceSelfInInventory(mob, newIt: mob.clothing)
+            mob.clothing = self
+        }
+    }
 }
 
 //equippables that have various effects
@@ -196,17 +222,35 @@ class Jewelry : Item {
         super.init(name:name,description:description,char:char,color:color,type:type,use:"Put on")
         autopickup = true
     }
+    
+    override func useFn(ent: Entity) {
+        super.useFn(ent)
+    }
 }
 
 class Ring : Jewelry {
     init(description:String,color:UIColor){
         super.init(name:"ring",description:description,char:"=",color:color,type:.Ring)
     }
+    override func useFn(ent: Entity) {
+        super.useFn(ent)
+        if let mob = ent as? Mob {
+            replaceSelfInInventory(mob, newIt: mob.ring)
+            mob.ring = self
+        }
+    }
 }
 
 class Amulet : Jewelry {
     init(description:String,color:UIColor){
         super.init(name:"amulet",description:description,char:"\"",color:color,type:.Amulet)
+    }
+    override func useFn(ent: Entity) {
+        super.useFn(ent)
+        if let mob = ent as? Mob {
+            replaceSelfInInventory(mob, newIt: mob.amulet)
+            mob.amulet = self
+        }
     }
 }
 
