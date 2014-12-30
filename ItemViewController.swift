@@ -21,7 +21,7 @@ class ItemViewController : UIViewController, UICollectionViewDelegate, UICollect
         
         let item = items[indexPath.row]
         
-        cell.ItemLabel.text = "\(item.char)\n\(item.name)"
+        cell.ItemLabel.text = "\(item.adjective) \(item.name)"
         switch(item.type){
         case .Food:
             cell.ItemLabel.textColor = UIColor.brownColor()
