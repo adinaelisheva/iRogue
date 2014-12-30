@@ -95,6 +95,7 @@ class MainViewController: UIViewController {
         
         game.UICallback = updateUI
         
+        game.logCallback = updateLabels
         game.Log(activityLog.text)
         
         nameLabel.text = game.playerMob.name

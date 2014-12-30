@@ -70,7 +70,13 @@ class Game {
         let message : String
     }
     
-    private var logMessages : [LogMessage] = []
+    var logCallback : ((Void)->Void)?
+    private var logMessages : [LogMessage] = [] {
+        didSet {
+            logCallback?()
+        }
+    }
+    
     
     var logString: NSAttributedString {
         get {
