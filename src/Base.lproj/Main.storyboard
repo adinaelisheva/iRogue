@@ -3,6 +3,7 @@
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
     </dependencies>
     <scenes>
         <!--Main View Controller-->
@@ -550,7 +551,71 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="VSj-XX-WtH" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-383" y="1169"/>
+            <point key="canvasLocation" x="-873" y="1185"/>
+        </scene>
+        <!--Description View Controller-->
+        <scene sceneID="d4f-m0-gdK">
+            <objects>
+                <viewController storyboardIdentifier="DescriptionView" id="aMN-fO-2rc" customClass="DescriptionViewController" customModule="iRogue" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="znw-hg-Bc5"/>
+                        <viewControllerLayoutGuide type="bottom" id="BRa-F7-k57"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="FvW-j4-PhJ">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="BRf-SI-AUI">
+                                <rect key="frame" x="16" y="28" width="568" height="514"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Item Description" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="r1l-CW-n8Q">
+                                        <rect key="frame" x="8" y="8" width="154.5" height="19"/>
+                                        <fontDescription key="fontDescription" name="Menlo-Regular" family="Menlo" pointSize="13"/>
+                                        <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstAttribute="trailing" secondItem="r1l-CW-n8Q" secondAttribute="trailing" constant="8" id="Jga-Bw-G4f"/>
+                                    <constraint firstItem="r1l-CW-n8Q" firstAttribute="top" secondItem="BRf-SI-AUI" secondAttribute="top" constant="8" id="Qyh-zJ-Zob"/>
+                                    <constraint firstItem="r1l-CW-n8Q" firstAttribute="leading" secondItem="BRf-SI-AUI" secondAttribute="leading" constant="8" id="ihC-Cy-GGo"/>
+                                </constraints>
+                            </scrollView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="oM1-DA-mlF">
+                                <rect key="frame" x="450" y="550" width="150" height="50"/>
+                                <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="7K8-wW-VkS"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="Menlo-Regular" family="Menlo" pointSize="15"/>
+                                <state key="normal" title="Done">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <state key="disabled" title=" "/>
+                                <connections>
+                                    <action selector="DoneClicked:" destination="aMN-fO-2rc" eventType="touchUpInside" id="krw-II-TV1"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="oM1-DA-mlF" firstAttribute="width" secondItem="FvW-j4-PhJ" secondAttribute="width" multiplier="0.25" id="4Ib-jr-WCG"/>
+                            <constraint firstItem="BRa-F7-k57" firstAttribute="top" secondItem="oM1-DA-mlF" secondAttribute="bottom" id="McU-Rv-WGv"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="oM1-DA-mlF" secondAttribute="trailing" constant="-16" id="S0F-Y2-aeM"/>
+                            <constraint firstItem="oM1-DA-mlF" firstAttribute="top" secondItem="BRf-SI-AUI" secondAttribute="bottom" constant="8" id="aiF-56-vad"/>
+                            <constraint firstItem="BRf-SI-AUI" firstAttribute="leading" secondItem="FvW-j4-PhJ" secondAttribute="leadingMargin" id="i4a-sE-K41"/>
+                            <constraint firstItem="BRf-SI-AUI" firstAttribute="trailing" secondItem="FvW-j4-PhJ" secondAttribute="trailingMargin" id="rRd-Bj-K87"/>
+                            <constraint firstItem="BRf-SI-AUI" firstAttribute="top" secondItem="znw-hg-Bc5" secondAttribute="bottom" constant="8" id="w0m-3P-mjS"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="DescLabel" destination="r1l-CW-n8Q" id="u91-LP-LJs"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="8Cp-sH-I4W" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-178" y="1254"/>
         </scene>
         <!--Game View Controller-->
         <scene sceneID="tXr-a1-R10">
