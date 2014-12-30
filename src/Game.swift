@@ -132,7 +132,8 @@ class Game {
             let targets = level.things.filter({ $0 is Mob && $0.coords == targetsquare }) as [Mob]
             for target in targets {
                 target.hp--
-                Log("* \(mob.name) hits \(target.name)!")
+                let weaponname = mob.weapon?.name ?? "bare hands"
+                Log("* \(mob.name) hits \(target.name) with \(weaponname))")
             }
             
         }
