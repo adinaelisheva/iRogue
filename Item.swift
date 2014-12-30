@@ -90,25 +90,33 @@ class Item : Entity {
         mob.pickup(self)
         removeSelfFromLevel()
     }
-    func removeSelfFromLevel(){
-        for i in 0..<Game.sharedInstance.level.things.count{
-            if Game.sharedInstance.level.things[i] === self{
-                Game.sharedInstance.level.things.removeAtIndex(i)
-                remove()
-                return
-            }
+    
+    func getOwnIndex(arr : [AnyObject]) -> Int?{
+        for i in 0..<arr.count{
+            if arr[i] === self {return i}
         }
+        return nil
     }
+    
+    func removeSelfFromLevel(){
+        var i = getOwnIndex(Game.sharedInstance.level.things)
+        if i != nil {
+            Game.sharedInstance.level.things.removeAtIndex(i!)
+        }
+        remove()
+        return
+    }
+    
     func removeSelfFromInventory(mob : Mob){
         if var arr = mob.inventory[type]?{
-            for i in 0..<arr.count{
-                if arr[i] === self {
-                    mob.inventory[type]!.removeAtIndex(i)
-                    return
-                }
+            var i = getOwnIndex(arr)
+            if i != nil {
+               mob.inventory[type]!.removeAtIndex(i!)
             }
         }
     }
+    
+
 }
 
 //////
@@ -258,6 +266,7 @@ class Spear : Weapon {
     init(){
         super.init(name:"spear",description:"A pointy metal spear.",color:UIColor.grayColor())
     }
+    
 }
 
 class scrFear : Scroll {
@@ -270,14 +279,13 @@ class scrFear : Scroll {
         Game.sharedInstance.Log("Adinex's face becomes a terrifying mask!")
         let mobs = Game.sharedInstance.level.things.filter { (thing) -> Bool in
             if thing === ent { return false }
-            if !(thing is Mob) { return false } //later: AIMob
-            //TODO: use Alex's distance thing to make it only local mobs
+            if !(thing is AIMob) { return false }
+            if Math.distance(thing.coords,b:ent.coords) > 5 { return false }
             return true
         }
-        for mob in mobs{
-            //Later: "\(mob.name) flees!"
-            Game.sharedInstance.Log("\(mob.name) gives up the chase.")
-            //mob.state = .Flee
+        for mob in mobs as [AIMob]{
+            Game.sharedInstance.Log("\(mob.name) flees!")
+            mob.state = .FleeTarget
         }
         
         //TODO later: remembering scroll names
