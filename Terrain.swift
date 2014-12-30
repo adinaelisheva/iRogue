@@ -26,7 +26,6 @@ class TerrainTile : Entity {
     }
     
     func bump(mob: Mob) {
-        Game.sharedInstance.Log("Ow.")
     }
 }
 

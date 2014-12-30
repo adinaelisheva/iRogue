@@ -133,7 +133,7 @@ class Game {
             for target in targets {
                 target.hp--
                 let weaponname = mob.weapon?.name ?? "bare hands"
-                Log("* \(mob.name) hits \(target.name) with \(weaponname))")
+                Log("* \(mob.name) hits \(target.name) with \(weaponname)")
             }
             
         }
