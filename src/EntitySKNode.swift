@@ -59,7 +59,7 @@ class EntitySKNode : SKSpriteNode {
     func updateFromEntity() {
         self.position = Game.sharedInstance.scene.getCellPosFromCoords(entity.coords)
         
-        if let tile = Game.sharedInstance?.level?.getTileAt(entity.coords) {
+        if let tile = Game.sharedInstance?.level.getTileAt(entity.coords) {
             if !tile.visible {
                 if tile.seen {
                     self.color = UIColor.darkGrayColor()

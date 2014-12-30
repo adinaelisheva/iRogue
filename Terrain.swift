@@ -91,11 +91,40 @@ class Stair : TerrainTile {
         description = "A stair to level \(toLvl)"
         char = (toLvl > fromLvl) ? ">" : "<"
         
-        interactable = "Climb"
+        interactable = (toLvl > fromLvl) ? "Go Down" : "Go Up"
+        
+        self.fromLvl = fromLvl
+        self.toLvl = toLvl
     }
     
     override func interact(mob: Mob) {
-        Game.sharedInstance.Log("\(mob.name) climbs a stair")
+        
+        let oldlevel = Game.sharedInstance.level
+        
+        // Remove us from the old level
+        var i = 0
+        while i < oldlevel.things.count {
+            if oldlevel.things[i] === mob {
+                oldlevel.things.removeAtIndex(i)
+            } else {
+                i++
+            }
+        }
+
+        // Create / Select the next level
+        Game.sharedInstance.dlvl = toLvl
+        let level = Game.sharedInstance.level
+
+        // Place us in the right spot
+        if (toLvl > fromLvl) {
+            mob.coords = (level as BasicLevel).upStair!.coords
+        } else {
+            mob.coords = (level as BasicLevel).downStair!.coords
+        }
+
+        // Add us to the new level
+        level.things.append(mob)
+        
     }
 }
 

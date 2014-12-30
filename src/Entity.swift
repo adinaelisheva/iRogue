@@ -39,7 +39,15 @@ class Entity {
         self.sprite = Game.sharedInstance.scene.addEntity(self)
     }
     
-    func remove() {
+    // Adds the entity to the display
+    func show() {
+        if (sprite.parent != nil) { return }
+        Game.sharedInstance.scene.camera.addChild(sprite)
+    }
+    
+    // Removes the entity from teh display
+    func hide() {
+        if (sprite.parent == nil) { return }
         sprite.removeFromParent()
     }
      
