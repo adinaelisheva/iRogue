@@ -10,7 +10,10 @@ class Mob : Entity {
     var hp : Int = 0 {
         didSet {
             if hp > maxHP{ hp = maxHP }
-            if hp < 0 { hp = 0 }
+            if hp <= 0 {
+                hp = 0
+                Game.sharedInstance.kill(self)
+            }
         }
     }
     

@@ -144,6 +144,35 @@ class Game {
     }
     
     
+    // Called when a mob's HP drops to zero, or is otherwise killed
+    func kill(mob : Mob) {
+        
+        if mob === playerMob {
+            
+            Log("You die... (resetting HP for testing)")
+            
+            // TODO: get around to handling the endgame. For now we reset to maxhp.
+            mob.hp = mob.maxHP
+            
+        } else {
+            Log("\(mob.name) is killed! +\(mob.maxHP) XP")
+            xp += mob.maxHP
+            
+            // Put the mob's inventory onto the map
+            for (type,items) in mob.inventory {
+                for item in items {
+                    item.coords = mob.coords
+                    level.things.append(item)
+                    item.show()
+                }
+            }
+            
+            // Remove the mob
+            mob.removeSelfFromLevel()
+        }
+        
+    }
+    
     // ACTION HANDLING
     
     func doAction(action: Action, mob: Mob){
@@ -166,19 +195,19 @@ class Game {
         else if let action = action as? InteractAction { action.interactWith.interact(mob) }
         else if let action = action as? UseAction { action.item.useFn(mob) }
         else if let action = action as? AttackAction { doAttackAction(action, mob:mob) }
-            
-    }
         
-        func doAttackAction(action: AttackAction, mob: Mob) {
-            let targetsquare = mob.coords + action.direction
-            let targets = level.things.filter({ $0 is Mob && $0.coords == targetsquare }) as [Mob]
-            for target in targets {
-                let weaponname = mob.weapon?.name ?? "bare hands"
-                Log("* \(mob.name) hits \(target.name) with \(weaponname)")
+    }
+    
+    func doAttackAction(action: AttackAction, mob: Mob) {
+        let targetsquare = mob.coords + action.direction
+        let targets = level.things.filter({ $0 is Mob && $0.coords == targetsquare }) as [Mob]
+        for target in targets {
+            let weaponname = mob.weapon?.name ?? "bare hands"
+            Log("* \(mob.name) hits \(target.name) with \(weaponname)")
             target.hp--
-            }
-            
         }
+        
+    }
 
     
 }

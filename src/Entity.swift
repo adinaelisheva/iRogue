@@ -50,6 +50,21 @@ class Entity {
         if (sprite.parent == nil) { return }
         sprite.removeFromParent()
     }
+    
+    func getOwnIndex(arr : [AnyObject]) -> Int?{
+        for i in 0..<arr.count{
+            if arr[i] === self {return i}
+        }
+        return nil
+    }
+    
+    func removeSelfFromLevel(){
+        if let i = getOwnIndex(Game.sharedInstance.level.things)? {
+            Game.sharedInstance.level.things.removeAtIndex(i)
+        }
+        hide()
+        return
+    }
      
     // This happens when we touch the item in the Interact menu.
     func interact(mob: Mob) {

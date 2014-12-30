@@ -92,20 +92,6 @@ class Item : Entity {
         removeSelfFromLevel()
     }
     
-    func getOwnIndex(arr : [AnyObject]) -> Int?{
-        for i in 0..<arr.count{
-            if arr[i] === self {return i}
-        }
-        return nil
-    }
-    
-    func removeSelfFromLevel(){
-        if let i = getOwnIndex(Game.sharedInstance.level.things)? {
-            Game.sharedInstance.level.things.removeAtIndex(i)
-        }
-        hide()
-        return
-    }
     
     func removeSelfFromInventory(mob : Mob){
         if let arr = mob.inventory[type]?{

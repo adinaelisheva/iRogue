@@ -56,6 +56,10 @@ class Scheduler {
         
         for entity in level.things {
             if let mob = entity as? Mob{
+                // Don't let dead mobs do their actions.
+                if (mob.hp == 0) { continue }
+                
+                
                 if mob === playerMob {
                     Game.sharedInstance.doAction(action, mob:mob)
                 } else {
