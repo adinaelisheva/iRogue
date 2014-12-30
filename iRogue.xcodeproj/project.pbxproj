@@ -22,6 +22,7 @@
 		C6A6BE3D1A17CD81004ED2E9 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C6A6BE351A17CD81004ED2E9 /* Images.xcassets */; };
 		C6A6BE3E1A17CD81004ED2E9 /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = C6A6BE361A17CD81004ED2E9 /* Info.plist */; };
 		C6AA7D281A51DB2000D93C78 /* ItemViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6AA7D271A51DB2000D93C78 /* ItemViewController.swift */; };
+		C6CF0B3F1A535FD700BCE84A /* DescriptionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6CF0B3E1A535FD700BCE84A /* DescriptionViewController.swift */; };
 		C6E378AB1A26888400DBCDC5 /* Game.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6E378AA1A26888400DBCDC5 /* Game.swift */; };
 		C6E378AD1A268B5F00DBCDC5 /* Mob.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6E378AC1A268B5F00DBCDC5 /* Mob.swift */; };
 		C6E378AF1A268DBE00DBCDC5 /* Entity.swift in Sources */ = {isa = PBXBuildFile; fileRef = C6E378AE1A268DBE00DBCDC5 /* Entity.swift */; };
@@ -58,6 +59,7 @@
 		C6A6BE351A17CD81004ED2E9 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = src/Images.xcassets; sourceTree = SOURCE_ROOT; };
 		C6A6BE361A17CD81004ED2E9 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = src/Info.plist; sourceTree = SOURCE_ROOT; };
 		C6AA7D271A51DB2000D93C78 /* ItemViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ItemViewController.swift; sourceTree = SOURCE_ROOT; };
+		C6CF0B3E1A535FD700BCE84A /* DescriptionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DescriptionViewController.swift; sourceTree = SOURCE_ROOT; };
 		C6E378AA1A26888400DBCDC5 /* Game.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Game.swift; path = src/Game.swift; sourceTree = SOURCE_ROOT; };
 		C6E378AC1A268B5F00DBCDC5 /* Mob.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Mob.swift; sourceTree = SOURCE_ROOT; };
 		C6E378AE1A268DBE00DBCDC5 /* Entity.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = Entity.swift; path = src/Entity.swift; sourceTree = SOURCE_ROOT; };
@@ -139,6 +141,7 @@
 				C6A6BE341A17CD81004ED2E9 /* GameViewController.swift */,
 				1513D1B81A17DDF4009A778D /* MainViewController.swift */,
 				C6AA7D271A51DB2000D93C78 /* ItemViewController.swift */,
+				C6CF0B3E1A535FD700BCE84A /* DescriptionViewController.swift */,
 				C6A6BE351A17CD81004ED2E9 /* Images.xcassets */,
 				1529415E1A4E607F00B1830F /* PileMenuViewController.swift */,
 			);
@@ -328,6 +331,7 @@
 				C6A6BE3C1A17CD81004ED2E9 /* GameViewController.swift in Sources */,
 				C6E378B31A29039300DBCDC5 /* BasicLevel.swift in Sources */,
 				C6AA7D281A51DB2000D93C78 /* ItemViewController.swift in Sources */,
+				C6CF0B3F1A535FD700BCE84A /* DescriptionViewController.swift in Sources */,
 				1513D1B91A17DDF4009A778D /* MainViewController.swift in Sources */,
 				C6E378B11A29035300DBCDC5 /* Terrain.swift in Sources */,
 			);

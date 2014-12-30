@@ -72,6 +72,13 @@ class ItemViewController : UIViewController, UICollectionViewDelegate, UICollect
     @IBAction func DropClicked(sender: AnyObject) {
     }
     @IBAction func DetailsClicked(sender: AnyObject) {
+        if let ind = ItemCollection.indexPathsForSelectedItems().first as? NSIndexPath {
+            var VC = self.storyboard?.instantiateViewControllerWithIdentifier("DescriptionView") as DescriptionViewController
+            self.presentViewController(VC, animated: true, completion: nil)
+            let item = items[ind.row]
+            VC.DescLabel.text = "\(item.name) Description:\n\n\(item.description)"
+        }
+        
     }
     @IBAction func DoneClicked(sender: AnyObject) {
         self.dismissViewControllerAnimated(true, completion: nil)
