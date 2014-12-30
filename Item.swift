@@ -12,14 +12,14 @@ import UIKit
 //ADD ANY NEW ITEMS YOU MAKE TO THESE LISTS
 //yes this is crude but deal with it
 enum ItemTypes : UInt32 {
-    case Food=0, Potion, Weapon, Scroll, Clothing, Ring, Amulet, Money, LAST
+    case Food=0, Potion, Weapon, Scroll, Clothing, Ring, Amulet, Money, LAST, NONE
 }
 
 let itemsMap : [ItemTypes : [()->Item]] = [
     ItemTypes.Food : [{BreadRation()},{Apple()},{MeatRation()},{Pear()},{Choko()}],
-    .Potion : [{PotInvisibility()},{PotPoison()}],
-    .Weapon : [{Spear()}],
-    .Scroll : [{ScrFear()}],
+    .Potion : [{PotInvisibility()},{PotPoison()},{PotLevitation()},{PotMutation()},{PotStrength()},{PotWisdom()},{PotMagic()}],
+    .Weapon : [{Spear()},{Club()},{Sword()},{Mace()},{Pike()},{Machete()},{Trident()},{Katana()},{DeadFish()}],
+    .Scroll : [{getDistRandomScroll()}],
     .Clothing : [{Shirt()}],
     .Ring : [{RingHunger()}],
     .Amulet : [{AmSpeed()}],
@@ -64,25 +64,33 @@ func getDistRandomItem() -> Item{
     return Money()
 }
 
+func getDistRandomScroll() -> Scroll{
+    let x = arc4random_uniform(100)
+    if x < 100 {
+        return ScrFear()
+    }
+    return ScrFear()
+
+}
+
 class Item : Entity {
     
     var autopickup = false
     
-    var type : ItemTypes
-    
-    var useString : String?
+    var type = ItemTypes.NONE
+    var useString = "Use"
+    var adjective = "Generic"
     
     func useFn(ent : Entity) {
         if let mob = ent as? Mob{
             //this will have to be updated in the future with "put ons" etc
-            Game.sharedInstance.Log("\(mob.name) \(useString!.lowercaseString)s the \(name)")
+            Game.sharedInstance.Log("\(mob.name) \(useString.lowercaseString)s the \(name)")
         }
     }
     
-    init(name: String?, description: String?, char: Character?, color: UIColor?, type:ItemTypes, use:String) {
-        self.type = type
-        useString = use
+    init(name: String?, description: String?, char: Character?, color: UIColor?,type:ItemTypes) {
         super.init(name:name,description:description,char:char,color:color)
+        self.type = type
         interactable = "Pickup"
     }
     
@@ -143,8 +151,10 @@ class Food : Item {
     init(name:String,description:String,color:UIColor,hpEffect:Int){
         self.hpEffect = hpEffect
         //all food has char of '%'
-        super.init(name:name,description:description,char:"%",color:color,type:.Food,use:"Eat")
+        super.init(name:name,description:description,char:"%",color:color,type:.Food)
+        useString = "Eat"
         autopickup = true
+        adjective = "fresh"
     }
     
     override func useFn(ent : Entity) {
@@ -161,7 +171,8 @@ class Food : Item {
 class Potion : Item {
     init(description:String,color:UIColor){
         //all potions are just called 'potion' as a short name
-        super.init(name:"potion",description:description,char:"!",color:color,type:.Potion,use:"Drink")
+        super.init(name:"potion",description:description,char:"!",color:color,type:.Weapon)
+        useString = "Drink"
         autopickup = true
     }
     
@@ -176,8 +187,25 @@ class Potion : Item {
 //equippables that affect attack ability
 class Weapon : Item {
     init(name:String,description:String,color:UIColor){
-        super.init(name:name,description:description,char:")",color:color,type:.Weapon,use:"Equip")
+        super.init(name:name,description:description,char:")",color:color,type:.Weapon)
+        let x = arc4random_uniform(5)
+        if x == 0{
+            adjective = "wooden"
+            self.color = UIColor.brownColor()
+        } else if x == 1{
+            adjective = "copper"
+            self.color = UIColor(red: 0.85, green: 0.6, blue: 0.04, alpha: 1)
+        } else if x == 2{
+            adjective = "gold"
+            self.color = UIColor.yellowColor()
+        } else if x == 3{
+            adjective = "steel"
+        } else if x == 4{
+            adjective = "stone"
+        }
+        useString = "Equip"
     }
+
     override func useFn(ent: Entity) {
         super.useFn(ent)
         if let mob = ent as? Mob {
@@ -190,7 +218,8 @@ class Weapon : Item {
 //consumables that have various effects
 class Scroll : Item {
     init(description:String){
-        super.init(name:"scroll",description:description,char:"?",color:UIColor.whiteColor(),type:.Scroll,use:"Read")
+        super.init(name:"scroll",description:description,char:"?",color:UIColor.whiteColor(),type:.Scroll)
+        useString = "Read"
         autopickup = true
     }
     
@@ -205,7 +234,8 @@ class Scroll : Item {
 //equippables that affect AC, among other things
 class Clothing : Item {
     init(name:String,description:String,color:UIColor){
-        super.init(name:name,description:description,char:"[",color:color,type:.Clothing,use:"Equip")
+        super.init(name:name,description:description,char:"[",color:color,type:.Clothing)
+        useString="Equip"
     }
     override func useFn(ent: Entity) {
         super.useFn(ent)
@@ -219,7 +249,8 @@ class Clothing : Item {
 //equippables that have various effects
 class Jewelry : Item {
     init(name:String,description:String,char:Character,color:UIColor,type:ItemTypes){
-        super.init(name:name,description:description,char:char,color:color,type:type,use:"Put on")
+        super.init(name:name,description:description,char:char,color:color,type:type)
+        useString = "Put on"
         autopickup = true
     }
     
@@ -276,7 +307,8 @@ class Money : Item {
             //giant pile! 80-100
             amt = 80 + Int(arc4random_uniform(20))
         }
-        super.init(name:"money",description:"A pile of shiny gold coins!",char:"$",color:UIColor.yellowColor(),type:.Money,use:"Deposit")
+        super.init(name:"money",description:"A pile of shiny gold coins!",char:"$",color:UIColor.yellowColor(),type:.Money)
+        useString = "Deposit"
         autopickup = true
     }
     override func interact(mob: Mob) {
@@ -314,11 +346,28 @@ class Choko : Food {
         super.init(name:"choko",description:"A mystery... fruit?",color:UIColor.yellowColor(),hpEffect:3)
     }
 }
+class Cake : Food {
+    init(){
+        var flavor = "chocolate"
+        var color = UIColor.brownColor()
+        let x = arc4random_uniform(3)
+        if(x == 0) {
+            flavor = "vanilla"
+            color = UIColor.whiteColor()
+        } else if (x==1){
+            flavor = "strawberry"
+            color = UIColor(red: 0.94, green: 0.65, blue: 0.84, alpha: 1)
+        }
+        
+        super.init(name:"cake",description:"A moist piece of \(flavor) cake",color:color,hpEffect:4)
+    }
+}
 
 class PotInvisibility : Potion {
     init(){
         //later color and desc should be generated randomly, but consistent per session
         super.init(description:"A frothy white potion",color:UIColor.whiteColor())
+        adjective = "frothy white"
     }
     
     override func useFn(ent : Entity) {
@@ -331,6 +380,7 @@ class PotInvisibility : Potion {
 class PotPoison : Potion {
     init(){
         super.init(description:"A bubbly black potion",color:UIColor.grayColor())
+        adjective = "bubbly black"
     }
     
     override func useFn(ent : Entity) {
@@ -344,17 +394,143 @@ class PotPoison : Potion {
     }
 }
 
-class Spear : Weapon {
+
+class PotLevitation : Potion {
     init(){
-        super.init(name:"spear",description:"A pointy metal spear.",color:UIColor.grayColor())
+        super.init(description:"A sparkly blue potion",color:UIColor.blueColor())
+        adjective = "sparkly blue"
     }
     
+    override func useFn(ent : Entity) {
+        super.useFn(ent)
+        Game.sharedInstance.Log("\(ent.name) floats gently off the ground.\nIt was a potion of levitation.")
+        //TODO later: actually implement that
+    }
+}
+
+class PotMutation : Potion {
+    init(){
+        super.init(description:"A cloudy gray potion",color:UIColor.grayColor())
+        adjective = "cloudy gray"
+    }
+    
+    override func useFn(ent : Entity) {
+        super.useFn(ent)
+        Game.sharedInstance.Log("\(ent.name) feels strong.\n\(ent.name)'s eyes grow cloudy.\n\(ent.name)'s back stretches.\nIt was a potion of mutation.")
+        //TODO later: actually implement that
+    }
+}
+
+class PotStrength : Potion {
+    init(){
+        super.init(description:"A murky black potion",color:UIColor(red: 0.2, green: 0.2, blue: 0.2, alpha: 1))
+        adjective = "murky black"
+    }
+    
+    override func useFn(ent : Entity) {
+        super.useFn(ent)
+        Game.sharedInstance.Log("\(ent.name) feels strong!\nIt was a potion of strength.")
+        //TODO later: actually implement that
+    }
+    
+}
+
+class PotWisdom : Potion {
+    init(){
+        super.init(description:"A sparkly white potion",color:UIColor.whiteColor())
+        adjective = "sparkly white"
+    }
+    
+    override func useFn(ent : Entity) {
+        super.useFn(ent)
+        Game.sharedInstance.Log("\(ent.name) feels wise.\nIt was a potion of wisdom.")
+        //TODO later: actually implement that
+    }
+    
+}
+class PotMagic : Potion {
+    init(){
+        super.init(description:"A cloudy green potion",color:UIColor.greenColor())
+        adjective = "cloudy green"
+    }
+    
+    override func useFn(ent : Entity) {
+        super.useFn(ent)
+        Game.sharedInstance.Log("Magic rushes through \(ent.name)'s veins.\nIt was a potion of magic.")
+        //TODO later: actually implement that
+    }
+}
+
+
+class Spear : Weapon {
+    init(){
+        //child resets description after init
+        super.init(name:"spear",description:"",color:UIColor.grayColor())
+        description = "A pointy \(adjective) spear."
+    }
+}
+
+class Club : Weapon {
+    init(){
+        super.init(name:"spear",description:"",color:UIColor.grayColor())
+        description = "A hefty \(adjective) club."
+    }
+}
+
+class Sword : Weapon {
+    init(){
+        super.init(name:"spear",description:"",color:UIColor.grayColor())
+        description = "A sharp \(adjective) sword."
+    }
+}
+
+class Mace : Weapon {
+    init(){
+        super.init(name:"spear",description:"",color:UIColor.grayColor())
+        description = "A sturdy \(adjective) mace."
+    }
+}
+
+class Pike : Weapon {
+    init(){
+        super.init(name:"spear",description:"",color:UIColor.grayColor())
+        description = "A sharp \(adjective) pike."
+    }
+}
+
+class Machete : Weapon {
+    init(){
+        super.init(name:"spear",description:"",color:UIColor.grayColor())
+        description = "A wicked \(adjective) machete."
+    }
+}
+
+class Trident : Weapon {
+    init(){
+        super.init(name:"spear",description:"",color:UIColor.grayColor())
+        description = "A sharp \(adjective) trident."
+    }
+}
+
+class Katana : Weapon{
+    init(){
+        super.init(name:"katana",description:"",color:UIColor.grayColor())
+        description = "A thin \(adjective) katana."
+    }
+}
+
+class DeadFish : Weapon {
+    init(){
+        super.init(name:"dead fish",description:"A gross old fish? Really?",color:UIColor.blueColor())
+        adjective = "gross"
+    }
 }
 
 class ScrFear : Scroll {
     init(){
         //again, should be random in the future
         super.init(description:"A scroll labeled YABSLBAI.")
+        adjective = "YABSLBAI"
     }
     override func useFn(ent : Entity) {
         super.useFn(ent)
@@ -377,18 +553,21 @@ class ScrFear : Scroll {
 class Shirt : Clothing {
     init(){
         super.init(name:"shirt",description:"A plain cloth shirt.",color:UIColor.brownColor())
+        adjective = "cloth"
     }
 }
 
 class RingHunger : Ring {
     init(){
         super.init(description:"A sparkly golden ring",color:UIColor.yellowColor())
+        adjective = "sparkly golden"
     }
 }
 
 class AmSpeed : Amulet {
     init(){
         super.init(description:"A battered copper amulet",color:UIColor.brownColor())
+        adjective = "battered copper"
     }
 }
 
