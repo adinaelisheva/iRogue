@@ -22,7 +22,7 @@ class Mob : Entity {
 class AIMob : Mob {
     
     enum AIState {
-        case Peaceful, WaitForTarget, AttackTarget
+        case Peaceful, WaitForTarget, AttackTarget, FleeTarget
     }
     
     // This is the current activity this mob is doing
@@ -82,42 +82,57 @@ class AIMob : Mob {
                 return nil
             }
             
-            // TODO: Replace with real pathfinding
-            var dir : Direction!
-            
-            if (self.coords.y >  target.coords.y &&
-                self.coords.x == target.coords.x) { dir = .NORTH }
-            if (self.coords.y <  target.coords.y &&
-                self.coords.x == target.coords.x) { dir = .SOUTH }
-            
-            if (self.coords.y == target.coords.y &&
-                self.coords.x >  target.coords.x) { dir = .WEST }
-            if (self.coords.y == target.coords.y &&
-                self.coords.x <  target.coords.x) { dir = .EAST }
-            
-            if (self.coords.y > target.coords.y &&
-                self.coords.x >  target.coords.x) { dir = .NW }
-            if (self.coords.y > target.coords.y &&
-                self.coords.x <  target.coords.x) { dir = .NE }
-            
-            if (self.coords.y < target.coords.y &&
-                self.coords.x >  target.coords.x) { dir = .SW }
-            if (self.coords.y < target.coords.y &&
-                self.coords.x <  target.coords.x) { dir = .SE }
-            
-            if (dir == nil) {
-                // um... we're on top of it?
+            // Pathfind to target if possible
+            if let path = Math.pathfind(self.coords , goal: target.coords, level: Game.sharedInstance.level) {
+                
+                var dir : Direction! = Math.dirToCoord(path.first! - self.coords)
+                
+                if (dir == nil) {
+                    return nil
+                }
+                
+                // Get distance to mob
+                if (Math.distance(self.coords, b: target.coords) > 1) {
+                    // Try to get closer.
+                    return MoveAction(direction: dir)
+                } else {
+                    // Attack
+                    Game.sharedInstance.Log("\(name): Attacking \(target.name)")
+                    return AttackAction(direction:dir, weapon:nil);
+                }
+            } else {
+                Game.sharedInstance.Log("\(name): I can't find \(target.name)!")
+                state = .WaitForTarget
                 return nil
             }
             
-            // Get distance to mob
-            if (Math.distance(self.coords, b: target.coords) > 1) {
-                // Try to get closer.
-                return MoveAction(direction: dir)
+        case .FleeTarget:
+            
+            // If we don't have a target set, or it's gone, wander.
+            if target == nil {
+                state = .Peaceful
+                return nil
+            }
+            
+            // Pathfind to target if possible
+            if let path = Math.pathfind(self.coords , goal: target.coords, level: Game.sharedInstance.level) {
+                
+                if var dir = Math.dirToCoord(path.first! - self.coords)? {
+                    // Run away!
+                    // TODO make a better way to go backwards...
+                    dir = Math.changeDirection(dir, cw: true)
+                    dir = Math.changeDirection(dir, cw: true)
+                    dir = Math.changeDirection(dir, cw: true)
+                    dir = Math.changeDirection(dir, cw: true)
+                    
+                    return MoveAction(direction: dir)
+                } else {
+                    return nil
+                }
             } else {
-                // Attack
-                Game.sharedInstance.Log("\(name): Attacking \(target.name)")
-                return AttackAction(direction:dir, weapon:nil);
+                Game.sharedInstance.Log("\(name): I can't find \(target.name)!")
+                state = .WaitForTarget
+                return nil
             }
         }
     }

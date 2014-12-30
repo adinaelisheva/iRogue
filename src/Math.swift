@@ -14,7 +14,13 @@ enum Direction : UInt32 {
     case NORTH, SOUTH, WEST, EAST, NE, NW, SE, SW
 }
 
+func + (a: Coord, b: Coord) -> Coord {
+    return (x: a.x + b.x, y: a.y + b.y)
+}
 
+func - (a: Coord, b: Coord) -> Coord {
+    return (x: a.x - b.x, y: a.y - b.y)
+}
 
 func + (coords: Coord, dir: Direction) -> Coord {
     var temp = coords
@@ -52,6 +58,18 @@ func + (coords: Coord, dir: Direction) -> Coord {
     return temp
 }
 
+
+
+func == <T:Equatable> (tuple1:(T,T),tuple2:(T,T)) -> Bool
+{
+    return (tuple1.0 == tuple2.0) && (tuple1.1 == tuple2.1)
+}
+
+func == (lhs: Math.ASNode, rhs: Math.ASNode) -> Bool {
+    return lhs.x == rhs.x
+}
+
+
 class Math {
     
     class func distance(a:Coord, b:Coord) -> Int {
@@ -79,6 +97,31 @@ class Math {
         case .SW:
             return cw ? .WEST : .SOUTH
         }
+    }
+    
+    class func dirToCoord(p : Coord) -> Direction? {
+        
+        if (0 <  p.y &&
+            0 == p.x) { return .NORTH }
+        if (0 >  p.y &&
+            0 == p.x) { return .SOUTH }
+        
+        if (0 == p.y &&
+            0 >  p.x) { return .WEST }
+        if (0 == p.y &&
+            0 <  p.x) { return .EAST }
+        
+        if (0 < p.y &&
+            0 > p.x) { return .NW }
+        if (0 < p.y &&
+            0 < p.x) { return .NE }
+        
+        if (0 > p.y &&
+            0 > p.x) { return .SW }
+        if (0 > p.y &&
+            0 < p.x) { return .SE }
+        
+        return nil
     }
     
     
@@ -192,6 +235,94 @@ class Math {
         }
     }
     
-
     
+    class ASNode : Equatable {
+        let x : Coord
+        var g : Int = 0
+        var f : Int = 0
+        var from: ASNode!
+        
+        func neighbors() -> [ASNode] {
+                var arr = [
+                    ASNode( x: (x.x - 1, x.y + 1) ),
+                    ASNode( x: (x.x + 0, x.y + 1) ),
+                    ASNode( x: (x.x + 1, x.y + 1) ),
+                    ASNode( x: (x.x - 1, x.y) ),
+                    
+                    ASNode( x: (x.x + 1, x.y) ),
+                    ASNode( x: (x.x - 1, x.y - 1) ),
+                    ASNode( x: (x.x + 0, x.y - 1) ),
+                    ASNode( x: (x.x + 1, x.y - 1) )]
+                return arr
+        }
+        
+        init (x: Coord) {
+            self.x = x
+        }
+        
+    }
+    
+    private class func reconstructPath(end: ASNode) -> [Coord] {
+        var arr = [Coord]()
+        var node : ASNode! = end
+        while node != nil {
+            arr.append(node.x)
+            node = node.from
+        }
+        arr.removeLast()
+        
+        return arr.reverse()
+    }
+    
+    class func pathfind(a: Coord, goal: Coord, level:Level) -> [Coord]? {
+        
+        var closedset = [ASNode]()    // The set of nodes already evaluated.
+        var openset = [ASNode(x: a)]    // The set of tentative nodes to be evaluated, initially containing the start node
+        
+        var start = ASNode(x: a)
+
+        // Estimated total cost from start to goal through y.
+        start.f = start.g + distance(start.x, b: goal)
+        
+        while openset.count > 0 {
+            // Sort by f score, smallest first
+            openset.sort({ $0.f < $1.f })
+            let current = openset.first!
+            
+            if current.x == goal {
+                return reconstructPath(current)
+            }
+        
+            openset.removeAtIndex(find(openset, current)!)
+            
+            closedset.append(current)
+            
+            for neighbor in current.neighbors() {
+                // Don't revisit already visited tiles
+                if find(closedset, neighbor) != nil {
+                    continue
+                }
+                // Only consider passable tiles
+                if (!level.isPassable(neighbor.x)) {
+                    continue
+                }
+                
+                let tmpg = current.g + 1
+                
+                let inopenset = find(openset, neighbor) != nil
+                
+                if !inopenset || tmpg < neighbor.g {
+                    neighbor.from = current
+                    neighbor.g = tmpg
+                    neighbor.f = tmpg + distance(neighbor.x, b: goal)
+                    if !inopenset {
+                        openset.append(neighbor)
+                    }
+                }
+                
+            }
+        }
+        
+        return nil
+    }
 }

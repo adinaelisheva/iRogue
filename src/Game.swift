@@ -76,7 +76,6 @@ class Game {
         
         self.aiMob = AIMob(name: "AI", description: "A scary monster", char: "M", color: UIColor.greenColor())
         self.aiMob.sprite.zPosition = CGFloat(ZOrder.MOB.rawValue)
-        self.aiMob.state = .WaitForTarget
         self.aiMob.target = self.playerMob
         
         //add test items
