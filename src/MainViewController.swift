@@ -95,8 +95,6 @@ class MainViewController: UIViewController {
         
         game.UICallback = updateUI
         
-        // Set up the logging system
-        game.logCallback = log
         game.Log(activityLog.text)
         
         nameLabel.text = game.playerMob.name
@@ -200,7 +198,6 @@ class MainViewController: UIViewController {
     }
     
     func updateUI() {
-        
         updateInteractMenu()
         centerThePlayer()
         updateLabels()
@@ -209,6 +206,8 @@ class MainViewController: UIViewController {
     func updateLabels(){
         hpLabel.text = "HP:\(game.playerMob.hp)"
         xpLabel.text = "XP:\(game.xp)"
+        
+        log(game.logString)
     }
     
     func clickArrowButton(button: UIButton){

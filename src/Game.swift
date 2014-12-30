@@ -43,6 +43,7 @@ class Game {
         }
     }
     
+    var turnCount = 0
     var xpLevel = 1
     var xp = 0 
     var playerMob : Mob!
@@ -64,9 +65,13 @@ class Game {
     
     ///// LOGGING 
     
-    private var logMessages : [String] = []
+    struct LogMessage {
+        let turn : Int
+        let message : String
+    }
     
-    var logCallback : ((NSAttributedString) -> Void)?;
+    private var logMessages : [LogMessage] = []
+    
     var logString: NSAttributedString {
         get {
             let oldAttrs : [NSObject:AnyObject] = [
@@ -78,9 +83,9 @@ class Game {
                 NSFontAttributeName: UIFont(name: "Menlo", size: CGFloat(12))!]
             
             var str = NSMutableAttributedString()
-            for (i, message) in enumerate(logMessages.reverse()) {
+            for x in logMessages.reverse() {
                 
-                var attrmessage = NSAttributedString(string: "\n"+message, attributes: (i == 0) ? newAttrs : oldAttrs)
+                var attrmessage = NSAttributedString(string: "\n" + x.message, attributes: (x.turn == turnCount) ? newAttrs : oldAttrs)
                 
                 str.appendAttributedString(attrmessage)
             }
@@ -88,9 +93,14 @@ class Game {
         }
     }
     
+    func Log(lines: [String]) {
+        for line in lines.reverse() {
+            Log(line)
+        }
+    }
+    
     func Log(line : String) {
-        logMessages.append(line)
-        logCallback?(logString)
+        logMessages.append(LogMessage(turn: turnCount, message: line))
     }
     
     ///// Game Internal Stuff
@@ -123,6 +133,8 @@ class Game {
     }
     
     func takeTurnWithAction(action : Action) {
+        turnCount++
+        
         scheduler.doTurn(level, action: action, playerMob: playerMob)
         
         level.computeVisibilityFrom(playerMob.coords)
@@ -161,9 +173,9 @@ class Game {
             let targetsquare = mob.coords + action.direction
             let targets = level.things.filter({ $0 is Mob && $0.coords == targetsquare }) as [Mob]
             for target in targets {
-                target.hp--
                 let weaponname = mob.weapon?.name ?? "bare hands"
                 Log("* \(mob.name) hits \(target.name) with \(weaponname)")
+            target.hp--
             }
             
         }
