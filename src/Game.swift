@@ -208,9 +208,14 @@ class Game {
         let targetsquare = mob.coords + action.direction
         let targets = level.things.filter({ $0 is Mob && $0.coords == targetsquare }) as [Mob]
         for target in targets {
-            let weaponname = mob.weapon?.name ?? "bare hands"
-            Log("* \(mob.name) hits \(target.name) with \(weaponname)")
-            target.hp--
+            
+            let attack = mob.DC - target.AC
+            if (attack < 0) {
+                Log("\(mob.name) misses \(target.name)!")
+            } else {
+                Log("\(mob.name) hits \(target.name) for \(attack)HP!")
+                target.hp -= attack
+            }
         }
         
     }

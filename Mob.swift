@@ -19,9 +19,19 @@ class Mob : Entity {
     
     var maxHP = 0
     
+    var baseAC = RollSpec(n: 1, d: 8, plus: 0)
+    var baseDC = RollSpec(n: 1, d: 8, plus: 0)
+    
+    var AC : Int {
+        get { return baseAC.roll(clothing?.armorMod ?? 0) }
+    }
+    var DC : Int {
+        get { return baseDC.roll(weapon?.damageMod ?? 0) }
+    }
+    
     //slots
-    var weapon : Item?
-    var clothing : Item?
+    var weapon : Weapon?
+    var clothing : Clothing?
     var ring : Item?
     var amulet : Item?
     

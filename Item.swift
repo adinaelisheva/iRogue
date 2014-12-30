@@ -172,6 +172,9 @@ class Potion : Item {
 
 //equippables that affect attack ability
 class Weapon : Item {
+    
+    var damageMod = 1
+    
     init(name:String,description:String,color:UIColor){
         super.init(name:name,description:description,char:")",color:color,type:.Weapon)
         let x = arc4random_uniform(5)
@@ -219,6 +222,9 @@ class Scroll : Item {
 
 //equippables that affect AC, among other things
 class Clothing : Item {
+    
+    var armorMod = 1
+    
     init(name:String,description:String,color:UIColor){
         super.init(name:name,description:description,char:"[",color:color,type:.Clothing)
         useString="Equip"
@@ -452,6 +458,7 @@ class Spear : Weapon {
     init(){
         //child resets description after init
         super.init(name:"spear",description:"",color:UIColor.grayColor())
+        damageMod = 2
         description = "A pointy \(adjective) spear."
     }
 }
@@ -459,6 +466,7 @@ class Spear : Weapon {
 class Club : Weapon {
     init(){
         super.init(name:"spear",description:"",color:UIColor.grayColor())
+        damageMod = 1
         description = "A hefty \(adjective) club."
     }
 }
@@ -466,6 +474,7 @@ class Club : Weapon {
 class Sword : Weapon {
     init(){
         super.init(name:"spear",description:"",color:UIColor.grayColor())
+        damageMod = 4
         description = "A sharp \(adjective) sword."
     }
 }
@@ -473,6 +482,7 @@ class Sword : Weapon {
 class Mace : Weapon {
     init(){
         super.init(name:"spear",description:"",color:UIColor.grayColor())
+        damageMod = 4
         description = "A sturdy \(adjective) mace."
     }
 }
@@ -480,6 +490,7 @@ class Mace : Weapon {
 class Pike : Weapon {
     init(){
         super.init(name:"spear",description:"",color:UIColor.grayColor())
+        damageMod = 2
         description = "A sharp \(adjective) pike."
     }
 }
@@ -487,6 +498,7 @@ class Pike : Weapon {
 class Machete : Weapon {
     init(){
         super.init(name:"spear",description:"",color:UIColor.grayColor())
+        damageMod = 2
         description = "A wicked \(adjective) machete."
     }
 }
@@ -494,6 +506,7 @@ class Machete : Weapon {
 class Trident : Weapon {
     init(){
         super.init(name:"spear",description:"",color:UIColor.grayColor())
+        damageMod = 3
         description = "A sharp \(adjective) trident."
     }
 }
@@ -501,6 +514,7 @@ class Trident : Weapon {
 class Katana : Weapon{
     init(){
         super.init(name:"katana",description:"",color:UIColor.grayColor())
+        damageMod = 5
         description = "A thin \(adjective) katana."
     }
 }
@@ -508,6 +522,7 @@ class Katana : Weapon{
 class DeadFish : Weapon {
     init(){
         super.init(name:"dead fish",description:"A gross old fish? Really?",color:UIColor.blueColor())
+        damageMod = 10
         adjective = "gross"
     }
 }
