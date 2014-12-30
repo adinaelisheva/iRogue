@@ -36,6 +36,14 @@ class AttackAction : Action {
     init(direction: Direction, weapon: Weapon?) {
         self.weapon = weapon
         self.direction = direction
+	}
+}
+
+class UseAction : Action {
+    let item : Item
+    
+    init(interactWith:Item) {
+        item = interactWith
     }
 }
 

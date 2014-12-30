@@ -51,7 +51,7 @@ class PileMenuViewController : UITableViewController {
             if (indexPath.row < self.items!.count) {
                 // If we selected an item, and not nevermind, take a turn doing that thing
                 let item = self.items![indexPath.row]
-                self.mvc?.takeTurnWithAction(InteractAction(interactWith: item))
+                Game.sharedInstance.takeTurnWithAction(InteractAction(interactWith: item))
             }
         })
     }

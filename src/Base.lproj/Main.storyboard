@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6254" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="Cmb-zM-rww">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6254" systemVersion="13F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="Cmb-zM-rww">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
         <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
@@ -388,6 +388,169 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Npa-kh-6Q1" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="-435" y="437"/>
+        </scene>
+        <!--Item View Controller-->
+        <scene sceneID="lWW-42-xBs">
+            <objects>
+                <viewController storyboardIdentifier="ItemsView" modalPresentationStyle="overFullScreen" id="6gr-jY-liK" customClass="ItemViewController" customModule="iRogue" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="awi-HN-HK9"/>
+                        <viewControllerLayoutGuide type="bottom" id="0xj-wN-o27"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="PnS-k7-tLh">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="XMB-Us-t9W">
+                                <rect key="frame" x="0.0" y="49" width="600" height="501"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="200" id="3dh-Kv-p7q"/>
+                                </constraints>
+                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="BcF-7p-85i">
+                                    <size key="itemSize" width="75" height="75"/>
+                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                </collectionViewFlowLayout>
+                                <cells>
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="itemCell" id="NSE-Wv-j17" customClass="ItemViewCell" customModule="iRogue" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center">
+                                            <rect key="frame" x="0.0" y="0.0" width="75" height="75"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Sample Item" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="STa-cI-pvE">
+                                                    <rect key="frame" x="8" y="8" width="58" height="53"/>
+                                                    <fontDescription key="fontDescription" name="Menlo-Regular" family="Menlo" pointSize="15"/>
+                                                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
+                                            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                                        </view>
+                                        <constraints>
+                                            <constraint firstAttribute="bottomMargin" secondItem="STa-cI-pvE" secondAttribute="bottom" id="AqO-Co-iQa"/>
+                                            <constraint firstItem="STa-cI-pvE" firstAttribute="leading" secondItem="NSE-Wv-j17" secondAttribute="leadingMargin" id="Oxq-j2-vLa"/>
+                                            <constraint firstItem="STa-cI-pvE" firstAttribute="top" secondItem="NSE-Wv-j17" secondAttribute="topMargin" id="Q93-OJ-a1o"/>
+                                            <constraint firstAttribute="trailingMargin" secondItem="STa-cI-pvE" secondAttribute="trailing" id="gM8-sy-87n"/>
+                                        </constraints>
+                                        <connections>
+                                            <outlet property="ItemLabel" destination="STa-cI-pvE" id="BgN-Mn-yUr"/>
+                                        </connections>
+                                    </collectionViewCell>
+                                </cells>
+                                <variation key="default">
+                                    <mask key="constraints">
+                                        <exclude reference="3dh-Kv-p7q"/>
+                                    </mask>
+                                </variation>
+                                <connections>
+                                    <outlet property="dataSource" destination="6gr-jY-liK" id="omE-Fz-EvV"/>
+                                    <outlet property="delegate" destination="6gr-jY-liK" id="BoZ-IU-MEb"/>
+                                </connections>
+                            </collectionView>
+                            <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rwJ-lK-fy1">
+                                <rect key="frame" x="0.0" y="550" width="150" height="50"/>
+                                <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="uAT-H5-51h"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="Menlo-Regular" family="Menlo" pointSize="15"/>
+                                <state key="normal" title="Use">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="InteractClicked:" destination="6gr-jY-liK" eventType="touchUpInside" id="jAx-vg-mba"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FJf-y0-6wl">
+                                <rect key="frame" x="450" y="550" width="150" height="50"/>
+                                <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="vZd-BN-vh2"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="Menlo-Regular" family="Menlo" pointSize="15"/>
+                                <state key="normal" title="Done">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <state key="disabled" title=" "/>
+                                <connections>
+                                    <action selector="DoneClicked:" destination="6gr-jY-liK" eventType="touchUpInside" id="6lL-Rv-Dp5"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="GCf-Fk-tLK">
+                                <rect key="frame" x="300" y="550" width="150" height="50"/>
+                                <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="laJ-pE-yW8"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="Menlo-Regular" family="Menlo" pointSize="15"/>
+                                <state key="normal" title="Details">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="DetailsClicked:" destination="6gr-jY-liK" eventType="touchUpInside" id="XQe-7i-dGi"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="B77-gT-0g1">
+                                <rect key="frame" x="150" y="550" width="150" height="50"/>
+                                <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="9Qs-8X-ldw"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="Menlo-Regular" family="Menlo" pointSize="15"/>
+                                <state key="normal" title="Drop">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="DropClicked:" destination="6gr-jY-liK" eventType="touchUpInside" id="42a-1d-osS"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Inventory" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gb5-2o-DjS">
+                                <rect key="frame" x="16" y="20" width="148" height="21"/>
+                                <fontDescription key="fontDescription" name="Menlo-Regular" family="Menlo" pointSize="15"/>
+                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="FJf-y0-6wl" firstAttribute="leading" secondItem="GCf-Fk-tLK" secondAttribute="trailing" id="0ZR-GE-8iq"/>
+                            <constraint firstItem="B77-gT-0g1" firstAttribute="leading" secondItem="rwJ-lK-fy1" secondAttribute="trailing" id="1aJ-Ko-Vcd"/>
+                            <constraint firstItem="0xj-wN-o27" firstAttribute="top" secondItem="rwJ-lK-fy1" secondAttribute="bottom" id="52l-fe-soq"/>
+                            <constraint firstItem="XMB-Us-t9W" firstAttribute="top" secondItem="awi-HN-HK9" secondAttribute="bottom" constant="29" id="B4X-Sm-nH2"/>
+                            <constraint firstItem="FJf-y0-6wl" firstAttribute="width" secondItem="B77-gT-0g1" secondAttribute="width" id="D38-hU-B2w"/>
+                            <constraint firstItem="B77-gT-0g1" firstAttribute="top" secondItem="XMB-Us-t9W" secondAttribute="bottom" id="H7r-Qo-JJk"/>
+                            <constraint firstItem="rwJ-lK-fy1" firstAttribute="leading" secondItem="PnS-k7-tLh" secondAttribute="leadingMargin" constant="-16" id="Hmw-FS-Jlv"/>
+                            <constraint firstItem="0xj-wN-o27" firstAttribute="top" secondItem="FJf-y0-6wl" secondAttribute="bottom" id="IJM-kK-ewu"/>
+                            <constraint firstItem="0xj-wN-o27" firstAttribute="top" secondItem="B77-gT-0g1" secondAttribute="bottom" id="PEO-i3-kQr"/>
+                            <constraint firstItem="XMB-Us-t9W" firstAttribute="leading" secondItem="PnS-k7-tLh" secondAttribute="leadingMargin" constant="-16" id="VfN-jW-5xV"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="XMB-Us-t9W" secondAttribute="trailing" constant="-16" id="bm3-Vy-xU6"/>
+                            <constraint firstItem="FJf-y0-6wl" firstAttribute="width" secondItem="rwJ-lK-fy1" secondAttribute="width" id="cHl-Pj-pcA"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="FJf-y0-6wl" secondAttribute="trailing" constant="-16" id="iwN-4E-ycl"/>
+                            <constraint firstItem="FJf-y0-6wl" firstAttribute="width" secondItem="GCf-Fk-tLK" secondAttribute="width" id="j0X-mZ-eOd"/>
+                            <constraint firstItem="gb5-2o-DjS" firstAttribute="leading" secondItem="PnS-k7-tLh" secondAttribute="leadingMargin" id="k03-GX-Mt4"/>
+                            <constraint firstItem="gb5-2o-DjS" firstAttribute="top" secondItem="awi-HN-HK9" secondAttribute="bottom" id="ueW-Fd-DWX"/>
+                            <constraint firstItem="0xj-wN-o27" firstAttribute="top" secondItem="GCf-Fk-tLK" secondAttribute="bottom" id="vcu-2f-NFF"/>
+                            <constraint firstItem="GCf-Fk-tLK" firstAttribute="leading" secondItem="B77-gT-0g1" secondAttribute="trailing" id="wx6-JF-fod"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="DetailsButton" destination="GCf-Fk-tLK" id="qnk-Bf-44n"/>
+                        <outlet property="DoneButton" destination="FJf-y0-6wl" id="qFZ-52-flt"/>
+                        <outlet property="DropButton" destination="B77-gT-0g1" id="eoq-ru-hwR"/>
+                        <outlet property="InteractButton" destination="rwJ-lK-fy1" id="lGR-n0-xdQ"/>
+                        <outlet property="ItemCollection" destination="XMB-Us-t9W" id="3UD-a0-mXk"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="VSj-XX-WtH" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-383" y="1169"/>
         </scene>
         <!--Game View Controller-->
         <scene sceneID="tXr-a1-R10">
