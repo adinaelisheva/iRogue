@@ -16,13 +16,13 @@ enum ItemTypes : UInt32 {
 }
 
 let itemsMap : [ItemTypes : [()->Item]] = [
-    ItemTypes.Food : [{Bread()}],
-    .Potion : [{potInvisibility()}],
+    ItemTypes.Food : [{BreadRation()},{Apple()},{MeatRation()},{Pear()},{Choko()}],
+    .Potion : [{PotInvisibility()},{PotPoison()}],
     .Weapon : [{Spear()}],
-    .Scroll : [{scrFear()}],
+    .Scroll : [{ScrFear()}],
     .Clothing : [{Shirt()}],
-    .Ring : [{ringHunger()}],
-    .Amulet : [{amSpeed()}],
+    .Ring : [{RingHunger()}],
+    .Amulet : [{AmSpeed()}],
     .Money : [{Money()}]
 ]
 
@@ -40,7 +40,7 @@ func getPurelyRandomItem() -> Item{
 func getDistRandomItem() -> Item{
     let x = arc4random_uniform(100)
     var type : ItemTypes
-    //custom distribution: 20% clothes, 20% weapon, 15% scroll, 15% potion, 15% food, 10% money, 3% ring, 2% amulet
+    //custom distribution: 20% clothes, 20% weapon, 15% scroll, 15% potion, 15% food, 13% money, 1% ring, 1% amulet
     if x < 20 {
         type = .Clothing
     } else if x < 40 {
@@ -51,9 +51,9 @@ func getDistRandomItem() -> Item{
         type = .Potion
     } else if x < 85 {
         type = .Food
-    } else if x < 95 {
-        type = .Money
     } else if x < 98 {
+        type = .Money
+    } else if x < 99 {
         type = .Ring
     } else {
         type = .Amulet
@@ -286,14 +286,36 @@ class Money : Item {
     }
 }
 
-class Bread : Food {
+class Apple : Food {
     init(){
-        super.init(name:"bread",description:"A fresh loaf of bread.",color:UIColor.brownColor(),hpEffect:2)
+        var colorS = "red"
+        var color = UIColor.redColor()
+        if(arc4random_uniform(2) == 0) { colorS = "green"; color = UIColor.greenColor() }
+        super.init(name:"apple",description:"A crisp \(colorS) apple.",color:color,hpEffect:1)
     }
-    
+}
+class MeatRation : Food {
+    init(){
+        super.init(name:"meat ration",description:"A ration of dried meat.",color:UIColor.brownColor(),hpEffect:5)
+    }
+}
+class BreadRation : Food {
+    init(){
+        super.init(name:"bread ration",description:"A stale crust of bread.",color:UIColor(red: 0.85, green: 0.74, blue: 0.52, alpha: 1),hpEffect:4)
+    }
+}
+class Pear : Food {
+    init(){
+        super.init(name:"pear",description:"A nice fresh pear.",color:UIColor.greenColor(),hpEffect:2)
+    }
+}
+class Choko : Food {
+    init(){
+        super.init(name:"choko",description:"A mystery... fruit?",color:UIColor.yellowColor(),hpEffect:3)
+    }
 }
 
-class potInvisibility : Potion {
+class PotInvisibility : Potion {
     init(){
         //later color and desc should be generated randomly, but consistent per session
         super.init(description:"A frothy white potion",color:UIColor.whiteColor())
@@ -301,8 +323,24 @@ class potInvisibility : Potion {
     
     override func useFn(ent : Entity) {
         super.useFn(ent)
-        Game.sharedInstance.Log("Adinex becomes briefly invisible!")
+        Game.sharedInstance.Log("\(ent.name) becomes briefly invisible!\nIt was a potion of invisibility.")
         //TODO later: actually implement that; remembering potion names
+    }
+}
+
+class PotPoison : Potion {
+    init(){
+        super.init(description:"A bubbly black potion",color:UIColor.grayColor())
+    }
+    
+    override func useFn(ent : Entity) {
+        super.useFn(ent)
+        if let mob = ent as? Mob {
+            Game.sharedInstance.Log("Yuck! \(ent.name) feels sick.\nIt was a potion of poison.")
+            mob.hp -= 5
+        }
+        
+        //TODO: poisoned as a status with decreasing health over time
     }
 }
 
@@ -313,7 +351,7 @@ class Spear : Weapon {
     
 }
 
-class scrFear : Scroll {
+class ScrFear : Scroll {
     init(){
         //again, should be random in the future
         super.init(description:"A scroll labeled YABSLBAI.")
@@ -342,13 +380,13 @@ class Shirt : Clothing {
     }
 }
 
-class ringHunger : Ring {
+class RingHunger : Ring {
     init(){
         super.init(description:"A sparkly golden ring",color:UIColor.yellowColor())
     }
 }
 
-class amSpeed : Amulet {
+class AmSpeed : Amulet {
     init(){
         super.init(description:"A battered copper amulet",color:UIColor.brownColor())
     }

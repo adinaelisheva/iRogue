@@ -76,21 +76,21 @@ class BasicLevel : Level {
             let rand = arc4random_uniform(100)
             var x = 0
             //calculate my own distribution:
-            //50% chance of 0 items, 30% 1, 10% 2, 7% 3, 3% 4
+            //50% chance of 0 items, 35% 1, 10% 2, 4% 3, 1% 4
             if rand < 50 {
                 x = 0
-            } else if rand < 80 {
+            } else if rand < 85 {
                 x = 1
-            } else if rand < 90 {
+            } else if rand < 95 {
                 x = 2
-            } else if rand < 97 {
+            } else if rand < 99 {
                 x = 3
             } else if rand < 100 {
                 x = 4
             } else {
                 x = 100
             }
-            for i in 0...x{
+            for i in 0..<x{
                 let it = getDistRandomItem()
                 it.coords = r.randomPoint()
                 things.append(it)
