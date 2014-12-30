@@ -10,9 +10,23 @@ import Foundation
 import UIKit
 
 class Mob : Entity {
-    var inventory = [Item]()
+    var inventory = [ItemTypes : [Item]]()
     
     var gold = 0
+    var hp = 0
+    var maxHP = 0
+    
+    //slots
+    var weapon : Item?
+    var clothing : Item?
+    var ring : Item?
+    var amulet : Item?
+    
+    init(name: String?, description: String?, char: Character?, color: UIColor?,hp:Int) {
+        self.hp = hp
+        self.maxHP = hp
+        super.init(name: name,description: description,char: char,color: color)
+    }
 
     func AIAction() -> Action{
         
@@ -23,10 +37,19 @@ class Mob : Entity {
         
     }
     
+    func addToHP(amt:Int){
+        hp += amt
+        if hp > maxHP{ hp = maxHP }
+        if hp < 0 { hp = 0 }
+    }
+    
     func pickup(item:Item){
-        inventory.append(item)
+        if inventory[item.type] == nil{
+            inventory[item.type] = [item]
+        } else {
+            inventory[item.type]!.append(item)
+        }
         Game.sharedInstance.Log("\(name) picked up \(item.name)")
-        
     }
     
 }

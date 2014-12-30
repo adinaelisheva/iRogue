@@ -34,6 +34,14 @@ class InteractAction : Action {
     }
 }
 
+class UseAction : Action {
+    let item : Item
+    
+    init(interactWith:Item) {
+        item = interactWith
+    }
+}
+
 class Scheduler {
     
     func doTurn(level: Level, action: Action, playerMob: Mob) {

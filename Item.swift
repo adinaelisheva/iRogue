@@ -65,7 +65,22 @@ func getDistRandomItem() -> Item{
 }
 
 class Item : Entity {
-    override init(name: String?, description: String?, char: Character?, color: UIColor?) {
+    
+    var autopickup = false
+    
+    var type : ItemTypes
+    
+    var useString : String?
+    func useFn(ent : Entity) {
+        if let mob = ent as? Mob{
+            //this will have to be updated in the future with "put ons" etc
+            Game.sharedInstance.Log("\(mob.name) \(useString!.lowercaseString)s the \(name)")
+        }
+    }
+    
+    init(name: String?, description: String?, char: Character?, color: UIColor?, type:ItemTypes, use:String) {
+        self.type = type
+        useString = use
         super.init(name:name,description:description,char:char,color:color)
         interactable = "Pickup"
     }
@@ -84,6 +99,16 @@ class Item : Entity {
             }
         }
     }
+    func removeSelfFromInventory(mob : Mob){
+        if var arr = mob.inventory[type]?{
+            for i in 0..<arr.count{
+                if arr[i] === self {
+                    mob.inventory[type]!.removeAtIndex(i)
+                    return
+                }
+            }
+        }
+    }
 }
 
 //////
@@ -92,9 +117,23 @@ class Item : Entity {
 
 //consumables that affect HP
 class Food : Item {
-    init(name:String,description:String,color:UIColor){
+    
+    var hpEffect : Int
+    
+    init(name:String,description:String,color:UIColor,hpEffect:Int){
+        self.hpEffect = hpEffect
         //all food has char of '%'
-        super.init(name:name,description:description,char:"%",color:color)
+        super.init(name:name,description:description,char:"%",color:color,type:.Food,use:"Eat")
+        autopickup = true
+    }
+    
+    override func useFn(ent : Entity) {
+        super.useFn(ent)
+        if let mob = ent as? Mob{
+            mob.addToHP(hpEffect)
+            removeSelfFromInventory(mob)
+            Game.sharedInstance.Log("\(mob.name) gains \(hpEffect) hp!")
+        }
     }
 }
 
@@ -102,47 +141,64 @@ class Food : Item {
 class Potion : Item {
     init(description:String,color:UIColor){
         //all potions are just called 'potion' as a short name
-        super.init(name:"potion",description:description,char:"!",color:color)
+        super.init(name:"potion",description:description,char:"!",color:color,type:.Potion,use:"Drink")
+        autopickup = true
+    }
+    
+    override func useFn(ent : Entity) {
+        super.useFn(ent)
+        if let mob = ent as? Mob {
+            removeSelfFromInventory(mob)
+        }
     }
 }
 
 //equippables that affect attack ability
 class Weapon : Item {
     init(name:String,description:String,color:UIColor){
-        super.init(name:name,description:description,char:")",color:color)
+        super.init(name:name,description:description,char:")",color:color,type:.Weapon,use:"Equip")
     }
 }
 
 //consumables that have various effects
 class Scroll : Item {
     init(description:String){
-        super.init(name:"scroll",description:description,char:"?",color:UIColor.whiteColor())
+        super.init(name:"scroll",description:description,char:"?",color:UIColor.whiteColor(),type:.Scroll,use:"Read")
+        autopickup = true
+    }
+    
+    override func useFn(ent : Entity) {
+        super.useFn(ent)
+        if let mob = ent as? Mob {
+            removeSelfFromInventory(mob)
+        }
     }
 }
 
 //equippables that affect AC, among other things
 class Clothing : Item {
     init(name:String,description:String,color:UIColor){
-        super.init(name:name,description:description,char:"[",color:color)
+        super.init(name:name,description:description,char:"[",color:color,type:.Clothing,use:"Equip")
     }
 }
 
 //equippables that have various effects
 class Jewelry : Item {
-    init(name:String,description:String,char:Character,color:UIColor){
-        super.init(name:name,description:description,char:char,color:color)
+    init(name:String,description:String,char:Character,color:UIColor,type:ItemTypes){
+        super.init(name:name,description:description,char:char,color:color,type:type,use:"Put on")
+        autopickup = true
     }
 }
 
 class Ring : Jewelry {
     init(description:String,color:UIColor){
-        super.init(name:"ring",description:description,char:"=",color:color)
+        super.init(name:"ring",description:description,char:"=",color:color,type:.Ring)
     }
 }
 
 class Amulet : Jewelry {
     init(description:String,color:UIColor){
-        super.init(name:"amulet",description:description,char:"\"",color:color)
+        super.init(name:"amulet",description:description,char:"\"",color:color,type:.Amulet)
     }
 }
 
@@ -168,7 +224,8 @@ class Money : Item {
             //giant pile! 80-100
             amt = 80 + Int(arc4random_uniform(20))
         }
-        super.init(name:"money",description:"A pile of shiny gold coins!",char:"$",color:UIColor.yellowColor())
+        super.init(name:"money",description:"A pile of shiny gold coins!",char:"$",color:UIColor.yellowColor(),type:.Money,use:"Deposit")
+        autopickup = true
     }
     override func interact(mob: Mob) {
         removeSelfFromLevel()
@@ -179,14 +236,21 @@ class Money : Item {
 
 class Bread : Food {
     init(){
-        super.init(name:"bread",description:"A fresh loaf of bread.",color:UIColor.brownColor())
+        super.init(name:"bread",description:"A fresh loaf of bread.",color:UIColor.brownColor(),hpEffect:2)
     }
+    
 }
 
 class potInvisibility : Potion {
     init(){
         //later color and desc should be generated randomly, but consistent per session
         super.init(description:"A frothy white potion",color:UIColor.whiteColor())
+    }
+    
+    override func useFn(ent : Entity) {
+        super.useFn(ent)
+        Game.sharedInstance.Log("Adinex becomes briefly invisible!")
+        //TODO later: actually implement that; remembering potion names
     }
 }
 
@@ -200,6 +264,23 @@ class scrFear : Scroll {
     init(){
         //again, should be random in the future
         super.init(description:"A scroll labeled YABSLBAI.")
+    }
+    override func useFn(ent : Entity) {
+        super.useFn(ent)
+        Game.sharedInstance.Log("Adinex's face becomes a terrifying mask!")
+        let mobs = Game.sharedInstance.level.things.filter { (thing) -> Bool in
+            if thing === ent { return false }
+            if !(thing is Mob) { return false } //later: AIMob
+            //TODO: use Alex's distance thing to make it only local mobs
+            return true
+        }
+        for mob in mobs{
+            //Later: "\(mob.name) flees!"
+            Game.sharedInstance.Log("\(mob.name) gives up the chase.")
+            //mob.state = .Flee
+        }
+        
+        //TODO later: remembering scroll names
     }
 }
 

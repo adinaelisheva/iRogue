@@ -58,12 +58,19 @@ class MainViewController: UIViewController {
                 dir = nil
         }
         
-        takeTurnWithAction(MoveAction(direction: dir))
+        game.takeTurnWithAction(MoveAction(direction: dir))
         
         clickArrowButton(sender)
     }
     
     @IBAction func itemsClicked(sender: AnyObject) {
+        var VC = self.storyboard?.instantiateViewControllerWithIdentifier("ItemsView") as ItemViewController
+        var items : [Item] = []
+        for (type,arr) in game.playerMob.inventory{
+            items += arr
+        }
+        VC.items = items
+        self.presentViewController(VC, animated: true, completion: nil)
     }
     @IBAction func magicClicked(sender: AnyObject) {
     }
@@ -73,7 +80,7 @@ class MainViewController: UIViewController {
 
         // If only one item is on our cell, do its action
         if interactables.count == 1 {
-            takeTurnWithAction(InteractAction(interactWith: interactables.first!))
+            game.takeTurnWithAction(InteractAction(interactWith: interactables.first!))
         } else if interactables.count > 1 {
             // Display the item pile UI for multiple items
             self.performSegueWithIdentifier("PileMenu", sender: self)
@@ -86,6 +93,8 @@ class MainViewController: UIViewController {
 
         game = Game(scene: gameVC.scene)
         
+        game.UICallback = updateUI
+        
         // Set up the logging system
         game.logCallback = log
         game.Log(activityLog.text)
@@ -93,6 +102,7 @@ class MainViewController: UIViewController {
         nameLabel.text = game.playerMob.name
         xpLabel.text = "XP:\(game.xp)"
         lvlLabel.text = "LVL:\(game.xpLevel)"
+        hpLabel.text = "HP:\(game.playerMob.hp)"
         
         updateInteractMenu()
     }
@@ -138,52 +148,68 @@ class MainViewController: UIViewController {
         for ent in game.level.things.filter({ $0.interactable != nil && $0.coords.x == coord.x && $0.coords.y == coord.y }) {
             interactables.append(ent)
         }
+        var numItems = interactables.count
         
-        if (interactables.count > 0) {
+        if (numItems > 0) {
             
             // Are we seeing a different set of items?
             // if they have different numbers of items, they're different
-            var different = interactables.count != lasttime.count
+            var different = numItems != lasttime.count
             // Same items? See if each one is identical.
             if !different {
-                for idx in 0..<interactables.count {
+                for idx in 0..<numItems {
                     if interactables[idx] !== lasttime[idx] { different = true }
                 }
             }
             
             if different {
-                
                 // Print info about the pile if it is not what we saw last time.
+                //also, autopickup anything we should autopickup
                 var infotext = "Here is: "
                 for (i,item) in enumerate(interactables) {
-                    infotext += item.name
-                    if i < interactables.count - 1 {
-                        infotext += ", "
+                    //try to auto-pick-it-up
+                    let it = item as? Item
+                    if it?.autopickup ?? false{
+                        it!.interact(game.playerMob)
+                        numItems--
+                    } else {
+                        //if we didn't pick it up, add it to the list
+                        infotext += item.name
+                        if i < numItems - 1 {
+                            infotext += ", "
+                        }
                     }
                 }
-                game.Log(infotext)
+                //only print this if you haven't auto-picked-up everything
+                if numItems > 0 {
+                    game.Log(infotext)
+                }
             }
             
             // Depending on how many there are, set up the button.
-            if (interactables.count == 1) {
+            if (numItems == 1) {
                 interactButton.enabled = true
                 interactButton.setTitle(interactables[0].interactable!, forState: .Normal)
-            } else {
+            } else if (numItems > 0) {
                 interactButton.enabled = true
-                interactButton.setTitle("x\(interactables.count)", forState: .Normal)
+                interactButton.setTitle("x\(numItems)", forState: .Normal)
             }
         } else {
             interactButton.enabled = false
         }
     }
     
-    func takeTurnWithAction(action : Action) {
-        
-        game.takeTurnWithAction(action)
+    func updateUI() {
         
         updateInteractMenu()
         centerThePlayer()
-    }    
+        updateLabels()
+    }
+
+    func updateLabels(){
+        hpLabel.text = "HP:\(game.playerMob.hp)"
+        xpLabel.text = "XP:\(game.xp)"
+    }
     
     func clickArrowButton(button: UIButton){
 
