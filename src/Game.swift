@@ -25,6 +25,7 @@ class Game {
     enum ZOrder : UInt32 {
         case TERRAIN = 0, ITEM, MOB, PLAYER
     }
+    
     enum DoorMask : Int {
         case UP = 1
         case DOWN = 2

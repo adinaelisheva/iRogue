@@ -48,15 +48,9 @@ class GameScene: SKScene {
                 y:Int(pixelcoord.y) / GameScene.cellSize.h)
             
             
-            // Put together a string.
-            var retStr = ""
-            
             // Determine the visibility of this tile.
             if let tile = Game.sharedInstance?.level?.getTileAt(coords) {
-                if !tile.seen {
-                    retStr = "You're not sure what's here."
-                    
-                } else {
+                if tile.seen {
                     let entNodes = nodes.filter({ $0 is EntitySKNode }) as [EntitySKNode]
                     
                     for (i, entityNode) in enumerate(entNodes) {
@@ -68,23 +62,16 @@ class GameScene: SKScene {
                         }
                         
                         if (tile.visible) {
-                            retStr += "\(ent.char) \(ent.description)"
+                            Game.sharedInstance.Log("\(ent.char) \(ent.description)")
                         } else {
-                            retStr += "(\(ent.char) \(ent.description))"
+                            Game.sharedInstance.Log("(\(ent.char) \(ent.description))")
                         }
-                        
-                        if i < entNodes.count - 1 {
-                            retStr += "\n"
-                        }
-                        
                     }
                     
+                    return
                 }
-            } else {
-                retStr = "Nothing here."
             }
-            
-            Game.sharedInstance.Log(retStr)
+            Game.sharedInstance.Log("You're not sure what's here.")
         }
         
     }

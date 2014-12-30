@@ -265,11 +265,14 @@ class Math {
     private class func reconstructPath(end: ASNode) -> [Coord] {
         var arr = [Coord]()
         var node : ASNode! = end
-        while node != nil {
+        
+        arr.append(end.x)
+        node = node.from
+        
+        while node != nil && node.from != nil {
             arr.append(node.x)
             node = node.from
         }
-        arr.removeLast()
         
         return arr.reverse()
     }
