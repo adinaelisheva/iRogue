@@ -4,6 +4,10 @@ import UIKit
 
 private var _SharedInstance : Game?
 
+
+private let lvlWidth = 32
+private let lvlHeight = 24
+
 class Game {
     
     // Singleton Stuff
@@ -12,8 +16,33 @@ class Game {
     }
     
     // Public global object things
-
-    var level : Level!
+    var level : Level {
+        get {
+            while (dungeon.count < dlvl) {
+                dungeon.append(BasicLevel(w: lvlWidth, h: lvlHeight, level: dungeon.count + 1))
+            }
+            
+            return dungeon[dlvl-1]
+        }
+    }
+    
+    private var dungeon : [Level] = []
+    
+    var dlvl : Int = 0 {
+        didSet {
+            if dlvl < 1 {
+                dlvl = 1
+            }
+            if oldValue != dlvl {
+                dungeon[oldValue - 1].hideSprites()
+                if dungeon.count >= dlvl {
+                    dungeon[dlvl - 1].showSprites()
+                }
+                Log("You are on level \(dlvl).")
+            }
+        }
+    }
+    
     var xpLevel = 1
     var xp = 0 
     var playerMob : Mob!
@@ -70,10 +99,11 @@ class Game {
     private let scheduler = Scheduler()
     
     init(scene : GameScene) {
-        _SharedInstance = self
         
         self.scene = scene // Must be initialized before creating any entities!
-        self.level = BasicLevel(w:32,h:24,level: 1)
+        self.dlvl = 1
+        
+        _SharedInstance = self
         
         self.playerMob = Mob(name: "Adinex", description: "A brave and noble adventurer", char: "@", color: UIColor.whiteColor(),hp:20)
         self.playerMob.sprite.zPosition = CGFloat(ZOrder.PLAYER.rawValue)

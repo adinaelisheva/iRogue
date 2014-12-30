@@ -49,7 +49,7 @@ class GameScene: SKScene {
             
             
             // Determine the visibility of this tile.
-            if let tile = Game.sharedInstance?.level?.getTileAt(coords) {
+            if let tile = Game.sharedInstance?.level.getTileAt(coords) {
                 if tile.seen {
                     let entNodes = nodes.filter({ $0 is EntitySKNode }) as [EntitySKNode]
                     

@@ -52,6 +52,8 @@ class Scheduler {
     func doTurn(level: Level, action: Action, playerMob: Mob) {
         // For every mob in the level, perform an action. The player mob performs 'action'
         
+        let startdlvl = Game.sharedInstance.dlvl
+        
         for entity in level.things {
             if let mob = entity as? Mob{
                 if mob === playerMob {
@@ -63,6 +65,9 @@ class Scheduler {
                     }
                 }
             }
+            
+            // If the level changes while evaluating things... stop
+            if Game.sharedInstance.dlvl != startdlvl { break; }
         }
         
     }

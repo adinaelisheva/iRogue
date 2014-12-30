@@ -111,7 +111,7 @@ class Item : Entity {
         if let i = getOwnIndex(Game.sharedInstance.level.things)? {
             Game.sharedInstance.level.things.removeAtIndex(i)
         }
-        remove()
+        hide()
         return
     }
     
