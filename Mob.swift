@@ -6,7 +6,14 @@ class Mob : Entity {
     var inventory = [ItemTypes : [Item]]()
     
     var gold = 0
-    var hp = 0
+    
+    var hp : Int = 0 {
+        didSet {
+            if hp > maxHP{ hp = maxHP }
+            if hp < 0 { hp = 0 }
+        }
+    }
+    
     var maxHP = 0
     
     //slots
@@ -23,12 +30,6 @@ class Mob : Entity {
 
     func AIAction() -> Action? {
         return nil // No action by default
-    }
-    
-    func addToHP(amt:Int){
-        hp += amt
-        if hp > maxHP{ hp = maxHP }
-        if hp < 0 { hp = 0 }
     }
     
     func pickup(item:Item){
@@ -91,7 +92,6 @@ class AIMob : Mob {
                 if !Game.sharedInstance.level.isPassable(point) { return Wander() }
             }
             
-            Game.sharedInstance.Log("\(name): Sighted the target \(target.name)")
             
             // We have seen the target; do an attack!
             state = .AttackTarget
@@ -120,7 +120,6 @@ class AIMob : Mob {
                     return MoveAction(direction: dir)
                 } else {
                     // Attack
-                    Game.sharedInstance.Log("\(name): Attacking \(target.name)")
                     return AttackAction(direction:dir, weapon:nil);
                 }
             } else {
@@ -139,6 +138,13 @@ class AIMob : Mob {
             
             // Pathfind to target if possible
             if let path = Math.pathfind(self.coords , goal: target.coords, level: Game.sharedInstance.level) {
+                
+                if path.count > 10 {
+                    state = .WaitForTarget
+                    
+                    Game.sharedInstance.Log("\(name) resumes attacking \(target.name)")
+                    return AIAction()
+                }
                 
                 if var dir = Math.dirToCoord(path.first! - self.coords)? {
                     // Run away!

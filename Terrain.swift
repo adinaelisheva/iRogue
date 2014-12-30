@@ -25,6 +25,8 @@ class TerrainTile : Entity {
         self.coords = coords
     }
     
+    func bump(mob: Mob) {
+    }
 }
 
 //alias for basic terrain tile
@@ -67,6 +69,15 @@ class Door : TerrainTile {
         name = "door"
         description = "An old wooden door"
         char = "+"
+        passable = false
+    }
+    
+    override func bump(mob: Mob) {
+        if !passable {
+            Game.sharedInstance.Log("The door opens.")
+            passable = true
+            char = "-"
+        }
     }
 }
 

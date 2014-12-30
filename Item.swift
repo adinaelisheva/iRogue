@@ -150,7 +150,7 @@ class Food : Item {
     override func useFn(ent : Entity) {
         super.useFn(ent)
         if let mob = ent as? Mob{
-            mob.addToHP(hpEffect)
+            mob.hp += hpEffect
             removeSelfFromInventory(mob)
             Game.sharedInstance.Log("\(mob.name) gains \(hpEffect) hp!")
         }
