@@ -73,7 +73,7 @@ class Game {
         _SharedInstance = self
         
         self.scene = scene // Must be initialized before creating any entities!
-        self.level = BasicLevel(w:64,h:24,level: 1)
+        self.level = BasicLevel(w:32,h:24,level: 1)
         
         self.playerMob = Mob(name: "Adinex", description: "A brave and noble adventurer", char: "@", color: UIColor.whiteColor(),hp:20)
         self.playerMob.sprite.zPosition = CGFloat(ZOrder.PLAYER.rawValue)
@@ -107,27 +107,35 @@ class Game {
     func doAction(action: Action, mob: Mob){
         
         if let action = action as? MoveAction {
-            
             var temp = (x:mob.coords.x,y:mob.coords.y) + action.direction
-            if level.isPassable(temp){
+            
+            let targets = level.things.filter({ $0 is Mob && $0.coords == temp }) as [Mob]
+            if targets.count > 0 {
+                // There's a mob in our way!
+                // TODO: use the right weapon for melee combat...
+                doAttackAction(AttackAction(direction: action.direction, weapon: nil), mob:mob)
+            } else if level.isPassable(temp){
                 mob.coords = temp
             } else {
-                // We ran into something. WalkInto it?
-                // TODO
+                // We ran into something.
+                level.getTileAt(temp)?.bump(mob)
             }
-        } else if let action = action as? InteractAction {
-            action.interactWith.interact(mob)
-        } else if let action = action as? UseAction {
-            action.item.useFn(mob)
-        } else if let action = action as? AttackAction {
+        }
+        else if let action = action as? InteractAction { action.interactWith.interact(mob) }
+        else if let action = action as? UseAction { action.item.useFn(mob) }
+        else if let action = action as? AttackAction { doAttackAction(action, mob:mob) }
+            
+    }
+        
+        func doAttackAction(action: AttackAction, mob: Mob) {
             let targetsquare = mob.coords + action.direction
             let targets = level.things.filter({ $0 is Mob && $0.coords == targetsquare }) as [Mob]
             for target in targets {
                 target.hp--
                 Log("* \(mob.name) hits \(target.name)!")
             }
+            
         }
-    }
 
     
 }
