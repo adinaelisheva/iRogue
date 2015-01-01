@@ -15,6 +15,13 @@ enum ItemTypes : UInt32 {
     case Food=0, Potion, Weapon, Scroll, Clothing, Ring, Amulet, Money, LAST, NONE
 }
 
+enum PotionType : UInt32 {
+    case PotMagic=0,PotWisdom,PotStrength,PotMutation,PotLevitation,PotPoison,PotInvisibility,LAST
+}
+enum ScrollType : UInt32 {
+    case ScrFear=0,LAST
+}
+
 let itemsMap : [ItemTypes : [()->Item]] = [
     ItemTypes.Food : [{BreadRation()},{Apple()},{MeatRation()},{Pear()},{Choko()}],
     .Potion : [{PotInvisibility()},{PotPoison()},{PotLevitation()},{PotMutation()},{PotStrength()},{PotWisdom()},{PotMagic()}],
@@ -155,15 +162,43 @@ class Food : Item {
 
 //consumables that have various effects
 class Potion : Item {
-    init(description:String,color:UIColor){
+    var potType : PotionType
+    var identifiedDesc : String
+    var identifiedAdj : String
+    
+    override var description : String {
+        get{
+            if (Game.sharedInstance.identifiedPotions[potType] != nil) {
+                return identifiedDesc
+            }
+            return super.description
+        }
+        set { super.description = newValue }
+    }
+    override var adjective : String {
+        get{
+            if (Game.sharedInstance.identifiedPotions[potType] != nil) {
+                return identifiedAdj
+            }
+            return super.adjective
+        }
+        set { super.adjective = newValue }
+    }
+    init(color:UIColor,potType:PotionType){
+        self.potType = potType
+        identifiedAdj = "known"
+        identifiedDesc = "A totally identified potion."
         //all potions are just called 'potion' as a short name
-        super.init(name:"potion",description:description,char:"!",color:color,type:.Weapon)
+        let desc = Game.sharedInstance.potionAdjs[potType] ?? "mysterious"
+        super.init(name:"potion",description:"A \(desc) potion.",char:"!",color:color,type:.Potion)
         useString = "Drink"
         autopickup = true
+        adjective = "\(desc)"
     }
     
     override func useFn(ent : Entity) {
         super.useFn(ent)
+        Game.sharedInstance.identifiedPotions[potType] = true
         if let mob = ent as? Mob {
             removeSelfFromInventory(mob)
         }
@@ -206,14 +241,42 @@ class Weapon : Item {
 
 //consumables that have various effects
 class Scroll : Item {
-    init(description:String){
-        super.init(name:"scroll",description:description,char:"?",color:UIColor.whiteColor(),type:.Scroll)
+    var scrType : ScrollType
+    var identifiedDesc : String
+    var identifiedAdj : String
+    
+    override var description : String {
+        get{
+            if (Game.sharedInstance.identifiedScrolls[scrType] != nil) {
+                return identifiedDesc
+            }
+            return super.description
+        }
+        set { super.description = newValue }
+    }
+    override var adjective : String {
+        get{
+            if (Game.sharedInstance.identifiedScrolls[scrType] != nil) {
+                return identifiedAdj
+            }
+            return super.adjective
+        }
+        set { super.adjective = newValue }
+    }
+    init(scrType:ScrollType){
+        let adj = Game.sharedInstance.scrollNames[scrType] ?? "Unknown"
+        identifiedAdj = "known"
+        identifiedDesc = "A totally identified scroll."
+        self.scrType = scrType
+        super.init(name:"scroll",description:"A scroll labeled \(adj)",char:"?",color:UIColor.whiteColor(),type:.Scroll)
         useString = "Read"
         autopickup = true
+        adjective = "\(adj)"
     }
     
     override func useFn(ent : Entity) {
         super.useFn(ent)
+        Game.sharedInstance.identifiedScrolls[scrType] = true
         if let mob = ent as? Mob {
             removeSelfFromInventory(mob)
         }
@@ -357,28 +420,29 @@ class Cake : Food {
 
 class PotInvisibility : Potion {
     init(){
-        //later color and desc should be generated randomly, but consistent per session
-        super.init(description:"A frothy white potion",color:UIColor.whiteColor())
-        adjective = "frothy white"
+        super.init(color:UIColor.whiteColor(),potType:PotionType.PotInvisibility)
+        identifiedDesc="A potion of invisibility."
+        identifiedAdj="invisibility"
     }
     
     override func useFn(ent : Entity) {
         super.useFn(ent)
-        Game.sharedInstance.Log("\(ent.name) becomes briefly invisible!\nIt was a potion of invisibility.")
+        Game.sharedInstance.Log(["\(ent.name) becomes briefly invisible!","It was a potion of invisibility."])
         //TODO later: actually implement that; remembering potion names
     }
 }
 
 class PotPoison : Potion {
     init(){
-        super.init(description:"A bubbly black potion",color:UIColor.grayColor())
-        adjective = "bubbly black"
+        super.init(color:UIColor.grayColor(),potType:PotionType.PotPoison)
+        identifiedDesc="A potion of poison."
+        identifiedAdj="poison"
     }
     
     override func useFn(ent : Entity) {
         super.useFn(ent)
         if let mob = ent as? Mob {
-            Game.sharedInstance.Log("Yuck! \(ent.name) feels sick.\nIt was a potion of poison.")
+            Game.sharedInstance.Log(["Yuck! \(ent.name) feels sick.","It was a potion of poison."])
             mob.hp -= 5
         }
         
@@ -389,39 +453,42 @@ class PotPoison : Potion {
 
 class PotLevitation : Potion {
     init(){
-        super.init(description:"A sparkly blue potion",color:UIColor.blueColor())
-        adjective = "sparkly blue"
+        super.init(color:UIColor.blueColor(),potType:PotionType.PotLevitation)
+        identifiedDesc="A potion of levitation."
+        identifiedAdj="levitation"
     }
     
     override func useFn(ent : Entity) {
         super.useFn(ent)
-        Game.sharedInstance.Log("\(ent.name) floats gently off the ground.\nIt was a potion of levitation.")
+        Game.sharedInstance.Log(["\(ent.name) floats gently off the ground.","It was a potion of levitation."])
         //TODO later: actually implement that
     }
 }
 
 class PotMutation : Potion {
     init(){
-        super.init(description:"A cloudy gray potion",color:UIColor.grayColor())
-        adjective = "cloudy gray"
+        super.init(color:UIColor.grayColor(),potType:PotionType.PotMutation)
+        identifiedDesc="A potion of mutation."
+        identifiedAdj="mutation"
     }
     
     override func useFn(ent : Entity) {
         super.useFn(ent)
-        Game.sharedInstance.Log("\(ent.name) feels strong.\n\(ent.name)'s eyes grow cloudy.\n\(ent.name)'s back stretches.\nIt was a potion of mutation.")
+        Game.sharedInstance.Log(["\(ent.name) feels strong.","\(ent.name)'s eyes grow cloudy.","\(ent.name)'s back stretches.","It was a potion of mutation."])
         //TODO later: actually implement that
     }
 }
 
 class PotStrength : Potion {
     init(){
-        super.init(description:"A murky black potion",color:UIColor(red: 0.2, green: 0.2, blue: 0.2, alpha: 1))
-        adjective = "murky black"
+        super.init(color:UIColor(red: 0.2, green: 0.2, blue: 0.2, alpha: 1),potType:PotionType.PotStrength)
+        identifiedDesc="A potion of strength."
+        identifiedAdj="strength"
     }
     
     override func useFn(ent : Entity) {
         super.useFn(ent)
-        Game.sharedInstance.Log("\(ent.name) feels strong!\nIt was a potion of strength.")
+        Game.sharedInstance.Log(["\(ent.name) feels strong!","It was a potion of strength."])
         //TODO later: actually implement that
     }
     
@@ -429,26 +496,28 @@ class PotStrength : Potion {
 
 class PotWisdom : Potion {
     init(){
-        super.init(description:"A sparkly white potion",color:UIColor.whiteColor())
-        adjective = "sparkly white"
+        super.init(color:UIColor.whiteColor(),potType:PotionType.PotWisdom)
+        identifiedDesc="A potion of wisdom."
+        identifiedAdj="wisdom"
     }
     
     override func useFn(ent : Entity) {
         super.useFn(ent)
-        Game.sharedInstance.Log("\(ent.name) feels wise.\nIt was a potion of wisdom.")
+        Game.sharedInstance.Log(["\(ent.name) feels wise.","It was a potion of wisdom."])
         //TODO later: actually implement that
     }
     
 }
 class PotMagic : Potion {
     init(){
-        super.init(description:"A cloudy green potion",color:UIColor.greenColor())
-        adjective = "cloudy green"
+        super.init(color:UIColor.greenColor(),potType:PotionType.PotMagic)
+        identifiedDesc="A potion of magic."
+        identifiedAdj="magic"
     }
     
     override func useFn(ent : Entity) {
         super.useFn(ent)
-        Game.sharedInstance.Log("Magic rushes through \(ent.name)'s veins.\nIt was a potion of magic.")
+        Game.sharedInstance.Log(["Magic rushes through \(ent.name)'s veins.","It was a potion of magic."])
         //TODO later: actually implement that
     }
 }
@@ -529,13 +598,13 @@ class DeadFish : Weapon {
 
 class ScrFear : Scroll {
     init(){
-        //again, should be random in the future
-        super.init(description:"A scroll labeled YABSLBAI.")
-        adjective = "YABSLBAI"
+        super.init(scrType:ScrollType.ScrFear)
+        identifiedDesc="A scroll of fear."
+        identifiedAdj="fear"
     }
     override func useFn(ent : Entity) {
         super.useFn(ent)
-        Game.sharedInstance.Log("Adinex's face becomes a terrifying mask!")
+        Game.sharedInstance.Log(["Adinex's face becomes a terrifying mask!","It was a scroll of fear"])
         let mobs = Game.sharedInstance.level.things.filter { (thing) -> Bool in
             if thing === ent { return false }
             if !(thing is AIMob) { return false }
@@ -546,8 +615,6 @@ class ScrFear : Scroll {
             Game.sharedInstance.Log("\(mob.name) flees!")
             mob.state = .FleeTarget
         }
-        
-        //TODO later: remembering scroll names
     }
 }
 

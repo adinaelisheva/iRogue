@@ -26,6 +26,11 @@ class Game {
         }
     }
     
+    var scrollNames = [ScrollType : String]()
+    var potionAdjs = [PotionType : String]()
+    var identifiedScrolls = [ScrollType : Bool]()
+    var identifiedPotions = [PotionType : Bool]()
+    
     private var dungeon : [Level] = []
     
     var dlvl : Int = 0 {
@@ -100,7 +105,7 @@ class Game {
     }
     
     func Log(lines: [String]) {
-        for line in lines.reverse() {
+        for line in lines {
             Log(line)
         }
     }
@@ -118,6 +123,37 @@ class Game {
         
         self.scene = scene // Must be initialized before creating any entities!
         self.dlvl = 1
+        
+        //set up scroll names
+        var i = 0 as UInt32
+        var end = ScrollType.LAST.rawValue
+        while i < end {
+            if let type = ScrollType(rawValue:i)?{
+                let length = 6 + arc4random_uniform(4)
+                var name = ""
+                for j in 0..<length{
+                    //ascii caps chars are 101 to 132
+                    let char = 65 + arc4random_uniform(33)
+                    name.append(Character(UnicodeScalar(char)))
+                }
+                scrollNames[type] = name
+            }
+            i++
+        }
+        //now potions
+        i = 0
+        end = PotionType.LAST.rawValue
+        let colors = ["red","orange","yellow","green","blue","purple","black","white","teal","brown","grey"]
+        let adjs = ["frothy","bubbly","sparkly","thick","viscous","clear","shimmery"]
+        while i < end {
+            if let type = PotionType(rawValue:i)?{
+                let color = colors[Int(arc4random_uniform(UInt32(colors.count)))]
+                let a = adjs[Int(arc4random_uniform(UInt32(adjs.count)))]
+                let adj = "\(a) \(color)"
+                potionAdjs[type] = adj
+            }
+            i++
+        }
         
         _SharedInstance = self
         
