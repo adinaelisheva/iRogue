@@ -16,8 +16,8 @@ class BasicLevel : Level {
     
     init(w:Int,h:Int,level:Int) {
         
-        //rooms default to 5x5, 2 blocks for walls, one for hallway
-        let roomSize = 8
+        //rooms default to 7x7, 2 blocks for walls, one for hallway
+        let roomSize = 10
         
         //make the width and height even multiples of roomSize
         let x = (w/roomSize) //number of rooms across
@@ -76,10 +76,10 @@ class BasicLevel : Level {
             let rand = arc4random_uniform(100)
             var x = 0
             //calculate my own distribution:
-            //50% chance of 0 items, 35% 1, 10% 2, 4% 3, 1% 4
-            if rand < 50 {
+            //35% chance of 0 items, 30% 1, 20% 2, 4% 3, 1% 4
+            if rand < 35 {
                 x = 0
-            } else if rand < 85 {
+            } else if rand < 75 {
                 x = 1
             } else if rand < 95 {
                 x = 2
