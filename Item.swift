@@ -184,12 +184,13 @@ class Potion : Item {
         }
         set { super.adjective = newValue }
     }
-    init(color:UIColor,potType:PotionType){
+    init(potType:PotionType){
         self.potType = potType
         identifiedAdj = "known"
         identifiedDesc = "A totally identified potion."
         //all potions are just called 'potion' as a short name
         let desc = Game.sharedInstance.potionAdjs[potType] ?? "mysterious"
+        let color = Game.sharedInstance.potionColors[potType]
         super.init(name:"potion",description:"A \(desc) potion.",char:"!",color:color,type:.Potion)
         useString = "Drink"
         autopickup = true
@@ -420,7 +421,7 @@ class Cake : Food {
 
 class PotInvisibility : Potion {
     init(){
-        super.init(color:UIColor.whiteColor(),potType:PotionType.PotInvisibility)
+        super.init(potType:PotionType.PotInvisibility)
         identifiedDesc="A potion of invisibility."
         identifiedAdj="invisibility"
     }
@@ -434,7 +435,7 @@ class PotInvisibility : Potion {
 
 class PotPoison : Potion {
     init(){
-        super.init(color:UIColor.grayColor(),potType:PotionType.PotPoison)
+        super.init(potType:PotionType.PotPoison)
         identifiedDesc="A potion of poison."
         identifiedAdj="poison"
     }
@@ -453,7 +454,7 @@ class PotPoison : Potion {
 
 class PotLevitation : Potion {
     init(){
-        super.init(color:UIColor.blueColor(),potType:PotionType.PotLevitation)
+        super.init(potType:PotionType.PotLevitation)
         identifiedDesc="A potion of levitation."
         identifiedAdj="levitation"
     }
@@ -467,7 +468,7 @@ class PotLevitation : Potion {
 
 class PotMutation : Potion {
     init(){
-        super.init(color:UIColor.grayColor(),potType:PotionType.PotMutation)
+        super.init(potType:PotionType.PotMutation)
         identifiedDesc="A potion of mutation."
         identifiedAdj="mutation"
     }
@@ -481,7 +482,7 @@ class PotMutation : Potion {
 
 class PotStrength : Potion {
     init(){
-        super.init(color:UIColor(red: 0.2, green: 0.2, blue: 0.2, alpha: 1),potType:PotionType.PotStrength)
+        super.init(potType:PotionType.PotStrength)
         identifiedDesc="A potion of strength."
         identifiedAdj="strength"
     }
@@ -496,7 +497,7 @@ class PotStrength : Potion {
 
 class PotWisdom : Potion {
     init(){
-        super.init(color:UIColor.whiteColor(),potType:PotionType.PotWisdom)
+        super.init(potType:PotionType.PotWisdom)
         identifiedDesc="A potion of wisdom."
         identifiedAdj="wisdom"
     }
@@ -510,7 +511,7 @@ class PotWisdom : Potion {
 }
 class PotMagic : Potion {
     init(){
-        super.init(color:UIColor.greenColor(),potType:PotionType.PotMagic)
+        super.init(potType:PotionType.PotMagic)
         identifiedDesc="A potion of magic."
         identifiedAdj="magic"
     }

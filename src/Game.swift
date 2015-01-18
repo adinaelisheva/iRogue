@@ -28,6 +28,7 @@ class Game {
     
     var scrollNames = [ScrollType : String]()
     var potionAdjs = [PotionType : String]()
+    var potionColors = [PotionType : UIColor]()
     var identifiedScrolls = [ScrollType : Bool]()
     var identifiedPotions = [PotionType : Bool]()
     
@@ -129,7 +130,7 @@ class Game {
                 var name = ""
                 for j in 0..<length{
                     //ascii caps chars are 101 to 132
-                    let char = 65 + arc4random_uniform(33)
+                    let char = 65 + arc4random_uniform(25)
                     name.append(Character(UnicodeScalar(char)))
                 }
                 scrollNames[type] = name
@@ -139,14 +140,17 @@ class Game {
         //now potions
         i = 0
         end = PotionType.LAST.rawValue
-        let colors = ["red","orange","yellow","green","blue","purple","black","white","teal","brown","grey"]
+        let colorNames = ["red","orange","yellow","green","blue","purple","black","white","teal","brown","grey"]
         let adjs = ["frothy","bubbly","sparkly","thick","viscous","clear","shimmery"]
+        let colors = [UIColor.redColor(),UIColor.orangeColor(),UIColor.yellowColor(),UIColor.greenColor(),UIColor.blueColor(),UIColor.purpleColor(),UIColor.grayColor(),UIColor.brownColor(),UIColor.whiteColor()]
         while i < end {
             if let type = PotionType(rawValue:i)?{
+                let colorN = colorNames[Int(arc4random_uniform(UInt32(colorNames.count)))]
                 let color = colors[Int(arc4random_uniform(UInt32(colors.count)))]
                 let a = adjs[Int(arc4random_uniform(UInt32(adjs.count)))]
-                let adj = "\(a) \(color)"
+                let adj = "\(a) \(colorN)"
                 potionAdjs[type] = adj
+                potionColors[type] = color
             }
             i++
         }
