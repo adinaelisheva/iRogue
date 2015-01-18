@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import UIKit
 
 class BasicLevel : Level {
     
@@ -94,6 +95,29 @@ class BasicLevel : Level {
                 let it = getDistRandomItem()
                 it.coords = r.randomPoint()
                 things.append(it)
+            }
+        }
+       
+        
+        //add random monsters
+        for r in rooms{
+            let rand = arc4random_uniform(100)
+            var x = 0
+
+            if rand < 50 {
+                x = 0
+            } else if rand < 75 {
+                x = 1
+            } else {
+                x = 2
+            }
+            
+            for i in 0..<x{
+                let mob = AIMob(name: "Monster", description: "A scary monster", char: "M", color: UIColor.greenColor(),hp:10)
+                mob.sprite.zPosition = CGFloat(Entity.ZOrder.MOB.rawValue)
+                mob.target = nil
+                mob.coords = r.randomPoint()
+                things.append(mob)
             }
         }
         

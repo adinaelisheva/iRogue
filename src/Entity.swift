@@ -10,6 +10,10 @@ import Foundation
 import UIKit
 
 class Entity {
+    
+    enum ZOrder : UInt32 {
+        case TERRAIN = 0, ITEM, MOB, PLAYER
+    }
 
     var name : String = "???"
     var description : String = "What is this mysterious object?"

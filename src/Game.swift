@@ -52,14 +52,10 @@ class Game {
     var xpLevel = 1
     var xp = 0 
     var playerMob : Mob!
-    var aiMob : AIMob!
     
     //for us to reach the MVC
     var UICallback : (() -> Void)?
-    
-    enum ZOrder : UInt32 {
-        case TERRAIN = 0, ITEM, MOB, PLAYER
-    }
+        
     
     enum DoorMask : Int {
         case UP = 1
@@ -158,15 +154,10 @@ class Game {
         _SharedInstance = self
         
         self.playerMob = Mob(name: "Adinex", description: "A brave and noble adventurer", char: "@", color: UIColor.whiteColor(),hp:20)
-        self.playerMob.sprite.zPosition = CGFloat(ZOrder.PLAYER.rawValue)
-        self.aiMob = AIMob(name: "Monster", description: "A scary monster", char: "M", color: UIColor.greenColor(),hp:10)
-        self.aiMob.sprite.zPosition = CGFloat(ZOrder.MOB.rawValue)
-        self.aiMob.target = self.playerMob
+        self.playerMob.sprite.zPosition = CGFloat(Entity.ZOrder.PLAYER.rawValue)
         
         //add test items
         level.things.append(playerMob)
-        level.things.append(aiMob)
-        aiMob.coords = (level as BasicLevel).downStair!.coords
         playerMob.coords = (level as BasicLevel).upStair!.coords
         
         level.computeVisibilityFrom(playerMob.coords)
