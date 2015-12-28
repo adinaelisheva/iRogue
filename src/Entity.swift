@@ -32,27 +32,32 @@ class Entity {
     
     var coords : (x:Int,y:Int) = (0,0)
     
-    let sprite : EntitySKNode!
+    var sprite : EntitySKNode!
     
     init(name:String?, description:String?, char:Character?, color:UIColor?) {
-        self.name = name? ?? self.name
-        self.description = description? ?? self.description
-        self.char = char? ?? self.char
-        self.color = color? ?? self.color
 
-        self.sprite = Game.sharedInstance.scene.addEntity(self)
+        self.name = name ?? self.name
+        self.description = description ?? self.description
+        self.char = char ?? self.char
+        self.color = color ?? self.color
+
+        self.sprite = EntitySKNode(character: self.char, color: self.color, entity: self)
+        self.sprite.size = CGSize(width: GameScene.cellSize.w, height: GameScene.cellSize.h)
+
     }
     
     // Adds the entity to the display
     func show() {
-        if (sprite.parent != nil) { return }
-        Game.sharedInstance.scene.camera.addChild(sprite)
+        if let  _ = sprite.parent {
+            Game.sharedInstance.scene.cameraNode.addChild(sprite)
+        }
     }
     
     // Removes the entity from teh display
     func hide() {
-        if (sprite.parent == nil) { return }
-        sprite.removeFromParent()
+        if let _ = sprite.parent {
+            sprite.removeFromParent()
+        }
     }
     
     func getOwnIndex(arr : [AnyObject]) -> Int?{
@@ -63,7 +68,7 @@ class Entity {
     }
     
     func removeSelfFromLevel(){
-        if let i = getOwnIndex(Game.sharedInstance.level.things)? {
+        if let i = getOwnIndex(Game.sharedInstance.level.things) {
             Game.sharedInstance.level.things.removeAtIndex(i)
         }
         hide()

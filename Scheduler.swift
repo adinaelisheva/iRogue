@@ -64,7 +64,7 @@ class Scheduler {
                     Game.sharedInstance.doAction(action, mob:mob)
                 } else {
                     // If AIAction returns nil, then it's waiting
-                    if let ai = mob.AIAction()? {
+                    if let ai = mob.AIAction() {
                         Game.sharedInstance.doAction(ai, mob:mob)
                     }
                 }

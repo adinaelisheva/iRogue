@@ -17,42 +17,34 @@ class EntitySKNode : SKSpriteNode {
     
     var character : Character = "?" {
         didSet {
-            self.texture = textureForCharacter(character)?
+            self.texture = EntitySKNode.textureForCharacter(character)
         }
     }
     
-    func textureForCharacter(char : Character) -> SKTexture? {
-        var index = asciiMap.rangeOfString(String(char))
-        if let index = index? {
-            var intIdx = distance(asciiMap.startIndex, index.startIndex)
-            var x = intIdx % 10
-            var y = 9 - intIdx / 10
-            var rect = CGRectMake(CGFloat(x)/10.0, CGFloat(y)/10.0, 0.1, 0.1)
+    class func textureForCharacter(char : Character) -> SKTexture? {
+        if let index = asciiMap.rangeOfString(String(char)) {
+            let intIdx = asciiMap.startIndex.distanceTo(index.startIndex)
+            let x = intIdx % 10
+            let y = 9 - intIdx / 10
+            let rect = CGRectMake(CGFloat(x)/10.0, CGFloat(y)/10.0, 0.1, 0.1)
             return SKTexture(rect: rect, inTexture: Game.sharedInstance.scene.ascii)
         }
         return nil
     }
     
     init(character:Character, color:UIColor, entity:Entity) {
-        super.init()
-        
+        let tex = EntitySKNode.textureForCharacter(character)!
         self.entity = entity
         self.character = character
-        self.texture = textureForCharacter(character)?
-        //        self.blendMode = SKBlendMode.Add
+        
+        super.init(texture: tex, color:entity.color, size: tex.size())
+        
         self.colorBlendFactor = 1
         userInteractionEnabled = false
     }
 
-    override init() {
-        super.init()
-    }
-    
-    override init(texture: SKTexture!, color: UIColor!, size: CGSize) {
-        super.init(texture: texture, color: color, size: size)
-    }
-    
     required init?(coder aDecoder: NSCoder) {
+        self.entity = nil
         super.init(coder: aDecoder)
     }
     

@@ -15,7 +15,7 @@ class RollSpec {
     
     func roll() -> Int {
         var sum = mod
-        for i in 0..<num {
+        for _ in 0..<num {
             sum += Int(arc4random_uniform(UInt32(sides)))
         }
         return sum

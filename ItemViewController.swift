@@ -17,7 +17,7 @@ class ItemViewController : UIViewController, UICollectionViewDelegate, UICollect
     }
     
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCellWithReuseIdentifier("itemCell", forIndexPath: indexPath) as ItemViewCell
+        let cell = collectionView.dequeueReusableCellWithReuseIdentifier("itemCell", forIndexPath: indexPath) as! ItemViewCell
         
         let item = items[indexPath.row]
         
@@ -63,7 +63,7 @@ class ItemViewController : UIViewController, UICollectionViewDelegate, UICollect
     }
     
     @IBAction func InteractClicked(sender: AnyObject) {
-        if let ind = ItemCollection.indexPathsForSelectedItems().first as? NSIndexPath {
+        if let ind = ItemCollection.indexPathsForSelectedItems()?.first {
             let item = items[ind.row]
             Game.sharedInstance.takeTurnWithAction(UseAction(interactWith: item))
             self.dismissViewControllerAnimated(true, completion: nil)
@@ -72,8 +72,8 @@ class ItemViewController : UIViewController, UICollectionViewDelegate, UICollect
     @IBAction func DropClicked(sender: AnyObject) {
     }
     @IBAction func DetailsClicked(sender: AnyObject) {
-        if let ind = ItemCollection.indexPathsForSelectedItems().first as? NSIndexPath {
-            var VC = self.storyboard?.instantiateViewControllerWithIdentifier("DescriptionView") as DescriptionViewController
+        if let ind = ItemCollection.indexPathsForSelectedItems()?.first {
+            let VC = self.storyboard?.instantiateViewControllerWithIdentifier("DescriptionView") as! DescriptionViewController
             self.presentViewController(VC, animated: true, completion: nil)
             let item = items[ind.row]
             VC.DescLabel.text = "\(item.name) Description:\n\n\(item.description)"
@@ -89,10 +89,10 @@ class ItemViewCell : UICollectionViewCell {
     
     @IBOutlet weak var ItemLabel: UILabel!
     
-    required init(coder aDecoder: NSCoder) {
+    required init?(coder aDecoder: NSCoder) {
         super.init(coder:aDecoder)
         
-        var background = UIView()
+        let background = UIView()
         background.layer.borderColor = UIColor.whiteColor().CGColor
         background.layer.borderWidth = 1
         selectedBackgroundView = background

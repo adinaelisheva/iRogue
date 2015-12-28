@@ -13,36 +13,33 @@ class GameScene: SKScene {
     
     let ascii = SKTexture(imageNamed: "characters")
     
-    let camera = SKNode()
+    let cameraNode = SKNode()
     
-    func addEntity(e:Entity) -> EntitySKNode {
+    func addEntity(e:Entity) {
         //create the main character]
-        let c = EntitySKNode(character: e.char, color: e.color, entity: e)
-        c.size = CGSize(width: _cellSize.w, height: _cellSize.h)
-        camera.addChild(c)
-        
-        return c
+        cameraNode.addChild(e.sprite)
     }
     
     //kind of like a constructor - set up is in here
     override func didMoveToView(view: SKView) {
         self.backgroundColor = UIColor.blackColor()
-        self.addChild(camera)
+        self.addChild(cameraNode)
     }
     
     override func didChangeSize(oldSize: CGSize) {
-        var frame = self.frame
+        let frame = self.frame
         if _cellSize.w != 0 && _cellSize.h != 0 {
             gridSize = (w:Int(frame.width)/_cellSize.w,h:Int(frame.height)/_cellSize.h)
         }
     }
     
-    override func touchesBegan(touches: NSSet, withEvent event: UIEvent) {
-        if let touch = touches.allObjects.first as? UITouch {
+    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
+
+        if let touch = touches.first {
             // Get all nodes that we've tapped on
             let nodes = self.nodesAtPoint(touch.locationInNode(self))
             // Get the coordinate we're on too
-            let pixelcoord = touch.locationInNode(camera)
+            let pixelcoord = touch.locationInNode(cameraNode)
             let coords = (
                 x:Int(pixelcoord.x) / GameScene.cellSize.w,
                 y:Int(pixelcoord.y) / GameScene.cellSize.h)
@@ -51,9 +48,9 @@ class GameScene: SKScene {
             // Determine the visibility of this tile.
             if let tile = Game.sharedInstance?.level.getTileAt(coords) {
                 if tile.seen {
-                    let entNodes = nodes.filter({ $0 is EntitySKNode }) as [EntitySKNode]
+                    let entNodes = nodes.filter({ $0 is EntitySKNode }) as! [EntitySKNode]
                     
-                    for (i, entityNode) in enumerate(entNodes) {
+                    for entityNode in entNodes {
                         let ent = entityNode.entity
                         
                         // Skip floor tiles, if there's anything else to see
@@ -82,8 +79,8 @@ class GameScene: SKScene {
     }
     
     func getCellPosFromCoords(coords : (x:Int,y:Int)) -> CGPoint {
-        var x = (coords.x*_cellSize.w) + (_cellSize.w/2)
-        var y = (coords.y*_cellSize.h) + (_cellSize.h/2)
+        let x = (coords.x*_cellSize.w) + (_cellSize.w/2)
+        let y = (coords.y*_cellSize.h) + (_cellSize.h/2)
         return CGPoint(x:x,y:y)
     }
     

@@ -29,7 +29,7 @@ class PileMenuViewController : UITableViewController {
     }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        var cell = tableView.dequeueReusableCellWithIdentifier(self.cellIdentifier) as UITableViewCell
+        let cell = tableView.dequeueReusableCellWithIdentifier(self.cellIdentifier)!
         if (indexPath.row < self.items!.count) {
             // Display information about the item
             let item = items![indexPath.row]

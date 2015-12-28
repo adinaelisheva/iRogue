@@ -64,9 +64,9 @@ class MainViewController: UIViewController {
     }
     
     @IBAction func itemsClicked(sender: AnyObject) {
-        var VC = self.storyboard?.instantiateViewControllerWithIdentifier("ItemsView") as ItemViewController
+        let VC = self.storyboard?.instantiateViewControllerWithIdentifier("ItemsView") as! ItemViewController
         var items : [Item] = []
-        for (type,arr) in game.playerMob.inventory{
+        for arr in game.playerMob.inventory.values {
             items += arr
         }
         VC.items = items
@@ -123,7 +123,7 @@ class MainViewController: UIViewController {
             h: game.playerMob.coords.y * GameScene.cellSize.h)
         
         // Move the root object (camera) to put the player in the center.
-        gameVC.scene.camera.position = CGPoint(
+        gameVC.scene.cameraNode.position = CGPoint(
             x: -offset.w + half.w  - GameScene.cellSize.w/2,
             y: -offset.h + half.h  - GameScene.cellSize.h/2)
         
@@ -165,7 +165,7 @@ class MainViewController: UIViewController {
                 // Print info about the pile if it is not what we saw last time.
                 //also, autopickup anything we should autopickup
                 var infotext = "Here is: "
-                for (i,item) in enumerate(interactables) {
+                for (i,item) in interactables.enumerate() {
                     //try to auto-pick-it-up
                     let it = item as? Item
                     if it?.autopickup ?? false{
@@ -244,13 +244,13 @@ class MainViewController: UIViewController {
     
     override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject!)
     {
-        var name = segue.identifier
+        let name = segue.identifier
         if name == "gameview" {
             // We are embedding the game VC; set up references.
-            gameVC = segue.destinationViewController as GameViewController;
+            gameVC = segue.destinationViewController as! GameViewController;
         } else if name == "PileMenu" {
             // We're popping up the pile menu; set up its references.
-            let menu = segue.destinationViewController as PileMenuViewController
+            let menu = segue.destinationViewController as! PileMenuViewController
             menu.items = interactables
             menu.mvc = self
         }
@@ -261,11 +261,11 @@ class MainViewController: UIViewController {
         return false
     }
     
-    override func supportedInterfaceOrientations() -> Int {
+    override func supportedInterfaceOrientations() -> UIInterfaceOrientationMask {
         if UIDevice.currentDevice().userInterfaceIdiom == .Phone {
-            return Int(UIInterfaceOrientationMask.AllButUpsideDown.rawValue)
+            return UIInterfaceOrientationMask.AllButUpsideDown
         } else {
-            return Int(UIInterfaceOrientationMask.All.rawValue)
+            return UIInterfaceOrientationMask.All
         }
     }
     

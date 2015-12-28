@@ -117,9 +117,9 @@ class Stair : TerrainTile {
 
         // Place us in the right spot
         if (toLvl > fromLvl) {
-            mob.coords = (level as BasicLevel).upStair!.coords
+            mob.coords = (level as! BasicLevel).upStair!.coords
         } else {
-            mob.coords = (level as BasicLevel).downStair!.coords
+            mob.coords = (level as! BasicLevel).downStair!.coords
         }
 
         // Add us to the new level

@@ -82,19 +82,17 @@ class Game {
     
     var logString: NSAttributedString {
         get {
-            let oldAttrs : [NSObject:AnyObject] = [
+            let oldAttrs : [String:AnyObject] = [
                 NSForegroundColorAttributeName: UIColor.grayColor(),
                 NSFontAttributeName: UIFont(name: "Menlo", size: CGFloat(12))!]
             
-            let newAttrs : [NSObject:AnyObject] = [
+            let newAttrs : [String:AnyObject] = [
                 NSForegroundColorAttributeName: UIColor.whiteColor(),
                 NSFontAttributeName: UIFont(name: "Menlo", size: CGFloat(12))!]
             
-            var str = NSMutableAttributedString()
-            for x in logMessages.reverse() {
-                
-                var attrmessage = NSAttributedString(string: "\n" + x.message, attributes: (x.turn == turnCount) ? newAttrs : oldAttrs)
-                
+            let str = NSMutableAttributedString()
+            for x in Array(logMessages.reverse()) {
+                let attrmessage = NSAttributedString(string: "\n\(x.message)", attributes: (x.turn == turnCount) ? newAttrs : oldAttrs)
                 str.appendAttributedString(attrmessage)
             }
             return str
@@ -125,10 +123,10 @@ class Game {
         var i = 0 as UInt32
         var end = ScrollType.LAST.rawValue
         while i < end {
-            if let type = ScrollType(rawValue:i)?{
+            if let type = ScrollType(rawValue:i){
                 let length = 6 + arc4random_uniform(4)
                 var name = ""
-                for j in 0..<length{
+                for _ in 0..<length{
                     //ascii caps chars are 101 to 132
                     let char = 65 + arc4random_uniform(25)
                     name.append(Character(UnicodeScalar(char)))
@@ -144,7 +142,7 @@ class Game {
         let adjs = ["frothy","bubbly","sparkly","thick","viscous","clear","shimmery"]
         let colors = [UIColor.redColor(),UIColor.orangeColor(),UIColor.yellowColor(),UIColor.greenColor(),UIColor.blueColor(),UIColor.purpleColor(),UIColor.grayColor(),UIColor.brownColor(),UIColor.whiteColor()]
         while i < end {
-            if let type = PotionType(rawValue:i)?{
+            if let type = PotionType(rawValue:i){
                 let colorN = colorNames[Int(arc4random_uniform(UInt32(colorNames.count)))]
                 let color = colors[Int(arc4random_uniform(UInt32(colors.count)))]
                 let a = adjs[Int(arc4random_uniform(UInt32(adjs.count)))]
@@ -162,7 +160,7 @@ class Game {
         
         //add test items
         level.things.append(playerMob)
-        playerMob.coords = (level as BasicLevel).upStair!.coords
+        playerMob.coords = (level as! BasicLevel).upStair!.coords
         
         level.computeVisibilityFrom(playerMob.coords)
         level.updateSprites()
@@ -196,7 +194,7 @@ class Game {
             xp += mob.maxHP
             
             // Put the mob's inventory onto the map
-            for (type,items) in mob.inventory {
+            for items in mob.inventory.values {
                 for item in items {
                     item.coords = mob.coords
                     level.things.append(item)
@@ -215,9 +213,9 @@ class Game {
     func doAction(action: Action, mob: Mob){
         
         if let action = action as? MoveAction {
-            var temp = (x:mob.coords.x,y:mob.coords.y) + action.direction
+            let temp = (x:mob.coords.x,y:mob.coords.y) + action.direction
             
-            let targets = level.things.filter({ $0 is Mob && $0.coords == temp }) as [Mob]
+            let targets = level.things.filter({ $0 is Mob && $0.coords == temp }) as! [Mob]
             if targets.count > 0 {
                 // There's a mob in our way!
                 // TODO: use the right weapon for melee combat...
@@ -237,7 +235,7 @@ class Game {
     
     func doAttackAction(action: AttackAction, mob: Mob) {
         let targetsquare = mob.coords + action.direction
-        let targets = level.things.filter({ $0 is Mob && $0.coords == targetsquare }) as [Mob]
+        let targets = level.things.filter({ $0 is Mob && $0.coords == targetsquare }) as! [Mob]
         for target in targets {
             
             let attack = mob.DC - target.AC

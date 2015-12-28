@@ -74,7 +74,7 @@ class AIMob : Mob {
         var dir = Direction(rawValue:arc4random_uniform(8))!
         
         // If the space is blocked, try another direction at random
-        var cw = arc4random_uniform(2) == 0
+        let cw = arc4random_uniform(2) == 0
         
         for _ in 1...8 { // Try changing directions 8 times at most. Then give up.
             if (!(Game.sharedInstance.level.getTileAt(self.coords + dir)?.passable ?? false)) {
@@ -121,7 +121,7 @@ class AIMob : Mob {
             // Pathfind to target if possible
             if let path = Math.pathfind(self.coords , goal: target.coords, level: Game.sharedInstance.level) {
                 
-                var dir : Direction! = Math.dirToCoord(path.first! - self.coords)
+                let dir : Direction! = Math.dirToCoord(path.first! - self.coords)
                 
                 if (dir == nil) {
                     return nil
@@ -159,7 +159,7 @@ class AIMob : Mob {
                     return AIAction()
                 }
                 
-                if var dir = Math.dirToCoord(path.first! - self.coords)? {
+                if var dir = Math.dirToCoord(path.first! - self.coords) {
                     // Run away!
                     // TODO make a better way to go backwards...
                     dir = Math.changeDirection(dir, cw: true)

@@ -91,7 +91,7 @@ class BasicLevel : Level {
             } else {
                 x = 100
             }
-            for i in 0..<x{
+            for _ in 0..<x{
                 let it = getDistRandomItem()
                 it.coords = r.randomPoint()
                 things.append(it)
@@ -112,7 +112,7 @@ class BasicLevel : Level {
                 x = 2
             }
             
-            for i in 0..<x{
+            for _ in 0..<x{
                 let mob = AIMob(name: "Monster", description: "A scary monster", char: "M", color: UIColor.greenColor(),hp:10)
                 mob.sprite.zPosition = CGFloat(Entity.ZOrder.MOB.rawValue)
                 mob.target = nil

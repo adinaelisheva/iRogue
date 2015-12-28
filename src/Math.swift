@@ -243,7 +243,7 @@ class Math {
         var from: ASNode!
         
         func neighbors() -> [ASNode] {
-                var arr = [
+                let arr = [
                     ASNode( x: (x.x - 1, x.y + 1) ),
                     ASNode( x: (x.x + 0, x.y + 1) ),
                     ASNode( x: (x.x + 1, x.y + 1) ),
@@ -274,7 +274,7 @@ class Math {
             node = node.from
         }
         
-        return arr.reverse()
+        return Array(arr.reverse())
     }
     
     class func pathfind(a: Coord, goal: Coord, level:Level) -> [Coord]? {
@@ -282,27 +282,27 @@ class Math {
         var closedset = [ASNode]()    // The set of nodes already evaluated.
         var openset = [ASNode(x: a)]    // The set of tentative nodes to be evaluated, initially containing the start node
         
-        var start = ASNode(x: a)
+        let start = ASNode(x: a)
 
         // Estimated total cost from start to goal through y.
         start.f = start.g + distance(start.x, b: goal)
         
         while openset.count > 0 {
             // Sort by f score, smallest first
-            openset.sort({ $0.f < $1.f })
+            openset.sortInPlace({ $0.f < $1.f })
             let current = openset.first!
             
             if current.x == goal {
                 return reconstructPath(current)
             }
         
-            openset.removeAtIndex(find(openset, current)!)
+            openset.removeAtIndex(openset.indexOf(current)!)
             
             closedset.append(current)
             
             for neighbor in current.neighbors() {
                 // Don't revisit already visited tiles
-                if find(closedset, neighbor) != nil {
+                if closedset.indexOf(neighbor) != nil {
                     continue
                 }
                 // Only consider passable tiles
@@ -312,7 +312,7 @@ class Math {
                 
                 let tmpg = current.g + 1
                 
-                let inopenset = find(openset, neighbor) != nil
+                let inopenset = openset.indexOf(neighbor) != nil
                 
                 if !inopenset || tmpg < neighbor.g {
                     neighbor.from = current

@@ -109,10 +109,9 @@ class Item : Entity {
     
     
     func removeSelfFromInventory(mob : Mob){
-        if let arr = mob.inventory[type]?{
-            if let i = getOwnIndex(arr)? {
+        if let arr = mob.inventory[type],
+            let i = getOwnIndex(arr) {
                mob.inventory[type]!.removeAtIndex(i)
-            }
         }
     }
     
@@ -123,10 +122,9 @@ class Item : Entity {
         //abort if you're not the same type
         if newIt!.type != type { return }
         
-        if let arr = mob.inventory[type]?{
-            if let i = getOwnIndex(arr)?{
+        if let arr = mob.inventory[type],
+           let i = getOwnIndex(arr) {
                 mob.inventory[type]![i] = newIt!
-            }
         }
     }
 
@@ -612,7 +610,7 @@ class ScrFear : Scroll {
             if Math.distance(thing.coords,b:ent.coords) > 5 { return false }
             return true
         }
-        for mob in mobs as [AIMob]{
+        for mob in mobs as! [AIMob]{
             Game.sharedInstance.Log("\(mob.name) flees!")
             mob.state = .FleeTarget
         }

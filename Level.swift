@@ -10,8 +10,8 @@ import Foundation
 
 class Level {
     
-    var things = [Entity]()
-    var map = [TerrainTile?]()
+    var things : [Entity] = []
+    var map : [TerrainTile?] = []
     
     var rooms : [Room]
     //the dimensions in number of rooms
@@ -80,8 +80,8 @@ class Level {
             tile?.visible = false
         }
         
-        var minview = (x:coord.x - 5, y:coord.y - 5)
-        var maxview = (x:coord.x + 5, y:coord.y + 5)
+        let minview = (x:coord.x - 5, y:coord.y - 5)
+        let maxview = (x:coord.x + 5, y:coord.y + 5)
         
         var perimiter : [Coord] = []
         // Build up a list of perimiter cells
@@ -97,12 +97,12 @@ class Level {
         for p in perimiter {
             var visible = true
             // Cast a ray from our viewpoint to the perimiter
-            var los = Math.lineFrom(coord, to: p)
+            let los = Math.lineFrom(coord, to: p)
             
             for cell in los {
-                if let tile = getTileAt(cell)? {
-                    visible &= (tile.passable)
-                    tile.visible |= visible
+                if let tile = getTileAt(cell) {
+                    visible = visible && (tile.passable)
+                    tile.visible = tile.visible || visible
                     // Mark obstructions as invisible, for now...
                 } else {
                     // nil tiles block vision
@@ -118,7 +118,7 @@ class Level {
 
         for x in 0..<mapSize.w {
             for y in 0..<mapSize.h {
-                if let tile = getTileAt((x,y))? {
+                if let tile = getTileAt((x,y)) {
                     
                     // Don't do this bleeding effect onto more floor tiles!
                     if (tile.passable) {
@@ -126,14 +126,14 @@ class Level {
                     }
                     
                     var nVis = false
-                    if let tvis = getTileAt((x-1,y-1))?.visible { nVis |= tvis }
-                    if let tvis = getTileAt((x  ,y-1))?.visible { nVis |= tvis }
-                    if let tvis = getTileAt((x+1,y-1))?.visible { nVis |= tvis }
-                    if let tvis = getTileAt((x-1,y  ))?.visible { nVis |= tvis }
-                    if let tvis = getTileAt((x+1,y  ))?.visible { nVis |= tvis }
-                    if let tvis = getTileAt((x-1,y+1))?.visible { nVis |= tvis }
-                    if let tvis = getTileAt((x  ,y+1))?.visible { nVis |= tvis }
-                    if let tvis = getTileAt((x+1,y+1))?.visible { nVis |= tvis }
+                    if let tvis = getTileAt((x-1,y-1))?.visible { nVis = nVis || tvis }
+                    if let tvis = getTileAt((x  ,y-1))?.visible { nVis = nVis || tvis }
+                    if let tvis = getTileAt((x+1,y-1))?.visible { nVis = nVis || tvis }
+                    if let tvis = getTileAt((x-1,y  ))?.visible { nVis = nVis || tvis }
+                    if let tvis = getTileAt((x+1,y  ))?.visible { nVis = nVis || tvis }
+                    if let tvis = getTileAt((x-1,y+1))?.visible { nVis = nVis || tvis }
+                    if let tvis = getTileAt((x  ,y+1))?.visible { nVis = nVis || tvis }
+                    if let tvis = getTileAt((x+1,y+1))?.visible { nVis = nVis || tvis }
                     
                     if nVis {
                         setVis.append(tile)
@@ -147,8 +147,8 @@ class Level {
         }
         
         for tile in map {
-            if let tile = tile? {
-                tile.seen |= tile.visible
+            if let tile = tile {
+                tile.seen = tile.seen || tile.visible
             }
         }
         
