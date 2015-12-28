@@ -1,0 +1,3 @@
+- Going up/down stairs is broken
+- Cannot drop items
+- Cannot close open doors
