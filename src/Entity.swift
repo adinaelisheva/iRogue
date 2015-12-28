@@ -43,7 +43,7 @@ class Entity {
 
         self.sprite = EntitySKNode(character: self.char, color: self.color, entity: self)
         self.sprite.size = CGSize(width: GameScene.cellSize.w, height: GameScene.cellSize.h)
-
+        Game.sharedInstance.scene.addEntity(self)
     }
     
     // Adds the entity to the display
