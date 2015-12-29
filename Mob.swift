@@ -3,9 +3,16 @@ import Foundation
 import UIKit
 
 class Mob : Entity {
+    
+    enum Team : UInt32 {
+        case FRIEND = 0, FOE
+    }
+    
     var inventory = [ItemTypes : [Item]]()
     
     var gold = 0
+    
+    var team = Team.FRIEND
     
     var hp : Int = 0 {
         didSet {
@@ -68,6 +75,10 @@ class AIMob : Mob {
     // If we're targeting something in particular, it's held here
     weak var target : Entity!
     
+    override init(name: String?, description: String?, char: Character?, color: UIColor?, hp: Int) {
+        super.init(name: name, description: description, char: char, color: color, hp: hp)
+        team = .FOE
+    }
     
     func Wander() -> Action? {
         //random walk
