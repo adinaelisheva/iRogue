@@ -26,6 +26,8 @@ class Entity {
     
     // If non-nil, show up in the Interact menu.
     var interactable : String?
+    var interactOn = true
+    var interactAdj = false
     var properties = [String:Int]()
     
     var color : UIColor = UIColor.whiteColor()
@@ -53,7 +55,7 @@ class Entity {
         }
     }
     
-    // Removes the entity from teh display
+    // Removes the entity from the display
     func hide() {
         if let _ = sprite.parent {
             sprite.removeFromParent()

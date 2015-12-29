@@ -384,7 +384,7 @@
                         <outlet property="swButton" destination="ksd-zT-xr9" id="hTh-Wx-RwK"/>
                         <outlet property="upButton" destination="ah6-af-yEp" id="idE-nW-0Md"/>
                         <outlet property="xpLabel" destination="3qY-xd-bEZ" id="vmF-UE-vvO"/>
-                        <segue destination="h7H-oz-Y2D" kind="custom" identifier="PileMenu" id="mm0-Cv-n7u"/>
+                        <segue destination="h7H-oz-Y2D" kind="presentation" identifier="PileMenu" id="mm0-Cv-n7u"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Npa-kh-6Q1" userLabel="First Responder" sceneMemberID="firstResponder"/>

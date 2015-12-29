@@ -50,6 +50,9 @@ class Water : TerrainTile {
         description = "Some water covers the floor here."
         char = "~"
         color = UIColor.cyanColor()
+        //todo - drink water
+        //interactAdj = true
+        //interactable = "Drink"
     }
 }
 
@@ -70,14 +73,25 @@ class Door : TerrainTile {
         description = "An old wooden door"
         char = "+"
         passable = false
+        interactable = "Open"
+        interactAdj = true
+        interactOn = false
+    }
+    
+    func changeDoor(open:Bool){
+        passable = open
+        interactable = open ? "Close" : "Open"
+        let str = open ? "opens." : "closes."
+        Game.sharedInstance.Log("The door \(str)")
+        char = open ? "-" : "+"
+    }
+    
+    override func interact(mob: Mob) {
+        changeDoor(!passable)
     }
     
     override func bump(mob: Mob) {
-        if !passable {
-            Game.sharedInstance.Log("The door opens.")
-            passable = true
-            char = "-"
-        }
+        changeDoor(!passable)
     }
 }
 
