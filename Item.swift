@@ -603,7 +603,7 @@ class ScrFear : Scroll {
     }
     override func useFn(ent : Entity) {
         super.useFn(ent)
-        Game.sharedInstance.Log(["Adinex's face becomes a terrifying mask!","It was a scroll of fear"])
+        Game.sharedInstance.Log(["\(ent.name)'s face becomes a terrifying mask!","It was a scroll of fear"])
         let mobs = Game.sharedInstance.level.things.filter { (thing) -> Bool in
             if thing === ent { return false }
             if !(thing is AIMob) { return false }
