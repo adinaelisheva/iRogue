@@ -123,9 +123,9 @@ class MainViewController: UIViewController {
             h: game.playerMob.coords.y * GameScene.cellSize.h)
         
         // Move the root object (camera) to put the player in the center.
-        gameVC.scene.cameraNode.position = CGPoint(
+        gameVC.scene.offsetScene(CGPoint(
             x: -offset.w + half.w  - GameScene.cellSize.w/2,
-            y: -offset.h + half.h  - GameScene.cellSize.h/2)
+            y: -offset.h + half.h  - GameScene.cellSize.h/2))
         
     }
     

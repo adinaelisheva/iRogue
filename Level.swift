@@ -7,11 +7,14 @@
 //
 
 import Foundation
+import SpriteKit
 
 class Level {
     
-    var things : [Entity] = []
-    var map : [TerrainTile?] = []
+    var things : [Entity] { get { return _things }}
+    
+    private var _things : [Entity] = []
+    private var map : [TerrainTile?] = []
     
     var rooms : [Room]
     //the dimensions in number of rooms
@@ -19,24 +22,32 @@ class Level {
     
     let mapSize : (w:Int,h:Int)
     
-    func hideSprites() {
-        for ent in things {
-            ent.hide()
-        }
-        for tile in map {
-            tile?.hide()
+    let node = SKNode()
+    
+    
+    init(w:Int,h:Int) {
+        mapSize = (w,h)
+        map = [TerrainTile?](count:mapSize.w * mapSize.h, repeatedValue:nil)
+        
+        rooms = []
+        numRooms = (0,0)
+    }
+    
+    func addEntity(e : Entity) {
+        _things.append(e)
+        node.addChild(e.sprite)
+        e.level = self
+    }
+    
+    func removeEntity(e : Entity) {
+        if let i = things.indexOf({$0===e}) {
+            _things.removeAtIndex(i)
+            e.sprite.removeFromParent()
+            e.level = nil
         }
     }
-
-    func showSprites() {
-        for ent in things {
-            ent.show()
-        }
-        for tile in map {
-            tile?.show()
-        }
-    }
-
+    
+    
     private func getMapArrayIndex(coord: (x:Int, y:Int)) -> Int? {
         let index = coord.x + coord.y * mapSize.w
         
@@ -50,8 +61,17 @@ class Level {
     func setTile(tile: TerrainTile?) {
         if let coords = tile?.coords {
             if let index = getMapArrayIndex(coords) {
-                map[index]?.hide()
+
+                if let existing = map[index] {    
+                    existing.sprite.removeFromParent()
+                }
+                
                 map[index] = tile
+                
+                if let s = tile?.sprite {
+                    node.addChild(s)
+                }
+                
             }
         }
     }
@@ -162,15 +182,6 @@ class Level {
         for ent in things {
             ent.sprite.updateFromEntity()
         }
-    }
-    
-    init(w:Int,h:Int) {
-        mapSize = (w,h)
-        map = [TerrainTile?](count:mapSize.w * mapSize.h, repeatedValue:nil)
-        
-        rooms = []
-        numRooms = (0,0)
-
     }
     
     

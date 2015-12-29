@@ -16,15 +16,7 @@ class Game {
     }
     
     // Public global object things
-    var level : Level {
-        get {
-            while (dungeon.count < dlvl) {
-                dungeon.append(BasicLevel(w: lvlWidth, h: lvlHeight, level: dungeon.count + 1))
-            }
-            
-            return dungeon[dlvl-1]
-        }
-    }
+    var level : Level { get { return genLevel(dlvl) } }
     
     var scrollNames = [ScrollType : String]()
     var potionAdjs = [PotionType : String]()
@@ -34,18 +26,27 @@ class Game {
     
     private var dungeon : [Level] = []
     
+    private func genLevel(dlvl : Int) -> Level
+    {
+        while (dungeon.count < dlvl) {
+            dungeon.append(BasicLevel(w: lvlWidth, h: lvlHeight, level: dungeon.count + 1))
+        }
+        
+        return dungeon[dlvl-1]
+    }
+    
+    private func displayLevel(l : Level) {
+        Game.sharedInstance.scene.cameraNode.addChild(l.node)
+        Log("You are on level \(dlvl).")
+    }
+    
     var dlvl : Int = 0 {
         didSet {
-            if dlvl < 1 {
-                dlvl = 1
-            }
-            if oldValue != dlvl {
-                dungeon[oldValue - 1].hideSprites()
-                if dungeon.count >= dlvl {
-                    dungeon[dlvl - 1].showSprites()
-                }
-                Log("You are on level \(dlvl).")
-            }
+            let oldlevel = genLevel(oldValue)
+            let newlevel = genLevel(dlvl)
+
+            oldlevel.node.removeFromParent()
+            displayLevel(newlevel)
         }
     }
     
@@ -117,7 +118,8 @@ class Game {
     init(scene : GameScene) {
         
         self.scene = scene // Must be initialized before creating any entities!
-        self.dlvl = 1
+        
+        dlvl = 1
         
         //set up scroll names
         var i = 0 as UInt32
@@ -160,12 +162,14 @@ class Game {
         self.playerMob.sprite.zPosition = CGFloat(Entity.ZOrder.PLAYER.rawValue)
         
         //add test items
-        level.things.append(playerMob)
+        level.addEntity(playerMob)
+        
         playerMob.coords = (level as! BasicLevel).upStair!.coords
         
         level.computeVisibilityFrom(playerMob.coords)
         level.updateSprites()
 
+        displayLevel(level)
     }
     
     func takeTurnWithAction(action : Action) {
@@ -198,13 +202,13 @@ class Game {
             for items in mob.inventory.values {
                 for item in items {
                     item.coords = mob.coords
-                    level.things.append(item)
+                    level.addEntity(item)
                     item.show()
                 }
             }
             
             // Remove the mob
-            mob.removeSelfFromLevel()
+            level.removeEntity(mob)
         }
         
     }

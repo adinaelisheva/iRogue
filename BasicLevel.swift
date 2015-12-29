@@ -94,7 +94,7 @@ class BasicLevel : Level {
             for _ in 0..<x{
                 let it = getDistRandomItem()
                 it.coords = r.randomPoint()
-                things.append(it)
+                addEntity(it)
             }
         }
        
@@ -117,7 +117,7 @@ class BasicLevel : Level {
                 mob.sprite.zPosition = CGFloat(Entity.ZOrder.MOB.rawValue)
                 mob.target = nil
                 mob.coords = r.randomPoint()
-                things.append(mob)
+                addEntity(mob)
             }
         }
         
