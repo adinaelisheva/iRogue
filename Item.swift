@@ -104,7 +104,7 @@ class Item : Entity {
     override func interact(mob: Mob) {
         //tell the mob to deal with picking me up
         mob.pickup(self)
-        removeSelfFromLevel()
+        level?.removeEntity(self)
     }
     
     
@@ -366,9 +366,9 @@ class Money : Item {
         autopickup = true
     }
     override func interact(mob: Mob) {
-        removeSelfFromLevel()
         mob.gold += amt
         Game.sharedInstance.Log("\(mob.name) got \(amt) coins - total \(mob.gold)")
+        level?.removeEntity(self)
     }
 }
 

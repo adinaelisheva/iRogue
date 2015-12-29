@@ -15,11 +15,10 @@ class GameScene: SKScene {
     
     let cameraNode = SKNode()
     
-    func addEntity(e:Entity) {
-        //create the main character]
-        cameraNode.addChild(e.sprite)
+    func offsetScene(p: CGPoint) {
+        cameraNode.position = p
     }
-    
+        
     //kind of like a constructor - set up is in here
     override func didMoveToView(view: SKView) {
         self.backgroundColor = UIColor.blackColor()

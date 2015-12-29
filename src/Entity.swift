@@ -36,8 +36,10 @@ class Entity {
     
     var sprite : EntitySKNode!
     
+    var level : Level?
+    
     init(name:String?, description:String?, char:Character?, color:UIColor?) {
-
+        
         self.name = name ?? self.name
         self.description = description ?? self.description
         self.char = char ?? self.char
@@ -45,21 +47,16 @@ class Entity {
 
         self.sprite = EntitySKNode(character: self.char, color: self.color, entity: self)
         self.sprite.size = CGSize(width: GameScene.cellSize.w, height: GameScene.cellSize.h)
-        Game.sharedInstance.scene.addEntity(self)
     }
     
     // Adds the entity to the display
     func show() {
-        if let  _ = sprite.parent {
-            Game.sharedInstance.scene.cameraNode.addChild(sprite)
-        }
+        sprite.hidden = false
     }
     
     // Removes the entity from the display
     func hide() {
-        if let _ = sprite.parent {
-            sprite.removeFromParent()
-        }
+        sprite.hidden = true
     }
     
     func getOwnIndex(arr : [AnyObject]) -> Int?{
@@ -68,15 +65,7 @@ class Entity {
         }
         return nil
     }
-    
-    func removeSelfFromLevel(){
-        if let i = getOwnIndex(Game.sharedInstance.level.things) {
-            Game.sharedInstance.level.things.removeAtIndex(i)
-        }
-        hide()
-        return
-    }
-     
+         
     // This happens when we touch the item in the Interact menu.
     func interact(mob: Mob) {
         Game.sharedInstance.Log("Can't interact with \(name)")
