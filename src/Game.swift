@@ -156,6 +156,7 @@ class Game {
         _SharedInstance = self
         
         self.playerMob = Mob(name: "Adinex", description: "A brave and noble adventurer", char: "@", color: UIColor.whiteColor(),hp:20)
+        self.playerMob.team = Mob.Team.FRIEND
         self.playerMob.sprite.zPosition = CGFloat(Entity.ZOrder.PLAYER.rawValue)
         
         //add test items
@@ -237,13 +238,24 @@ class Game {
         let targetsquare = mob.coords + action.direction
         let targets = level.things.filter({ $0 is Mob && $0.coords == targetsquare }) as! [Mob]
         for target in targets {
-            
-            let attack = mob.DC - target.AC
-            if (attack < 0) {
-                Log("\(mob.name) misses \(target.name)!")
+            if(target.team == mob.team) {
+                Log("\(mob.name) and \(target.name) trade places")
+                let tmp = target.coords
+                target.coords = mob.coords
+                mob.coords = tmp                
             } else {
-                Log("\(mob.name) hits \(target.name) for \(attack)HP!")
-                target.hp -= attack
+                
+                let attack = mob.DC - target.AC
+                
+                //only log if the player was involved
+                if(mob.team == playerMob.team || target.team == playerMob.team) {
+                    if (attack < 0) {
+                        Log("\(mob.name) misses \(target.name)!")
+                    } else {
+                        Log("\(mob.name) hits \(target.name) for \(attack)HP!")
+                        target.hp -= attack
+                    }
+                }
             }
         }
         
