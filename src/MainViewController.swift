@@ -129,6 +129,26 @@ class MainViewController: UIViewController {
         
     }
     
+    func fetchInteractablesAtCoords(coord:Coord,adj:Bool,list:[Entity]){
+        
+        if let tile = game.level.getTileAt(coord) {
+            
+            //First check if we can interact with this tile
+            let check = adj ? tile.interactAdj : tile.interactOn
+            if (tile.interactable != nil && check) {
+                interactables.append(tile)
+            }
+        }
+        
+        // Now put all remaining items/mobs/etc on the list.
+        for ent in game.level.things.filter({thing -> Bool in
+            let check = adj ? thing.interactAdj : thing.interactOn
+            return check && thing.interactable != nil && thing.coords.x == coord.x && thing.coords.y == coord.y
+        }) {
+            interactables.append(ent)
+        }
+    }
+    
     func updateInteractMenu() {
      
         let lasttime = interactables
@@ -136,17 +156,14 @@ class MainViewController: UIViewController {
         interactables = []
         
         let coord = game.playerMob.coords
-        let tile = game.level.getTileAt(coord)
-        
-        // Can we do something with the tile? Put it first in the list.
-        if tile?.interactable != nil {
-            interactables.append(tile!)
+        for i in (coord.x-1)...(coord.x+1){
+            for j in (coord.y-1)...(coord.y+1){
+                let c = Coord(x:i,y:j)
+                let same = (coord.x == c.x && coord.y == c.y)
+                fetchInteractablesAtCoords(c,adj:!same,list:interactables)
+            }
         }
         
-        // Now put all remaining items/mobs/etc on the list.
-        for ent in game.level.things.filter({ $0.interactable != nil && $0.coords.x == coord.x && $0.coords.y == coord.y }) {
-            interactables.append(ent)
-        }
         var numItems = interactables.count
         
         if (numItems > 0) {
